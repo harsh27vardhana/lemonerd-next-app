@@ -1,4 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import dbConnect from '../../database/dbconnect'
+
+dbConnect();
 
 export default (req, res) => {
   res.status(200).json({ name: 'John Doe' })

@@ -1,0 +1,26 @@
+.copyright{
+
+    background: #0E6A6A;
+    padding: 7px;
+
+}
+
+.copyright a{
+    text-decoration: none;
+    color: #F3EC07;
+}
+.copyright a:hover{
+    text-decoration: none;
+    color: #F3EC07;
+}
+
+.routes{
+    display: block;
+    padding: 5px;
+    margin: 10px;
+}
+
+.footernav{
+    display: flex;
+    justify-content: center;
+}
