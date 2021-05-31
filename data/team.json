@@ -1,6 +1,7 @@
 {
     "members": [
         {
+            "id": "Member0001",
             "name": "Harshavardhana Singh",
             "position": "Author & Developer",
             "discription": "A regular guy who happens to be enthusiastic about technology, automotive, electronics, politics and MCU. A self-proclaimed nerd, apparently with a good sense of humor and loves to cook. Currently pursuing Electronics and Communication Engineering from Birla Institute of Technology, Mesra. Striving to become a better writer and developer.",
@@ -10,6 +11,7 @@
             "linkedin": ""
         },
         {
+            "id": "Member0002",
             "name": "Tejaswini Singh",
             "position": "Author & Developer",
             "discription": "Jack of all trades and master of none, avoids socializing. Loves reading, writing,designing and public speaking. Has keen interest in politics, watching Top Gear and very selective about movies. Currently pursuing Mechanical Engineering from Birla Institute of Technology, Mesra. Working towards becoming technically sound and socially amiable.",
@@ -19,10 +21,21 @@
             "linkedin": ""
         },
         {
+            "id": "Member0003",
             "name": "Sreya Sanghamitra",
             "position": "Author and Developer",
             "discription": "A self motivated learner who has keen interest in photography and technology. Enjoys watching movies and cooking in free time. Currently pursuing Information Technology from Kalinga Institute of Industrial Technology. Aims in becoming a software engineer.",
             "image": "/team/sreya.png",
+            "facebook": "",
+            "instagram": "",
+            "linkedin": ""
+        },
+        {
+            "id": "Member0004",
+            "name": "Anubhav Sinha",
+            "position": "Author and Developer",
+            "discription": "Tech enthusiasts, Designer, developer, programmer, engineer",
+            "image": "",
             "facebook": "",
             "instagram": "",
             "linkedin": ""
