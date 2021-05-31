@@ -1,0 +1,25 @@
+{
+    "categories":
+    [
+        {
+            "id" : "tag0001",
+            "name" : "Technology"
+        },
+        {
+            "id" : "tag0002",
+            "name" : "Movies"
+        },
+        {
+            "id" : "tag0003",
+            "name" : "Politics"
+        },
+        {
+            "id" : "tag0004",
+            "name" : "Sports"
+        },
+        {
+            "id" : "tag0005",
+            "name" : "Others"
+        }
+    ]
+}
