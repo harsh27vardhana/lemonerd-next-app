@@ -10,259 +10,259 @@ const authors = Data.authors;
 const category = Tags.categories;
 
 function postform() {
-    const editorRef = useRef(null);
-    const log = () => {
-        if (editorRef.current) {
-            console.log(editorRef.current.getContent());
-        }
+  const editorRef = useRef(null);
+  const log = () => {
+    if (editorRef.current) {
+      console.log(editorRef.current.getContent());
+    }
+  };
+
+  function example_image_upload_handler(blobInfo, success, failure, progress) {
+    var xhr, formData;
+    // console.log("fjhf")
+    xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.open("POST", "/api/images");
+    xhr.setRequestHeader("Content-type", "application/json");
+
+    // xhr.upload.onprogress = function (e) {
+    //     progress(e.loaded / e.total * 100);
+    // };
+
+    xhr.onload = function () {
+      var json;
+
+      if (xhr.status === 403) {
+        failure("HTTP Error: " + xhr.status, { remove: true });
+        return;
+      }
+
+      if (xhr.status < 200 || xhr.status >= 300) {
+        failure("HTTP Error: " + xhr.status);
+        return;
+      }
+
+      json = JSON.parse(xhr.responseText);
+
+      if (!json || typeof json.location != "string") {
+        failure("Invalid JSON: " + xhr.responseText);
+        return;
+      }
+
+      success(json.location);
     };
 
-    function example_image_upload_handler(blobInfo, success, failure, progress) {
-        var xhr, formData;
-        // console.log("fjhf")
-        xhr = new XMLHttpRequest();
-        xhr.withCredentials = false;
-        xhr.open("POST", "/api/images");
-        xhr.setRequestHeader("Content-type", "application/json");
+    xhr.onerror = function () {
+      failure(
+        "Image upload failed due to a XHR Transport error. Code: " + xhr.status
+      );
+    };
 
-        // xhr.upload.onprogress = function (e) {
-        //     progress(e.loaded / e.total * 100);
-        // };
+    // formData = new FormData();
+    // formData.append('file', blobInfo.blob(), blobInfo.filename());
+    // console.log(blobInfo.base64())
+    const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
+    xhr.send(JSON.stringify(data));
+  }
 
-        xhr.onload = function () {
-            var json;
+  const [activeCategory, setActiveCategory] = useState([]);
+  const [availableCategory, setAvailableCategory] = useState(category);
+  const [author, setAuthor] = useState("");
 
-            if (xhr.status === 403) {
-                failure("HTTP Error: " + xhr.status, { remove: true });
-                return;
-            }
+  const [input, setInput] = useState({
+    title: "",
+    caption: "",
+    author: author,
+    content: "",
+    date: "",
+    tags: activeCategory,
+  });
 
-            if (xhr.status < 200 || xhr.status >= 300) {
-                failure("HTTP Error: " + xhr.status);
-                return;
-            }
+  function handleChange(event) {
+    const { name, value } = event.target;
 
-            json = JSON.parse(xhr.responseText);
+    setInput((prevInput) => {
+      return {
+        ...prevInput,
+        [name]: value,
+      };
+    });
+  }
 
-            if (!json || typeof json.location != "string") {
-                failure("Invalid JSON: " + xhr.responseText);
-                return;
-            }
-
-            success(json.location);
-        };
-
-        xhr.onerror = function () {
-            failure(
-                "Image upload failed due to a XHR Transport error. Code: " + xhr.status
-            );
-        };
-
-        // formData = new FormData();
-        // formData.append('file', blobInfo.blob(), blobInfo.filename());
-        // console.log(blobInfo.base64())
-        const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
-        xhr.send(JSON.stringify(data));
-    }
-
-    const [activeCategory, setActiveCategory] = useState([]);
-    const [availableCategory, setAvailableCategory] = useState(category);
-    const [author, setAuthor] = useState("");
-
-    const [input, setInput] = useState({
-        title: "",
-        caption: "",
-        author: author,
-        content: "",
-        date: "",
-        tags: activeCategory,
+  async function handleClick(event) {
+    event.preventDefault();
+    const tagName = activeCategory.map((item) => item.name);
+    const newInput = {
+      title: input.title,
+      caption: input.caption,
+      author: author.name,
+      content: tinymce.get("postcontent").getContent(),
+      date: input.date,
+      tags: tagName,
+    };
+    setInput(newInput);
+    console.log(newInput);
+    const res = await fetch("/api/posts", {
+      body: JSON.stringify(newInput),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
     });
 
-    function handleChange(event) {
-        const { name, value } = event.target;
+    const result = await res.json();
+    console.log(result);
+  }
+  return (
+    <Form className="container">
+      <Form.Group>
+        <Form.Label>POST DATE</Form.Label>
+        <Form.Control
+          id="date"
+          label="Post date"
+          type="date"
+          name="date"
+          value={input.date}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>TITLE</Form.Label>
+        <Form.Control
+          type="text"
+          name="title"
+          placeholder="Enter the title of the blog"
+          value={input.title}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>CAPTION</Form.Label>
+        <Form.Control
+          name="caption"
+          as="textarea"
+          rows={3}
+          placeholder="Write a caption for the blog"
+          value={input.caption}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Dropdown>
+          <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
 
-        setInput((prevInput) => {
-            return {
-                ...prevInput,
-                [name]: value,
-            };
-        });
-    }
+          <Dropdown.Menu>
+            {availableCategory.map((item) => (
+              <Dropdown.Item
+                key={item.id}
+                onClick={() => {
+                  setActiveCategory((oldArray) => [...oldArray, item]);
+                  const newAvailableCategory = availableCategory.filter(
+                    (element) => element.id !== item.id
+                  );
+                  setAvailableCategory(newAvailableCategory);
+                }}
+              >
+                {item.name}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+        <br />
+        <div>
+          {activeCategory.length > 0 &&
+            activeCategory.map((element) => (
+              <span>
+                <Badge
+                  pill
+                  variant="info"
+                  key={element.id}
+                  onClick={() => {
+                    setAvailableCategory((oldArray) => [...oldArray, element]);
+                    const newActiveCategory = activeCategory.filter(
+                      (item) => item.id !== element.id
+                    );
+                    setActiveCategory(newActiveCategory);
+                  }}
+                >
+                  {element.name}
+                </Badge>{" "}
+              </span>
+            ))}
+        </div>
+      </Form.Group>
+      <Form.Group>
+        <Editor
+          apiKey="tfdzlyaoyss9o0y1lrzoheoxrhpz8l7rfe0myrgrqra266fq"
+          id="postcontent"
+          init={{
+            height: 500,
+            force_br_newlines: true,
+            force_p_newlines: true,
+            menubar: false,
+            plugins: [
+              "advlist autolink lists link image charmap print preview anchor",
+              "searchreplace visualblocks code fullscreen",
+              "insertdatetime media table paste code help wordcount",
+            ],
+            toolbar:
+              "undo redo | formatselect | " +
+              "bold italic backcolor image| alignleft aligncenter " +
+              "alignright alignjustify | bullist numlist outdent indent | " +
+              "removeformat | help",
+            content_style:
+              "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
+            image_advtab: true,
+            // image_title: true,
+            automatic_uploads: true,
+            file_picker_types: "image",
+            // images_upload_url: '/api/images',
+            images_upload_handler: example_image_upload_handler,
+            // file_picker_callback: function (callback, value, meta) {
+            //     console.log("flag");
+            //     if (meta.filetype == 'image') {
 
-    async function handleClick(event) {
-        event.preventDefault();
-        const tagName = activeCategory.map((item) => item.name);
-        const newInput = {
-            title: input.title,
-            caption: input.caption,
-            author: author.name,
-            content: tinymce.get("postcontent").getContent(),
-            date: input.date,
-            tags: tagName,
-        };
-        setInput(newInput);
-        console.log(newInput);
-        const res = await fetch(
-            '/api/posts',
-            {
-                body: JSON.stringify(newInput),
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                method: 'POST'
-            }
-        )
+            //         $('#upload').trigger('click');
+            //         $('#upload').on('change', function () {
+            //             var file = this.files[0];
+            //             console.log(file);
+            //             var reader = new FileReader();
+            //             reader.onload = function (e) {
+            //                 callback(e.target.result, {
+            //                     alt: ''
+            //                 });
+            //             };
+            //             reader.readAsDataURL(file);
+            //         });
+            //     }
+            // }
+          }}
+        />
+      </Form.Group>
+      <Form.Group>
+        <div>
+          <Badge variant="warning">{author.name}</Badge>
+        </div>
+        <br />
+        <Dropdown>
+          <Dropdown.Toggle variant="success">Author</Dropdown.Toggle>
 
-        const result = await res.json();
-        console.log(result);
-    }
-    return (
-        <Form className="container">
-            <Form.Group>
-                <Form.Label>POST DATE</Form.Label>
-                <Form.Control
-                    id="date"
-                    label="Post date"
-                    type="date"
-                    name="date"
-                    value={input.date}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>TITLE</Form.Label>
-                <Form.Control
-                    type="text"
-                    name="title"
-                    placeholder="Enter the title of the blog"
-                    value={input.title}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Form.Label>CAPTION</Form.Label>
-                <Form.Control
-                    name="caption"
-                    as="textarea"
-                    rows={3}
-                    placeholder="Write a caption for the blog"
-                    value={input.caption}
-                    onChange={handleChange}
-                />
-            </Form.Group>
-            <Form.Group>
-                <Dropdown>
-                    <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        {availableCategory.map((item) => (
-                            <Dropdown.Item
-                                onClick={() => {
-                                    setActiveCategory((oldArray) => [...oldArray, item]);
-                                    const newAvailableCategory = availableCategory.filter(
-                                        (element) => element.id !== item.id
-                                    );
-                                    setAvailableCategory(newAvailableCategory);
-                                }}
-                            >
-                                {item.name}
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </Dropdown>
-                <br />
-                <div>
-                    {activeCategory.map((element) => (
-                        <span>
-                            <Badge
-                                pill
-                                variant="info"
-                                onClick={() => {
-                                    setAvailableCategory((oldArray) => [...oldArray, element]);
-                                    const newActiveCategory = activeCategory.filter(
-                                        (item) => item.id !== element.id
-                                    );
-                                    setActiveCategory(newActiveCategory);
-                                }}
-                            >
-                                {element.name}
-                            </Badge>{" "}
-                        </span>
-                    ))}
-                </div>
-            </Form.Group>
-            <Form.Group>
-                <Editor
-                    apiKey="tfdzlyaoyss9o0y1lrzoheoxrhpz8l7rfe0myrgrqra266fq"
-                    id="postcontent"
-                    init={{
-                        height: 500,
-                        force_br_newlines: true,
-                        force_p_newlines: true,
-                        menubar: false,
-                        plugins: [
-                            "advlist autolink lists link image charmap print preview anchor",
-                            "searchreplace visualblocks code fullscreen",
-                            "insertdatetime media table paste code help wordcount",
-                        ],
-                        toolbar:
-                            "undo redo | formatselect | " +
-                            "bold italic backcolor image| alignleft aligncenter " +
-                            "alignright alignjustify | bullist numlist outdent indent | " +
-                            "removeformat | help",
-                        content_style:
-                            "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
-                        image_advtab: true,
-                        // image_title: true,
-                        automatic_uploads: true,
-                        file_picker_types: "image",
-                        // images_upload_url: '/api/images',
-                        images_upload_handler: example_image_upload_handler,
-                        // file_picker_callback: function (callback, value, meta) {
-                        //     console.log("flag");
-                        //     if (meta.filetype == 'image') {
-
-                        //         $('#upload').trigger('click');
-                        //         $('#upload').on('change', function () {
-                        //             var file = this.files[0];
-                        //             console.log(file);
-                        //             var reader = new FileReader();
-                        //             reader.onload = function (e) {
-                        //                 callback(e.target.result, {
-                        //                     alt: ''
-                        //                 });
-                        //             };
-                        //             reader.readAsDataURL(file);
-                        //         });
-                        //     }
-                        // }
-                    }}
-                />
-            </Form.Group>
-            <Form.Group>
-                <div>
-                    <Badge variant="warning">{author.name}</Badge>
-                </div>
-                <br />
-                <Dropdown>
-                    <Dropdown.Toggle variant="success">Author</Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                        <Dropdown.Item onClick={() => setAuthor("")}>Select</Dropdown.Item>
-                        <Dropdown.Divider />
-                        {authors.map((item) => (
-                            <Dropdown.Item onClick={() => setAuthor(item)}>
-                                {item.name}
-                            </Dropdown.Item>
-                        ))}
-                    </Dropdown.Menu>
-                </Dropdown>
-            </Form.Group>
-            <Button type="submit" onClick={handleClick}>
-                Submit form
+          <Dropdown.Menu>
+            <Dropdown.Item onClick={() => setAuthor("")}>Select</Dropdown.Item>
+            <Dropdown.Divider />
+            {authors.map((item) => (
+              <Dropdown.Item key={item.id} onClick={() => setAuthor(item)}>
+                {item.name}
+              </Dropdown.Item>
+            ))}
+          </Dropdown.Menu>
+        </Dropdown>
+      </Form.Group>
+      <Button type="submit" onClick={handleClick}>
+        Submit form
       </Button>
-        </Form>
-    );
+    </Form>
+  );
 }
 
 export default postform;
