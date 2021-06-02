@@ -1,9 +1,14 @@
 import Head from "next/head";
 import { CardColumns } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
+import {server} from '../config/config'
 import ArticleCard from "../components/articleCard";
 
-export default function Home() {
+export default function Home({posts}) {
+
+  // Use this data array for all the posts fetched
+  const data=posts.data;
+ 
   return (
     <div>
       <Head>
@@ -20,4 +25,14 @@ export default function Home() {
       </CardColumns>
     </div>
   );
+}
+
+
+export const getStaticProps= async () => {
+  const url = server+'/api/posts'
+  const res = await fetch(url);
+  const posts = await res.json();
+  return {
+    props: {posts},
+  }
 }
