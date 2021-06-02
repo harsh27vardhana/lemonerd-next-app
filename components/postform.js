@@ -64,20 +64,82 @@ function postform() {
     const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
     xhr.send(JSON.stringify(data));
   }
+
   const [activeCategory, setActiveCategory] = useState([]);
   const [availableCategory, setAvailableCategory] = useState(category);
   const [author, setAuthor] = useState("");
+
+  const [input, setInput] = useState({
+    title: "",
+    caption: "",
+    author: author,
+    content: "",
+    date: "",
+    tags: activeCategory,
+  });
+
+  function handleChange(event) {
+    const { name, value } = event.target;
+
+    setInput((prevInput) => {
+      return {
+        ...prevInput,
+        [name]: value,
+      };
+    });
+  }
+
+  function handleClick(event) {
+    event.preventDefault();
+    const tagName = activeCategory.map((item) => item.name);
+    const newInput = {
+      title: input.title,
+      caption: input.caption,
+      author: author.name,
+      content: tinymce.get("postcontent").getContent(),
+      date: input.date,
+      tags: tagName,
+    };
+    setInput(newInput);
+    console.log(newInput);
+  }
   return (
     <Form className="container">
       <Form.Group>
+        <Form.Label>POST DATE</Form.Label>
+        <Form.Control
+          id="date"
+          label="Post date"
+          type="date"
+          name="date"
+          value={input.date}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
         <Form.Label>TITLE</Form.Label>
-        <Form.Control type="text" placeholder="Enter the title of the blog" />
+        <Form.Control
+          type="text"
+          name="title"
+          placeholder="Enter the title of the blog"
+          value={input.title}
+          onChange={handleChange}
+        />
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>CAPTION</Form.Label>
+        <Form.Control
+          name="caption"
+          as="textarea"
+          rows={3}
+          placeholder="Write a caption for the blog"
+          value={input.caption}
+          onChange={handleChange}
+        />
       </Form.Group>
       <Form.Group>
         <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Category
-          </Dropdown.Toggle>
+          <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
 
           <Dropdown.Menu>
             {availableCategory.map((item) => (
@@ -96,7 +158,7 @@ function postform() {
           </Dropdown.Menu>
         </Dropdown>
         <br />
-        <p>
+        <div>
           {activeCategory.map((element) => (
             <span>
               <Badge
@@ -114,7 +176,7 @@ function postform() {
               </Badge>{" "}
             </span>
           ))}
-        </p>
+        </div>
       </Form.Group>
       <Form.Group>
         <Editor
@@ -168,9 +230,7 @@ function postform() {
         </div>
         <br />
         <Dropdown>
-          <Dropdown.Toggle variant="success" id="dropdown-basic">
-            Author
-          </Dropdown.Toggle>
+          <Dropdown.Toggle variant="success">Author</Dropdown.Toggle>
 
           <Dropdown.Menu>
             <Dropdown.Item onClick={() => setAuthor("")}>Select</Dropdown.Item>
@@ -183,10 +243,9 @@ function postform() {
           </Dropdown.Menu>
         </Dropdown>
       </Form.Group>
-      <Form.Group>
-        <Form.Label>Password</Form.Label>
-        <Form.Control className="mb-2" type="text" placeholder="Password" />
-      </Form.Group>
+      <Button type="submit" onClick={handleClick}>
+        Submit form
+      </Button>
     </Form>
   );
 }
