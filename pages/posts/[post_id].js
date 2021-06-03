@@ -4,7 +4,9 @@ function Posts({ post }) {
     <div className="p-4">
       <h1>{post.title}</h1>
       <small>{post.date}</small>
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div
+       dangerouslySetInnerHTML={{ __html: decodeURIComponent(post.content) }} 
+      />
       <h6>
         written by <cite>{post.author}</cite>
       </h6>
@@ -19,6 +21,7 @@ export async function getServerSideProps(context) {
   const url = server + "/api/posts/" + post_id;
   const res = await fetch(url);
   const post = await res.json();
+  console.log(post);
   return {
     props: { post },
   };

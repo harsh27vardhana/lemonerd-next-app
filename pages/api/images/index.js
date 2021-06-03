@@ -13,8 +13,8 @@ export default async (req, res) => {
                 fs.writeFile('public/images/' + filename, file.data, 'base64', (error) => {
                     // console.log(error);
                 });
-                console.log(filename);
-                res.send({ 'location': "/images/" + filename });
+                // console.log(filename);
+                res.send({ 'location': '%2Fimages/' + filename });
             } catch (error) {
                 console.log(error);
                 res.status(400).json({ success: false });

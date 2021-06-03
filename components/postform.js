@@ -111,7 +111,7 @@ function postform() {
     });
 
     const result = await res.json();
-    console.log(result);
+    // console.log(result);
   }
   return (
     <Form className="container">
@@ -218,6 +218,7 @@ function postform() {
             file_picker_types: "image",
             // images_upload_url: '/api/images',
             images_upload_handler: example_image_upload_handler,
+            images_upload_base_path: '/'
             // file_picker_callback: function (callback, value, meta) {
             //     console.log("flag");
             //     if (meta.filetype == 'image') {
