@@ -15,7 +15,7 @@ export default function Home({ posts }) {
       </Head>
 
       {data.map((element) => (
-        <div className="px-5 mx-5 my-5" key={element._id}>
+        <div className="px-md-5 mx-md-5 px-3 mx-3 my-5" key={element._id}>
           <ArticleCard {...element} />
         </div>
       ))}

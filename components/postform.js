@@ -148,6 +148,10 @@ function postform() {
         />
       </Form.Group>
       <Form.Group>
+        <Form.Label>THUMBNAIL</Form.Label>
+        <Form.File id="Thumbnail" label="Upload File here" custom />
+      </Form.Group>
+      <Form.Group>
         <Dropdown>
           <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
 
@@ -172,11 +176,10 @@ function postform() {
         <div>
           {activeCategory.length > 0 &&
             activeCategory.map((element) => (
-              <span>
+              <span key={element.id}>
                 <Badge
                   pill
                   variant="info"
-                  key={element.id}
                   onClick={() => {
                     setAvailableCategory((oldArray) => [...oldArray, element]);
                     const newActiveCategory = activeCategory.filter(
@@ -218,7 +221,7 @@ function postform() {
             file_picker_types: "image",
             // images_upload_url: '/api/images',
             images_upload_handler: example_image_upload_handler,
-            images_upload_base_path: '/'
+            images_upload_base_path: "/",
             // file_picker_callback: function (callback, value, meta) {
             //     console.log("flag");
             //     if (meta.filetype == 'image') {
