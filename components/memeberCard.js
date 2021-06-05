@@ -17,8 +17,8 @@ library.add(faFacebook, faInstagram, faLinkedin);
 
 function memeberCard(props) {
   return (
-    <div className="test-center">
-      <Card style={{ width: "22rem" }} className="text-center">
+    <div className="p-2">
+      <Card style={{ width: "22rem", height: "auto" }} className="text-center">
         <Card.Img variant="top" src={props.image} />
         <Card.Body>
           <Card.Title className="font-weight-bold ">{props.name}</Card.Title>
@@ -26,15 +26,15 @@ function memeberCard(props) {
             {props.position}
           </Card.Subtitle>
           <Card.Text>{props.discription}</Card.Text>
-          <Link href={props.facebook}>
+          <a href={props.facebook}>
             <FontAwesomeIcon icon={["fab", "facebook"]} />
-          </Link>
-          <Link href={props.instagram}>
+          </a>
+          <a href={props.instagram}>
             <FontAwesomeIcon icon={["fab", "instagram"]} />
-          </Link>
-          <Link href={props.linkedin}>
+          </a>
+          <a href={props.linkedin}>
             <FontAwesomeIcon icon={["fab", "linkedin"]} />
-          </Link>
+          </a>
         </Card.Body>
       </Card>
     </div>

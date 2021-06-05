@@ -1,15 +1,50 @@
+import { Card } from "react-bootstrap";
 import { server } from "../../config/config";
 function Posts({ post }) {
+  const getDate = () => {
+    const month = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    const date =
+      post.date[8] +
+      post.date[9] +
+      " " +
+      month[post.date[5] * 10 + post.date[6] - 1] +
+      " " +
+      post.date[0] +
+      post.date[1] +
+      post.date[2] +
+      post.date[3];
+    return date;
+  };
   return (
-    <div className="p-4">
-      <h1>{post.title}</h1>
-      <small>{post.date}</small>
-      <div
-       dangerouslySetInnerHTML={{ __html: decodeURIComponent(post.content) }} 
-      />
-      <h6>
-        written by <cite>{post.author}</cite>
-      </h6>
+    <div className="p-5">
+      <Card className="p-5 mx-5" style={{ marginLeft: "5em" }}>
+        <div className="p-lg-5 mx-lg-5">
+          <h1>{post.title}</h1>
+          <footer className="blockquote-footer">
+            {getDate()}
+            <cite> by {post.author}</cite>
+          </footer>
+          <div
+            id="postContent"
+            dangerouslySetInnerHTML={{
+              __html: decodeURIComponent(post.content),
+            }}
+          />
+        </div>
+      </Card>
     </div>
   );
 }
@@ -21,7 +56,6 @@ export async function getServerSideProps(context) {
   const url = server + "/api/posts/" + post_id;
   const res = await fetch(url);
   const post = await res.json();
-  console.log(post);
   return {
     props: { post },
   };
