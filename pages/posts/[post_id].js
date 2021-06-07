@@ -1,6 +1,7 @@
-import { Card } from "react-bootstrap";
+import { Card, Container } from "react-bootstrap";
 import { server } from "../../config/config";
 function Posts({ post }) {
+  console.log(post.content);
   const getDate = () => {
     const month = [
       "January",
@@ -30,21 +31,24 @@ function Posts({ post }) {
   };
   return (
     <div className="p-5">
-      <Card className="p-5 mx-5" style={{ marginLeft: "5em" }}>
-        <div className="p-lg-5 mx-lg-5">
-          <h1>{post.title}</h1>
-          <footer className="blockquote-footer">
-            {getDate()}
-            <cite> by {post.author}</cite>
-          </footer>
-          <div
-            id="postContent"
-            dangerouslySetInnerHTML={{
-              __html: decodeURIComponent(post.content),
-            }}
-          />
-        </div>
-      </Card>
+      <Container>
+        <Card className="p-5 mx-5" style={{ marginLeft: "5em" }}>
+          <div className="p-lg-5 mx-lg-5">
+            <h1>{post.title}</h1>
+            <footer className="blockquote-footer">
+              {getDate()}
+              <cite> by {post.author}</cite>
+            </footer>
+            <br />
+            <div
+              id="postContent"
+              dangerouslySetInnerHTML={{
+                __html: decodeURIComponent(post.content),
+              }}
+            />
+          </div>
+        </Card>
+      </Container>
     </div>
   );
 }

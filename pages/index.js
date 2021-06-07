@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { CardColumns } from "react-bootstrap";
+import { CardColumns, Container } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import { server } from "../config/config";
 import ArticleCard from "../components/articleCard";
@@ -14,11 +14,13 @@ export default function Home({ posts }) {
         <title>Welcome To Lemonerd</title>
       </Head>
 
-      {data.map((element) => (
-        <div className="px-md-5 mx-md-5 px-3 mx-3 my-5" key={element._id}>
-          <ArticleCard {...element} />
-        </div>
-      ))}
+      <Container>
+        {data.map((element) => (
+          <div className="p-3" key={element._id}>
+            <ArticleCard {...element} />
+          </div>
+        ))}
+      </Container>
     </div>
   );
 }
