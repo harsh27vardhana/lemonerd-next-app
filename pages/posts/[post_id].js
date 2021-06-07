@@ -43,7 +43,7 @@ function Posts({ post }) {
             <div
               id="postContent"
               dangerouslySetInnerHTML={{
-                __html: decodeURIComponent(post.content),
+                __html: post.content.replace(/%2F/gi, "/"),
               }}
             />
           </div>
