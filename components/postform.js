@@ -6,6 +6,7 @@ import { Editor } from "@tinymce/tinymce-react";
 import Tags from "../data/tags.json";
 import Data from "../data/authors.json";
 import { Badge } from "react-bootstrap";
+import Image from 'next/image'
 const authors = Data.authors;
 const category = Tags.categories;
 
@@ -16,6 +17,9 @@ function postform() {
       console.log(editorRef.current.getContent());
     }
   };
+
+
+
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
     var xhr, formData;
@@ -60,7 +64,7 @@ function postform() {
 
     // formData = new FormData();
     // formData.append('file', blobInfo.blob(), blobInfo.filename());
-    // console.log(blobInfo.base64())
+    console.log(blobInfo.base64())
     const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
     xhr.send(JSON.stringify(data));
   }
@@ -87,7 +91,53 @@ function postform() {
         [name]: value,
       };
     });
-  }
+  };
+
+
+  let thumbnailsrc='/';
+  var thumbnailwidth = 50;
+  var thumbnailheight = 50;
+
+  function uploadThunbnail(event,response) {
+
+    let file = event.target.files[0];
+    // console.log(file); 
+    // let img=URL.createObjectURL(file);
+    // console.log(img);
+    var reader = new FileReader();
+    // console.log(reader);
+    reader.onload = async (e) => {
+      // The file's text will be printed here
+      // console.log(e.target.result);
+      var img = e.target.result;
+      var img_data = img.replace(/^data:image\/\w+;base64,/, "");
+      console.log(file.name);
+
+      const res = await fetch("api/images/thumbnail", {
+        body: JSON.stringify({ data: img_data, filename: file.name }),
+        headers: {
+          "Content-type": "application/json",
+        },
+        method: "POST"
+      })
+
+      const result = await res.json();
+      console.log(result);
+      Image.get('thumbnailimg').setContent({src:result.location})
+      thumbnailwidth = 50;
+      thumbnailheight = 50;
+    };
+    reader.readAsDataURL(file);
+    // // reader.setReady(true);
+
+
+  };
+
+
+
+
+
+
 
   async function handleClick(event) {
     event.preventDefault();
@@ -101,7 +151,7 @@ function postform() {
       tags: tagName,
     };
     setInput(newInput);
-    console.log(newInput);
+    // console.log(newInput);
     const res = await fetch("/api/posts", {
       body: JSON.stringify(newInput),
       headers: {
@@ -149,7 +199,15 @@ function postform() {
       </Form.Group>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
-        <Form.File id="Thumbnail" label="Upload File here" custom />
+        <Form.File id="Thumbnail" onChange={uploadThunbnail} label="Upload File here" type="file" custom />
+        
+        {/* <Image 
+          id='thumbnailimg'
+          src={thumbnailsrc}
+          width={thumbnailwidth}
+          height={thumbnailheight}
+          style={{display:'none'}}
+        /> */}
       </Form.Group>
       <Form.Group>
         <Dropdown>
