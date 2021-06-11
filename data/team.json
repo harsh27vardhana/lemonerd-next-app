@@ -6,9 +6,9 @@
             "position": "Author & Developer",
             "discription": "A regular guy who happens to be enthusiastic about technology, automotive, electronics, politics and MCU. A self-proclaimed nerd, apparently with a good sense of humor and loves to cook. Currently pursuing Electronics and Communication Engineering from Birla Institute of Technology, Mesra. Striving to become a better writer and developer.",
             "image": "/team/harsh.png",
-            "facebook": "",
-            "instagram": "",
-            "linkedin": ""
+            "facebook": "https://www.facebook.com/harsh.vardhana.98",
+            "instagram": "https://www.instagram.com/harsh27vardhana/",
+            "linkedin": "https://www.linkedin.com/in/harsh27vardhana"
         },
         {
             "id": "Member0002",
@@ -16,29 +16,29 @@
             "position": "Author & Developer",
             "discription": "Jack of all trades and master of none, avoids socializing. Loves reading, writing,designing and public speaking. Has keen interest in politics, watching Top Gear and very selective about movies. Currently pursuing Mechanical Engineering from Birla Institute of Technology, Mesra. Working towards becoming technically sound and socially amiable.",
             "image": "/team/tejas.png",
-            "facebook": "",
-            "instagram": "",
-            "linkedin": ""
+            "facebook": "https://m.facebook.com/tejaswini.singh.33865",
+            "instagram": "https://www.instagram.com/tejaswini_227",
+            "linkedin": "https://www.instagram.com/tejaswini_227"
         },
         {
             "id": "Member0003",
             "name": "Sreya Sanghamitra",
-            "position": "Author and Developer",
+            "position": "Webmaster",
             "discription": "A self motivated learner who has keen interest in photography and technology. Enjoys watching movies and cooking in free time. Currently pursuing Information Technology from Kalinga Institute of Industrial Technology. Aims in becoming a software engineer.",
             "image": "/team/sreya.png",
-            "facebook": "",
-            "instagram": "",
-            "linkedin": ""
+            "facebook": "https://www.facebook.com/sreya.sanghamitra/",
+            "instagram": "https://www.instagram.com/sreyasanghamitra/",
+            "linkedin": "http://linkedin.com/in/sreya-sanghamitra-9450641a2"
         },
         {
             "id": "Member0004",
             "name": "Anubhav Sinha",
-            "position": "Author and Developer",
-            "discription": "Tech enthusiasts, Designer, developer, programmer, engineer",
-            "image": "",
-            "facebook": "",
-            "instagram": "",
-            "linkedin": ""
+            "position": "Front-end Developer",
+            "discription": "Just another frontend designer who is really passionate about technology. Spare time interests include writing poetry, sketching, editing, illustration and music of course. Currently pursuing Information Technology from Birla Institute of Technology, Mesra. Trying hard to enrich and enhance developing, designing and writing skills.",
+            "image": "/team/anubhav.png",
+            "facebook": "https://www.facebook.com/sinha.anubhav.79/",
+            "instagram": "https://www.instagram.com/sinha.anubhav.79/",
+            "linkedin": "https://www.linkedin.com/in/anubhav-sinha-0223491ab/"
         }
     ]
 }
