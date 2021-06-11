@@ -44,11 +44,19 @@ function ArticleCard(props) {
         <Col xs={12} md={8}>
           <Card.Body>
             <Card.Title className="p-md-3">{props.title}</Card.Title>
+            <Card.Text>{props.caption}</Card.Text>
             <blockquote className="blockquote mb-0 card-body">
-              <p>{props.caption}</p>
               <footer className="blockquote-footer">
                 <small className="text-muted">
-                  Written by <cite title="Source Title">{props.author}</cite>
+                  Written by{" "}
+                  <cite title="Source Title">
+                    <Link
+                      href="/authors/[author]"
+                      as={`/authors/${props.author}`}
+                    >
+                      {props.author}
+                    </Link>
+                  </cite>
                 </small>
               </footer>
             </blockquote>
@@ -66,7 +74,9 @@ function ArticleCard(props) {
           {props.tags.map((item) => (
             <span key={item}>
               <Badge pill variant="info">
-                {item.name ? item.name : item}
+                <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
+                  {item.name ? item.name : item}
+                </Link>
               </Badge>{" "}
             </span>
           ))}
