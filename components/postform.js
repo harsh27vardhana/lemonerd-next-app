@@ -5,8 +5,8 @@ import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import Tags from "../data/tags.json";
 import Data from "../data/authors.json";
-import { Badge } from "react-bootstrap";
-import Image from 'next/image'
+import { Badge, Conatiner } from "react-bootstrap";
+import Image from "next/image";
 const authors = Data.authors;
 const category = Tags.categories;
 
@@ -17,9 +17,6 @@ function postform() {
       console.log(editorRef.current.getContent());
     }
   };
-
-
-
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
     var xhr, formData;
@@ -64,7 +61,7 @@ function postform() {
 
     // formData = new FormData();
     // formData.append('file', blobInfo.blob(), blobInfo.filename());
-    console.log(blobInfo.base64())
+    console.log(blobInfo.base64());
     const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
     xhr.send(JSON.stringify(data));
   }
@@ -91,17 +88,17 @@ function postform() {
         [name]: value,
       };
     });
-  };
+  }
 
-
-  let thumbnailsrc='/';
+  let thumbnailsrc = "/";
   var thumbnailwidth = 50;
   var thumbnailheight = 50;
 
-  function uploadThunbnail(event,response) {
+  const [thumb, setThumb] = useState("");
 
+  function uploadThunbnail(event, response) {
     let file = event.target.files[0];
-    // console.log(file); 
+    // console.log(file);
     // let img=URL.createObjectURL(file);
     // console.log(img);
     var reader = new FileReader();
@@ -118,26 +115,19 @@ function postform() {
         headers: {
           "Content-type": "application/json",
         },
-        method: "POST"
-      })
+        method: "POST",
+      });
 
       const result = await res.json();
+      setThumb(result);
       console.log(result);
-      Image.get('thumbnailimg').setContent({src:result.location})
+      Image.get("thumbnailimg").setContent({ src: result.location });
       thumbnailwidth = 50;
       thumbnailheight = 50;
     };
     reader.readAsDataURL(file);
     // // reader.setReady(true);
-
-
-  };
-
-
-
-
-
-
+  }
 
   async function handleClick(event) {
     event.preventDefault();
@@ -199,8 +189,13 @@ function postform() {
       </Form.Group>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
-        <Form.File id="Thumbnail" onChange={uploadThunbnail} label="Upload File here" type="file" custom />
-        
+        <Form.File
+          id="Thumbnail"
+          onChange={uploadThunbnail}
+          label="Upload File here"
+          type="file"
+          custom
+        />
         {/* <Image 
           id='thumbnailimg'
           src={thumbnailsrc}
@@ -209,6 +204,15 @@ function postform() {
           style={{display:'none'}}
         /> */}
       </Form.Group>
+      <div className="text-center">
+        {thumb ? (
+          <Image
+            src={thumb.location.replace(/%2F/gi, "/")}
+            height="500px"
+            width="500px"
+          />
+        ) : null}
+      </div>
       <Form.Group>
         <Dropdown>
           <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>

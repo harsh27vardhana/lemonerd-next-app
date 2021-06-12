@@ -1,10 +1,12 @@
-import Form from '../components/postform'
+import Form from "../components/postform";
+import AuthorForm from "../components/authorForm";
 function admin() {
-    return (
-        <div>
-            <Form/>
-        </div>
-    )
+  return (
+    <div>
+      <Form />
+      <AuthorForm />
+    </div>
+  );
 }
 
-export default admin
+export default admin;

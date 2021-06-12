@@ -82,6 +82,17 @@ function ArticleCard(props) {
           ))}
         </small>
       </Card.Footer>
+      <Row className="pt-2 text-center">
+        <Col>
+          <Button variant="primary">Update</Button>
+        </Col>
+        <Col>
+          <Button variant="danger">Delete</Button>
+        </Col>
+        <Col>
+          <Button variant="warning">Hide</Button>
+        </Col>
+      </Row>
     </Card>
   );
 }
