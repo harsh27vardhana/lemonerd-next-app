@@ -1,5 +1,3 @@
-import Image from "next/image";
-import Button from "react-bootstrap/Button";
 import { Card, Badge, Col, Row } from "react-bootstrap";
 import Link from "next/link";
 
@@ -37,7 +35,11 @@ function ArticleCard(props) {
         <Col xs={12} md={4}>
           <Card.Img
             variant="top"
-            src="/images/thumbnail.png"
+            src={
+              props.thumbnail
+                ? props.thumbnail.replace(/%2F/gi, "/")
+                : "/thumbnail/default.png"
+            }
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         </Col>
@@ -73,7 +75,7 @@ function ArticleCard(props) {
         <small className="text-muted">
           {props.tags.map((item) => (
             <span key={item}>
-              <Badge pill variant="info">
+              <Badge pill variant="warning">
                 <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
                   {item.name ? item.name : item}
                 </Link>
@@ -84,13 +86,19 @@ function ArticleCard(props) {
       </Card.Footer>
       <Row className="pt-2 text-center">
         <Col>
-          <Button variant="primary">Update</Button>
+          <Badge className="px-5 py-1" pill variant="primary" as="button">
+            Update
+          </Badge>
         </Col>
         <Col>
-          <Button variant="danger">Delete</Button>
+          <Badge className="px-5 py-1" pill variant="danger" as="button">
+            Delete
+          </Badge>
         </Col>
         <Col>
-          <Button variant="warning">Hide</Button>
+          <Badge className="px-5 py-1" pill variant="warning" as="button">
+            Hide
+          </Badge>
         </Col>
       </Row>
     </Card>
