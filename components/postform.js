@@ -19,16 +19,11 @@ function postform() {
   };
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
-    var xhr, formData;
-    // console.log("fjhf")
+    var xhr;
     xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
     xhr.open("POST", "/api/images");
     xhr.setRequestHeader("Content-type", "application/json");
-
-    // xhr.upload.onprogress = function (e) {
-    //     progress(e.loaded / e.total * 100);
-    // };
 
     xhr.onload = function () {
       var json;
@@ -59,8 +54,6 @@ function postform() {
       );
     };
 
-    // formData = new FormData();
-    // formData.append('file', blobInfo.blob(), blobInfo.filename());
     console.log(blobInfo.base64());
     const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
     xhr.send(JSON.stringify(data));
@@ -98,6 +91,7 @@ function postform() {
 
   function uploadThunbnail(event, response) {
     let file = event.target.files[0];
+    console.log(event);
     // console.log(file);
     // let img=URL.createObjectURL(file);
     // console.log(img);
@@ -108,7 +102,7 @@ function postform() {
       // console.log(e.target.result);
       var img = e.target.result;
       var img_data = img.replace(/^data:image\/\w+;base64,/, "");
-      console.log(file.name);
+      console.log(event.target.files[0].height);
 
       const res = await fetch("api/images/thumbnail", {
         body: JSON.stringify({ data: img_data, filename: file.name }),
@@ -120,10 +114,10 @@ function postform() {
 
       const result = await res.json();
       setThumb(result);
-      console.log(result);
-      Image.get("thumbnailimg").setContent({ src: result.location });
-      thumbnailwidth = 50;
-      thumbnailheight = 50;
+      // console.log(result);
+      // Image.get("thumbnailimg").setContent({ src: result.location });
+      // thumbnailwidth = 50;
+      // thumbnailheight = 50;
     };
     reader.readAsDataURL(file);
     // // reader.setReady(true);
@@ -196,20 +190,13 @@ function postform() {
           type="file"
           custom
         />
-        {/* <Image 
-          id='thumbnailimg'
-          src={thumbnailsrc}
-          width={thumbnailwidth}
-          height={thumbnailheight}
-          style={{display:'none'}}
-        /> */}
       </Form.Group>
-      <div className="text-center">
+      <div className="text-center container" style={{ maxHeight: '400px' }}>
         {thumb ? (
           <Image
             src={thumb.location.replace(/%2F/gi, "/")}
-            height="500px"
-            width="500px"
+            width={500}
+            height={500}
           />
         ) : null}
       </div>
@@ -284,24 +271,6 @@ function postform() {
             // images_upload_url: '/api/images',
             images_upload_handler: example_image_upload_handler,
             images_upload_base_path: "/",
-            // file_picker_callback: function (callback, value, meta) {
-            //     console.log("flag");
-            //     if (meta.filetype == 'image') {
-
-            //         $('#upload').trigger('click');
-            //         $('#upload').on('change', function () {
-            //             var file = this.files[0];
-            //             console.log(file);
-            //             var reader = new FileReader();
-            //             reader.onload = function (e) {
-            //                 callback(e.target.result, {
-            //                     alt: ''
-            //                 });
-            //             };
-            //             reader.readAsDataURL(file);
-            //         });
-            //     }
-            // }
           }}
         />
       </Form.Group>
