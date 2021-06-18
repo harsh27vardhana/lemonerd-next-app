@@ -182,7 +182,18 @@ function postform() {
         />
       </Form.Group>
 
-      
+      <div className="jsutify-content-center">
+        {thumb ? (
+          <Image
+            src={thumb.location.replace(/%2F/gi, "/")}
+            height="500px"
+            width="500px"
+            
+            thumbnail
+          />
+        ) : null}
+        <br />
+      </div>
         
       
       <Form.Group>
