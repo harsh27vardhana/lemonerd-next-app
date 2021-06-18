@@ -182,10 +182,9 @@ function postform() {
         />
       </Form.Group>
 
-          />
-        ) : null}
-        <br />
-      </div>
+      
+        
+      
       <Form.Group>
         <Dropdown>
           <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
