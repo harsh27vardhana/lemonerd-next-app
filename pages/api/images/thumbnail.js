@@ -8,12 +8,13 @@ export default async (req, res) => {
         case 'POST':
             try {
                 const file = req.body;
+                // console.log(file);
                 const tmp = req.body.filename.split('.');
                 const filename = tmp.slice(0, tmp.length - 1).join(".") + Date.now() + uuidv4() + '.' + tmp[tmp.length - 1]
                 fs.writeFile('public/thumbnail/' + filename, file.data, 'base64', (error) => {
                     // console.log(error);
                 });
-                // console.log(file);
+               
                 res.send({ 'location': '%2Fthumbnail/' + filename });
             } catch (error) {
                 console.log(error);
