@@ -5,8 +5,8 @@ import React, { useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import Tags from "../data/tags.json";
 import Data from "../data/authors.json";
-import { Badge, Conatiner } from "react-bootstrap";
-import Image from "next/image";
+import { Badge } from "react-bootstrap";
+import Image from "react-bootstrap/Image";
 const authors = Data.authors;
 const category = Tags.categories;
 
@@ -19,7 +19,10 @@ function postform() {
   };
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
+
+
     var xhr;
+
     xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
     xhr.open("POST", "/api/images");
@@ -62,6 +65,7 @@ function postform() {
   const [activeCategory, setActiveCategory] = useState([]);
   const [availableCategory, setAvailableCategory] = useState(category);
   const [author, setAuthor] = useState("");
+  const [thumb, setThumb] = useState("");
 
   const [input, setInput] = useState({
     title: "",
@@ -70,6 +74,7 @@ function postform() {
     content: "",
     date: "",
     tags: activeCategory,
+    thumbnail: "",
   });
 
   function handleChange(event) {
@@ -83,23 +88,11 @@ function postform() {
     });
   }
 
-  let thumbnailsrc = "/";
-  var thumbnailwidth = 50;
-  var thumbnailheight = 50;
-
-  const [thumb, setThumb] = useState("");
-
   function uploadThunbnail(event, response) {
     let file = event.target.files[0];
-    console.log(event);
-    // console.log(file);
-    // let img=URL.createObjectURL(file);
-    // console.log(img);
+
     var reader = new FileReader();
-    // console.log(reader);
     reader.onload = async (e) => {
-      // The file's text will be printed here
-      // console.log(e.target.result);
       var img = e.target.result;
       var img_data = img.replace(/^data:image\/\w+;base64,/, "");
       console.log(event.target.files[0].height);
@@ -115,12 +108,9 @@ function postform() {
       const result = await res.json();
       setThumb(result);
       // console.log(result);
-      // Image.get("thumbnailimg").setContent({ src: result.location });
-      // thumbnailwidth = 50;
-      // thumbnailheight = 50;
+
     };
     reader.readAsDataURL(file);
-    // // reader.setReady(true);
   }
 
   async function handleClick(event) {
@@ -133,9 +123,9 @@ function postform() {
       content: tinymce.get("postcontent").getContent(),
       date: input.date,
       tags: tagName,
+      thumbnail: thumb.location,
     };
     setInput(newInput);
-    // console.log(newInput);
     const res = await fetch("/api/posts", {
       body: JSON.stringify(newInput),
       headers: {
@@ -191,14 +181,10 @@ function postform() {
           custom
         />
       </Form.Group>
-      <div className="text-center container" style={{ maxHeight: '400px' }}>
-        {thumb ? (
-          <Image
-            src={thumb.location.replace(/%2F/gi, "/")}
-            width={500}
-            height={500}
+
           />
         ) : null}
+        <br />
       </div>
       <Form.Group>
         <Dropdown>
