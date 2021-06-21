@@ -19,8 +19,6 @@ function postform() {
   };
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
-
-
     var xhr;
 
     xhr = new XMLHttpRequest();
@@ -108,7 +106,6 @@ function postform() {
       const result = await res.json();
       setThumb(result);
       // console.log(result);
-
     };
     reader.readAsDataURL(file);
   }
@@ -181,7 +178,13 @@ function postform() {
           custom
         />
       </Form.Group>
-
+      <div className="jsutify-content-center">
+        {thumb ? (
+          <Image
+            src={thumb.location.replace(/%2F/gi, "/")}
+            height="500px"
+            width="500px"
+            thumbnail
           />
         ) : null}
         <br />
