@@ -105,8 +105,10 @@ function postform() {
       });
 
       const result = await res.json();
-      setThumb(result);
-      // console.log(result);
+      console.log(result);
+      // Image.get('thumbnailimg').setContent({src:result.location})
+      // thumbnailwidth = 50;
+      // thumbnailheight = 50;
     };
     reader.readAsDataURL(file);
   }
@@ -183,15 +185,15 @@ function postform() {
       </div>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
-        <Form.File
-          id="Thumbnail"
-          onChange={uploadThunbnail}
-          label={
-            thumb ? thumb.location.replace(/%2F/gi, "/") : "Upload File here"
-          }
-          type="file"
-          custom
-        />
+        <Form.File id="Thumbnail" onChange={uploadThunbnail} label="Upload File here" type="file" custom />
+
+        {/* <Image 
+          id='thumbnailimg'
+          src={thumbnailsrc}
+          width={thumbnailwidth}
+          height={thumbnailheight}
+          style={{display:'none'}}
+        /> */}
       </Form.Group>
       <Form.Group>
         <Dropdown>
