@@ -130,9 +130,6 @@ function postform() {
       },
       method: "POST",
     });
-
-    const result = await res.json();
-    // console.log(result);
   }
   return (
     <Form className="container">
@@ -168,29 +165,32 @@ function postform() {
           onChange={handleChange}
         />
       </Form.Group>
+      <div className="jsutify-content-center">
+        <Image
+          src={
+            thumb
+              ? thumb.location.replace(/%2F/gi, "/")
+              : "/thumbnail/default.png"
+          }
+          height="500px"
+          width="500px"
+          thumbnail
+        />
+        <br />
+        <br />
+      </div>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
         <Form.File
           id="Thumbnail"
           onChange={uploadThunbnail}
-          label="Upload File here"
+          label={
+            thumb ? thumb.location.replace(/%2F/gi, "/") : "Upload File here"
+          }
           type="file"
           custom
         />
       </Form.Group>
-
-      <div className="jsutify-content-center">
-        {thumb ? (
-          <Image
-            src={thumb.location.replace(/%2F/gi, "/")}
-            height="500px"
-            width="500px"
-            thumbnail
-          />
-        ) : null}
-        <br />
-      </div>
-
       <Form.Group>
         <Dropdown>
           <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
@@ -214,24 +214,29 @@ function postform() {
         </Dropdown>
         <br />
         <div>
-          {activeCategory.length > 0 &&
-            activeCategory.map((element) => (
-              <span key={element.id}>
-                <Badge
-                  pill
-                  variant="info"
-                  onClick={() => {
-                    setAvailableCategory((oldArray) => [...oldArray, element]);
-                    const newActiveCategory = activeCategory.filter(
-                      (item) => item.id !== element.id
-                    );
-                    setActiveCategory(newActiveCategory);
-                  }}
-                >
-                  {element.name}
-                </Badge>{" "}
-              </span>
-            ))}
+          <h5>
+            {activeCategory.length > 0 &&
+              activeCategory.map((element) => (
+                <span key={element.id}>
+                  <Badge
+                    pill
+                    variant="info"
+                    onClick={() => {
+                      setAvailableCategory((oldArray) => [
+                        ...oldArray,
+                        element,
+                      ]);
+                      const newActiveCategory = activeCategory.filter(
+                        (item) => item.id !== element.id
+                      );
+                      setActiveCategory(newActiveCategory);
+                    }}
+                  >
+                    {element.name}
+                  </Badge>{" "}
+                </span>
+              ))}
+          </h5>
         </div>
       </Form.Group>
       <Form.Group>
