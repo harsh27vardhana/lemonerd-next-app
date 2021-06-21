@@ -1,10 +1,5 @@
 import Card from "react-bootstrap/Card";
-import Image from "next/image";
-import Button from "react-bootstrap/Button";
 import style from "../styles/memeberCard.module.css";
-import { RiFacebookFill } from "react-icons/fa";
-import Link from "next/link";
-import { ReactElement } from "react";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

@@ -19,8 +19,6 @@ function postform() {
   };
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
-
-
     var xhr;
 
     xhr = new XMLHttpRequest();
@@ -108,7 +106,6 @@ function postform() {
       const result = await res.json();
       setThumb(result);
       // console.log(result);
-
     };
     reader.readAsDataURL(file);
   }
@@ -188,14 +185,12 @@ function postform() {
             src={thumb.location.replace(/%2F/gi, "/")}
             height="500px"
             width="500px"
-            
             thumbnail
           />
         ) : null}
         <br />
       </div>
-        
-      
+
       <Form.Group>
         <Dropdown>
           <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
