@@ -16,6 +16,15 @@ function admin({ posts }) {
       method: "DELETE",
     });
   }
+
+  async function hidePost(id) {
+    const res = await fetch(`/api/posts/${id}`, {
+      method: "GET",
+    });
+    const result = await res.json();
+    console.log(result);
+  }
+
   return (
     <div>
       <Container className="py-5">
@@ -46,7 +55,11 @@ function admin({ posts }) {
                         </Button>
                       </Col>
                       <Col>
-                        <Button className="px-5 py-1 mb-2 " variant="warning">
+                        <Button
+                          className="px-5 py-1 mb-2 "
+                          variant="warning"
+                          onClick={() => hidePost(element._id)}
+                        >
                           Hide
                         </Button>
                       </Col>

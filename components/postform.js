@@ -73,6 +73,7 @@ function postform() {
     date: "",
     tags: activeCategory,
     thumbnail: "",
+    hidden: false,
   });
 
   function handleChange(event) {
@@ -121,6 +122,7 @@ function postform() {
       date: input.date,
       tags: tagName,
       thumbnail: thumb.location,
+      hidden: input.hidden,
     };
     setInput(newInput);
     const res = await fetch("/api/posts", {

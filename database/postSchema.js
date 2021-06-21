@@ -35,6 +35,11 @@ const PostSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
+  hidden: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 module.exports = mongoose.models.Post || mongoose.model("Post", PostSchema);
