@@ -1,26 +1,30 @@
-.copyright{
-
-    background: #0E6A6A;
-    padding: 7px;
-
+.copyright {
+  background: #102941;
+  padding: 1rem;
 }
 
-.copyright a{
-    text-decoration: none;
-    color: #F3EC07;
+.copyright a {
+  text-decoration: none;
+  color: #f3ec07;
 }
-.copyright a:hover{
-    text-decoration: none;
-    color: #F3EC07;
-}
-
-.routes{
-    display: block;
-    padding: 5px;
-    margin: 10px;
+.copyright a:hover {
+  text-decoration: none;
+  color: #f3ec07;
 }
 
-.footernav{
-    display: flex;
-    justify-content: center;
+.footerNav {
+  color: aliceblue !important;
+}
+
+.footerMain {
+  background-color: #0d3b66;
+  color: whitesmoke;
+}
+
+.icons {
+  color: whitesmoke;
+}
+
+.icons:hover {
+  color: #f3ec07;
 }

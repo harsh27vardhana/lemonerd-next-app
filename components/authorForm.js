@@ -23,7 +23,7 @@ function AuthorForm() {
 
   const [image, setImage] = useState("");
 
-  function uploadThunbnail(event, response) {
+  function uploadAuthorImage(event, response) {
     let file = event.target.files[0];
     var reader = new FileReader();
     reader.onload = async (e) => {
@@ -91,26 +91,31 @@ function AuthorForm() {
           onChange={handleChange}
         />
       </Form.Group>
+      <div className="jsutify-content-center">
+        <Image
+          src={
+            image
+              ? image.location.replace(/%2F/gi, "/")
+              : "/thumbnail/default.png"
+          }
+          width="500px"
+          height="500px"
+          thumbnail
+        />
+        <br />
+        <br />
+      </div>
       <Form.Group>
         <Form.Label>IMAGE</Form.Label>
         <Form.File
           id="authorImage"
-          label="Upload Image here"
+          label={
+            image ? image.location.replace(/%2F/gi, "/") : "Upload Image here"
+          }
           type="file"
           custom
         />
       </Form.Group>
-      <div className="jsutify-content-center">
-        {image ? (
-          <Image
-            src={image.location.replace(/%2F/gi, "/")}
-            width="500px"
-            height="500px"
-            thumbnail
-          />
-        ) : null}
-        <br />
-      </div>
       <Button type="submit" onClick={handleClick}>
         Submit form
       </Button>

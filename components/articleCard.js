@@ -84,23 +84,6 @@ function ArticleCard(props) {
           ))}
         </small>
       </Card.Footer>
-      <Row className="pt-2 text-center">
-        <Col>
-          <Badge className="px-5 py-1" pill variant="primary" as="button">
-            Update
-          </Badge>
-        </Col>
-        <Col>
-          <Badge className="px-5 py-1" pill variant="danger" as="button">
-            Delete
-          </Badge>
-        </Col>
-        <Col>
-          <Badge className="px-5 py-1" pill variant="warning" as="button">
-            Hide
-          </Badge>
-        </Col>
-      </Row>
     </Card>
   );
 }

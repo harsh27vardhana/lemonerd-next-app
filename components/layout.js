@@ -1,21 +1,17 @@
-import Navbar from './navbar'
-import Footer from './footer'
-import Link from 'next/link'
-import styles from '../styles/Layout.module.css'
-
+import Navbar from "./navbar";
+import Footer from "./footer";
+import styles from "../styles/Layout.module.css";
 
 function layout({ children }) {
-    return (
-        <>
+  return (
+    <>
+      <Navbar />
 
-          <Navbar/>
-              
-         
-             {children}
+      {children}
 
-             <Footer/>
-        </>
-    )
+      <Footer />
+    </>
+  );
 }
 
-export default layout
+export default layout;

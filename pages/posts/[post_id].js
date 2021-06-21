@@ -1,7 +1,7 @@
 import { Card, Container } from "react-bootstrap";
 import { server } from "../../config/config";
 function Posts({ post }) {
-  console.log(post.content);
+  console.log(post);
   const getDate = () => {
     const month = [
       "January",

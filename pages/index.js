@@ -1,6 +1,5 @@
 import Head from "next/head";
-import { CardColumns, Container } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
+import { Container } from "react-bootstrap";
 import { server } from "../config/config";
 import ArticleCard from "../components/articleCard";
 
