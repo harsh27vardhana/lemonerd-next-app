@@ -80,7 +80,7 @@ function admin({ posts }) {
 }
 
 export const getStaticProps = async () => {
-  const url = server + "/api/posts";
+  const url = server + "/api/admin";
   const res = await fetch(url);
   const posts = await res.json();
   return {

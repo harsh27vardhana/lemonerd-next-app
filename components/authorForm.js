@@ -31,15 +31,15 @@ function AuthorForm() {
       var img_data = img.replace(/^data:image\/\w+;base64,/, "");
       console.log(file.name);
 
-      // const res = await fetch("api/images/thumbnail", {
-      //   body: JSON.stringify({ data: img_data, filename: file.name }),
-      //   headers: {
-      //     "Content-type": "application/json",
-      //   },
-      //   method: "POST",
-      // });
+      const res = await fetch("api/images/author", {
+        body: JSON.stringify({ data: img_data, filename: file.name }),
+        headers: {
+          "Content-type": "application/json",
+        },
+        method: "POST",
+      });
 
-      // const result = await res.json();
+      const result = await res.json();
 
       setImage(result);
       // console.log(result);
@@ -56,16 +56,14 @@ function AuthorForm() {
     };
     setInput(newInput);
     console.log(newInput);
-    // const res = await fetch("/api/posts", {
-    //   body: JSON.stringify(newInput),
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   method: "POST",
-    // });
-
-    // const result = await res.json();
-    // console.log(result);
+    const res = await fetch("/api/authors", {
+      body: JSON.stringify(newInput),
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    });
+   
   }
 
   return (
@@ -109,6 +107,7 @@ function AuthorForm() {
         <Form.Label>IMAGE</Form.Label>
         <Form.File
           id="authorImage"
+          onChange={uploadAuthorImage}
           label={
             image ? image.location.replace(/%2F/gi, "/") : "Upload Image here"
           }
