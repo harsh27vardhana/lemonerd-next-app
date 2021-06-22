@@ -186,7 +186,13 @@ function postform() {
       </div>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
-        <Form.File id="Thumbnail" onChange={uploadThunbnail} label="Upload File here" type="file" custom />
+        <Form.File
+          id="Thumbnail"
+          onChange={uploadThunbnail}
+          label="Upload File here"
+          type="file"
+          custom
+        />
 
         {/* <Image 
           id='thumbnailimg'
