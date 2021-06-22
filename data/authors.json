@@ -1,29 +1,50 @@
 {
-    "authors":
-    [
-        {
-            "id": "author0001",
-            "name":"Harshavardhana Singh",
-            "description":"dis",
-            "image":""
-        },
-        {
-            "id": "author0002",
-            "name": "Tejaswini Singh",
-            "description":"dis",
-            "image":""
-        },
-        {
-            "id": "author0003",
-            "name":"Sreya Sanghamitra",
-            "description":"dis",
-            "image":""
-        },
-        {
-            "id": "author0004",
-            "name":"Anubhav Sinha",
-            "description":"dis",
-            "image":""
-        }
-    ]
+  "authors": [
+    {
+      "id": "author0001",
+      "name": "Harshavardhana Singh",
+      "description": "dis",
+      "image": ""
+    },
+    {
+      "id": "author0002",
+      "name": "Tejaswini Singh",
+      "description": "dis",
+      "image": ""
+    },
+    {
+      "id": "author0003",
+      "name": "Sreya Sanghamitra",
+      "description": "dis",
+      "image": ""
+    },
+    {
+      "id": "author0004",
+      "name": "Anubhav Sinha",
+      "description": "dis",
+      "image": ""
+    },
+    {
+      "id": "author0005",
+      "name": "Random",
+      "description": "dis",
+      "image": ""
+    },
+    {
+      "id": "author0006",
+      "name": "Random",
+      "description": "dis",
+      "image": ""
+    },
+    {
+      "name": "Harshavardhana Singh",
+      "description": "fsdsfsdf",
+      "image": "%2Fauthor/Screenshot 2021-06-08 at 11.14.34 PM1624375607385496d5586-e45f-4ad5-b8a2-31602dc07c24.png"
+    },
+    {
+      "name": "Dhehe",
+      "description": "vdfgdfg",
+      "image": "%2Fauthor/Screenshot 2021-06-08 at 11.14.34 PM16243757196191d92cca8-dc01-46c3-9e03-3564d1437e78.png"
+    }
+  ]
 }

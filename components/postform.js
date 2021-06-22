@@ -73,7 +73,7 @@ function postform() {
     date: "",
     tags: activeCategory,
     thumbnail: "",
-    hidden: false,
+    hidden: "false",
   });
 
   function handleChange(event) {
@@ -105,8 +105,11 @@ function postform() {
       });
 
       const result = await res.json();
+      console.log(result);
       setThumb(result);
-      // console.log(result);
+      // Image.get('thumbnailimg').setContent({src:result.location})
+      // thumbnailwidth = 50;
+      // thumbnailheight = 50;
     };
     reader.readAsDataURL(file);
   }
@@ -125,7 +128,7 @@ function postform() {
       hidden: input.hidden,
     };
     setInput(newInput);
-    const res = await fetch("/api/posts", {
+    const res = await fetch("/api/admin", {
       body: JSON.stringify(newInput),
       headers: {
         "Content-Type": "application/json",
@@ -183,15 +186,15 @@ function postform() {
       </div>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
-        <Form.File
-          id="Thumbnail"
-          onChange={uploadThunbnail}
-          label={
-            thumb ? thumb.location.replace(/%2F/gi, "/") : "Upload File here"
-          }
-          type="file"
-          custom
-        />
+        <Form.File id="Thumbnail" onChange={uploadThunbnail} label="Upload File here" type="file" custom />
+
+        {/* <Image 
+          id='thumbnailimg'
+          src={thumbnailsrc}
+          width={thumbnailwidth}
+          height={thumbnailheight}
+          style={{display:'none'}}
+        /> */}
       </Form.Group>
       <Form.Group>
         <Dropdown>
