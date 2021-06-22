@@ -26,8 +26,8 @@ function admin({ posts }) {
   }
 
   return (
-    <div>
-      <Container className="py-5">
+    <div className="pt-5">
+      <Container className="py-5 my-5" style={{ backgroundColor: "white" }}>
         <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
           <Tab eventKey="create" title="Create Post">
             <br />
