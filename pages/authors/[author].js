@@ -5,7 +5,7 @@ import { server } from "../../config/config";
 function Authors({ posts, author }) {
   const data = posts.data;
   return (
-    <Container>
+    <Container className="mt-5 py-5">
       {data.map((item) =>
         item.author === author ? (
           <div className="p-3" key={item._id}>

@@ -17,11 +17,11 @@ function about() {
             info-enthusiast.
           </p>
           <br />
-          <blockquote class="blockquote text-center">
-            <p class="mb-0 italic">
+          <blockquote className="blockquote text-center">
+            <p className="mb-0 italic">
               “ To err is human….to really foul up requires the root password”
             </p>
-            <footer class="blockquote-footer">
+            <footer className="blockquote-footer">
               {" "}
               <cite title="Source Title">Someone</cite>
             </footer>
@@ -36,11 +36,11 @@ function about() {
             transforming world.
           </p>
           <br />
-          <blockquote class="blockquote text-center">
-            <p class="mb-0 italic">
+          <blockquote className="blockquote text-center">
+            <p className="mb-0 italic">
               “I have no special talents. I am only passionately curious”
             </p>
-            <footer class="blockquote-footer">
+            <footer className="blockquote-footer">
               {" "}
               <cite title="Source Title">Einstein</cite>
             </footer>
@@ -55,11 +55,11 @@ function about() {
             collective knowledge sharing.
           </p>
           <br />
-          <blockquote class="blockquote text-center">
-            <p class="mb-0 italic">
+          <blockquote className="blockquote text-center">
+            <p className="mb-0 italic">
               “Because it’s better to be a nerd than an idiot.”
             </p>
-            <footer class="blockquote-footer">
+            <footer className="blockquote-footer">
               {" "}
               <cite title="Source Title">Everyone</cite>
             </footer>
@@ -90,8 +90,8 @@ function about() {
           </p>
           <br />
           <br />
-          <p class="mb-0"></p>
-          <footer class="blockquote-footer">
+          <p className="mb-0"></p>
+          <footer className="blockquote-footer">
             {" "}
             <cite title="Source Title">
               Disclaimer: Views expressed in the blogs are personal and original

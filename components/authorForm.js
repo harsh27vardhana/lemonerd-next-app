@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
+import Alert from "react-bootstrap/Alert";
 
 function AuthorForm() {
   const [input, setInput] = useState({
@@ -9,6 +10,8 @@ function AuthorForm() {
     description: "",
     image: "",
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -63,11 +66,17 @@ function AuthorForm() {
       },
       method: "POST",
     });
-   
+
+    if (newInput.name && newInput.image && newInput.description) setValid(true);
+    setSubmitted(true);
   }
 
   return (
     <Form className="container">
+      <Alert show={submitted && valid} variant="success">
+        <Alert.Heading>Success!</Alert.Heading>
+        <p>Author successfully added</p>
+      </Alert>
       <Form.Group>
         <Form.Label>NAME</Form.Label>
         <Form.Control
@@ -76,7 +85,12 @@ function AuthorForm() {
           placeholder="Enter the name of author"
           value={input.name}
           onChange={handleChange}
+          required
+          isInvalid={submitted && !input.name}
         />
+        <Form.Control.Feedback type="invalid">
+          Author name cannot be left blank.
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group>
         <Form.Label>DESCRIPTION</Form.Label>
@@ -87,14 +101,17 @@ function AuthorForm() {
           placeholder="Describe the author"
           value={input.description}
           onChange={handleChange}
+          required
+          isInvalid={submitted && !input.description}
         />
+        <Form.Control.Feedback type="invalid">
+          Description cannot be left blank.
+        </Form.Control.Feedback>
       </Form.Group>
-      <div className="jsutify-content-center">
+      <div className="text-center">
         <Image
           src={
-            image
-              ? image.location.replace(/%2F/gi, "/")
-              : "/thumbnail/default.png"
+            image ? image.location.replace(/%2F/gi, "/") : "/author/default.png"
           }
           width="500px"
           height="500px"
@@ -113,7 +130,12 @@ function AuthorForm() {
           }
           type="file"
           custom
+          required
+          isInvalid={submitted && !image}
         />
+        {submitted && !image ? (
+          <span className="text-danger">Please select author image</span>
+        ) : null}
       </Form.Group>
       <Button type="submit" onClick={handleClick}>
         Submit form

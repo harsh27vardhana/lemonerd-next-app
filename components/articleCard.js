@@ -73,15 +73,17 @@ function ArticleCard(props) {
       </Row>
       <Card.Footer>
         <small className="text-muted">
-          {props.tags.map((item) => (
-            <span key={item}>
-              <Badge pill variant="warning">
-                <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
-                  {item.name ? item.name : item}
-                </Link>
-              </Badge>{" "}
-            </span>
-          ))}
+          <h6>
+            {props.tags.map((item) => (
+              <span key={item}>
+                <Badge pill variant="warning">
+                  <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
+                    {item.name ? item.name : item}
+                  </Link>
+                </Badge>{" "}
+              </span>
+            ))}
+          </h6>
         </small>
       </Card.Footer>
     </Card>
