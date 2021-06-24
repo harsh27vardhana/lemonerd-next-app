@@ -1,16 +1,17 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import Tags from "../data/tags.json";
 import Data from "../data/authors.json";
 import { Badge } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
+import Alert from "react-bootstrap/Alert";
 const authors = Data.authors;
 const category = Tags.categories;
 
-function postform() {
+function postform(props) {
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -64,6 +65,8 @@ function postform() {
   const [availableCategory, setAvailableCategory] = useState(category);
   const [author, setAuthor] = useState("");
   const [thumb, setThumb] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+  const [valid, setValid] = useState(false);
 
   const [input, setInput] = useState({
     title: "",
@@ -75,6 +78,39 @@ function postform() {
     thumbnail: "",
     hidden: "false",
   });
+
+  function updateActiveCategory(item) {
+    setActiveCategory((oldArray) => [...oldArray, item]);
+    const newAvailableCategory = availableCategory.filter(
+      (element) => element.id !== item.id
+    );
+    setAvailableCategory(newAvailableCategory);
+  }
+
+  async function getPostToUpdate() {
+    const res = await fetch(`/api/posts/${props.id}`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    });
+    const result = await res.json();
+    result.date = result.date.substring(0, 10);
+    console.log(result);
+    setInput(result);
+    setThumb(result.thumbnail);
+    setAuthor(authors.find(({ name }) => name === result.author));
+    availableCategory.forEach((item) =>
+      item.name === result.tags.find((element) => element === item.name)
+        ? updateActiveCategory(item)
+        : null
+    );
+    tinyMCE.activeEditor.setContent(result.content);
+  }
+
+  useEffect(() => {
+    props.update && getPostToUpdate();
+  }, [props]);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -106,7 +142,7 @@ function postform() {
 
       const result = await res.json();
       console.log(result);
-      setThumb(result);
+      setThumb(result.location);
       // Image.get('thumbnailimg').setContent({src:result.location})
       // thumbnailwidth = 50;
       // thumbnailheight = 50;
@@ -124,20 +160,45 @@ function postform() {
       content: tinymce.get("postcontent").getContent(),
       date: input.date,
       tags: tagName,
-      thumbnail: thumb.location,
+      thumbnail: thumb,
       hidden: input.hidden,
     };
     setInput(newInput);
-    const res = await fetch("/api/admin", {
-      body: JSON.stringify(newInput),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
+    if (props.update) {
+      const res = await fetch(`/api/posts/${props.id}`, {
+        body: JSON.stringify(newInput),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+      });
+    } else {
+      const res = await fetch("/api/admin", {
+        body: JSON.stringify(newInput),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      });
+    }
+    if (
+      newInput.title &&
+      newInput.caption &&
+      newInput.author &&
+      newInput.content &&
+      newInput.date &&
+      newInput.tags &&
+      newInput.thumbnail
+    )
+      setValid(true);
+    setSubmitted(true);
   }
   return (
     <Form className="container">
+      <Alert show={submitted && valid} variant="success">
+        <Alert.Heading>Success!</Alert.Heading>
+        <p>Your blog was successfully {props.update ? "updated" : "posted"}</p>
+      </Alert>
       <Form.Group>
         <Form.Label>POST DATE</Form.Label>
         <Form.Control
@@ -147,7 +208,12 @@ function postform() {
           name="date"
           value={input.date}
           onChange={handleChange}
+          required
+          isInvalid={submitted && !input.date}
         />
+        <Form.Control.Feedback type="invalid">
+          Please choose the post date.
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group>
         <Form.Label>TITLE</Form.Label>
@@ -157,7 +223,12 @@ function postform() {
           placeholder="Enter the title of the blog"
           value={input.title}
           onChange={handleChange}
+          required
+          isInvalid={submitted && !input.title}
         />
+        <Form.Control.Feedback type="invalid">
+          The title cannot be left blank.
+        </Form.Control.Feedback>
       </Form.Group>
       <Form.Group>
         <Form.Label>CAPTION</Form.Label>
@@ -168,15 +239,16 @@ function postform() {
           placeholder="Write a caption for the blog"
           value={input.caption}
           onChange={handleChange}
+          required
+          isInvalid={submitted && !input.caption}
         />
+        <Form.Control.Feedback type="invalid">
+          The caption cannot be left blank.
+        </Form.Control.Feedback>
       </Form.Group>
-      <div className="jsutify-content-center">
+      <div className="text-center">
         <Image
-          src={
-            thumb
-              ? thumb.location.replace(/%2F/gi, "/")
-              : "/thumbnail/default.png"
-          }
+          src={thumb ? thumb.replace(/%2F/gi, "/") : "/thumbnail/default.png"}
           height="500px"
           width="500px"
           thumbnail
@@ -186,15 +258,18 @@ function postform() {
       </div>
       <Form.Group>
         <Form.Label>THUMBNAIL</Form.Label>
-        <Form.File id="Thumbnail" onChange={uploadThunbnail} label="Upload File here" type="file" custom />
-
-        {/* <Image 
-          id='thumbnailimg'
-          src={thumbnailsrc}
-          width={thumbnailwidth}
-          height={thumbnailheight}
-          style={{display:'none'}}
-        /> */}
+        <Form.File
+          id="Thumbnail"
+          onChange={uploadThunbnail}
+          label={thumb ? thumb.replace(/%2F/gi, "/") : "Upload File here"}
+          type="file"
+          custom
+          required
+          isInvalid={submitted && !thumb}
+        />
+        {submitted && !thumb ? (
+          <span className="text-danger">Please select the thumbnail</span>
+        ) : null}
       </Form.Group>
       <Form.Group>
         <Dropdown>
@@ -204,19 +279,18 @@ function postform() {
             {availableCategory.map((item) => (
               <Dropdown.Item
                 key={item.id}
-                onClick={() => {
-                  setActiveCategory((oldArray) => [...oldArray, item]);
-                  const newAvailableCategory = availableCategory.filter(
-                    (element) => element.id !== item.id
-                  );
-                  setAvailableCategory(newAvailableCategory);
-                }}
+                onClick={() => updateActiveCategory(item)}
               >
                 {item.name}
               </Dropdown.Item>
             ))}
           </Dropdown.Menu>
         </Dropdown>
+        {submitted && !activeCategory.length ? (
+          <span className="text-danger">
+            Please select the categories of the blog
+          </span>
+        ) : null}
         <br />
         <div>
           <h5>
@@ -245,6 +319,9 @@ function postform() {
         </div>
       </Form.Group>
       <Form.Group>
+        {submitted && !tinymce.get("postcontent").getContent() ? (
+          <Alert variant="danger">You cannot post an empty blog</Alert>
+        ) : null}
         <Editor
           apiKey="tfdzlyaoyss9o0y1lrzoheoxrhpz8l7rfe0myrgrqra266fq"
           id="postcontent"
@@ -293,9 +370,12 @@ function postform() {
             ))}
           </Dropdown.Menu>
         </Dropdown>
+        {submitted && !author.name ? (
+          <span className="text-danger">Please select the author</span>
+        ) : null}
       </Form.Group>
       <Button type="submit" onClick={handleClick}>
-        Submit form
+        {props.update ? "Update" : "Post"}
       </Button>
     </Form>
   );

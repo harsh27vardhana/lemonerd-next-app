@@ -37,11 +37,13 @@
       "image": ""
     },
     {
+      "id": "author0007",
       "name": "Harshavardhana Singh",
       "description": "fsdsfsdf",
       "image": "%2Fauthor/Screenshot 2021-06-08 at 11.14.34 PM1624375607385496d5586-e45f-4ad5-b8a2-31602dc07c24.png"
     },
     {
+      "id": "author0008",
       "name": "Dhehe",
       "description": "vdfgdfg",
       "image": "%2Fauthor/Screenshot 2021-06-08 at 11.14.34 PM16243757196191d92cca8-dc01-46c3-9e03-3564d1437e78.png"
@@ -61,6 +63,43 @@
       "description": "dis",
       "image": "",
       "name": "Random"
+    },
+    {
+      "id": "16243772012313930f432-a796-42cb-b6e4-ef92f58b2e74",
+      "description": "Class 12 student, JEE aspirant ",
+      "image": "%2Fauthor/undraw_Relaxing_at_home_re_mror16243771917298d523955-ca84-4fde-9a3b-9edea2643e73.png",
+      "name": "Anurag Sinha"
+    },
+    {
+      "id": "1624472494820b48be091-1ab0-467d-8e05-4faffcb26240",
+      "description": "",
+      "name": ""
+    },
+    {
+      "id": "162447250355773bb70b4-0e93-4518-9093-ca7f62925c44",
+      "description": "",
+      "name": ""
+    },
+    {
+      "id": "162447252693655ea50dc-4a04-4331-8e9a-7176db966c73",
+      "description": "",
+      "name": ""
+    },
+    {
+      "id": "162447259707968099933-0991-4f82-b5a9-19bf1136f736",
+      "description": "kankjankjaskjd",
+      "image": "%2Fauthor/illustration-modern-realistic-kitchen-interior-with-utensils-oven-with-light-cabinets-shelves-with-bar-stools-bar-table_134830-229162447259078583a2c89b-cf9b-46e0-a4d6-6122b5824b01.jpg",
+      "name": "Bla Bla 1"
+    },
+    {
+      "id": "16244726884356363bcec-fd48-43c6-98f5-116e88fd7a0b",
+      "description": "",
+      "name": ""
+    },
+    {
+      "id": "162447493780669048ce0-5c92-4c17-b0ce-454269af3d14",
+      "description": "",
+      "name": ""
     }
   ]
 }

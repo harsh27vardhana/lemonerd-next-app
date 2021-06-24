@@ -1,5 +1,23 @@
-.routes{
-    display: block;
-    padding: 5px;
-    margin: 10px;
+.routes {
+  display: block;
+  padding: 5px;
+  margin: 10px;
+}
+.routes a {
+  color: white;
+}
+.routes :hover {
+  text-decoration: none;
+  color: rgb(211, 221, 230);
+}
+.navBackground {
+  background-image: url(../public/Background.png);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+.BrandIcon {
+  width: 50px;
 }
