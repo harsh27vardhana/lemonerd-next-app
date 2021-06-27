@@ -34,6 +34,15 @@ function admin({ posts }) {
     getPosts();
   }, [confirmation, key]);
 
+  useEffect(async () => {
+    if (key !== "create") {
+      setToUpdate({
+        update: false,
+        id: "",
+      });
+    }
+  }, [key]);
+
   const [toUpdate, setToUpdate] = useState({
     update: false,
     id: "",

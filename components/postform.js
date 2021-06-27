@@ -97,23 +97,41 @@ function postform(props) {
       method: "GET",
     });
     const result = await res.json();
-    result.date = result.date.substring(0, 10);
-    setSubmitted(false);
-    setInput(result);
-    setThumb(result.thumbnail);
-    setAuthor(authors.find(({ id }) => id === result.author));
-    setActiveCategory(result.tags);
-    const newAvailableCategory = availableCategory.filter(
-      (tag) => !result.tags.includes(tag)
-    );
-    setAvailableCategory(newAvailableCategory);
-    // console.log("active: " + activeCategory);
-    // console.log("available: " + availableCategory);
-    tinyMCE.activeEditor.setContent(result.content);
+    if (props.update) {
+      result.date = result.date.substring(0, 10);
+      setSubmitted(false);
+      setInput(result);
+      setThumb(result.thumbnail);
+      setAuthor(authors.find(({ id }) => id === result.author));
+      setActiveCategory(result.tags);
+      const newAvailableCategory = availableCategory.filter(
+        (tag) => !result.tags.includes(tag)
+      );
+      setAvailableCategory(newAvailableCategory);
+      tinyMCE.activeEditor.setContent(result.content);
+    } else {
+      setSubmitted(false);
+      const newInput = {
+        title: "",
+        caption: "",
+        author: "",
+        content: "",
+        date: "",
+        tags: "",
+        thumbnail: "",
+        hidden: "false",
+      };
+      setInput(newInput);
+      setThumb("");
+      setAuthor("");
+      setActiveCategory([]);
+      setAvailableCategory(category);
+      tinymce.get("postcontent").setContent("");
+    }
   }
 
   useEffect(() => {
-    props.update && getPostToUpdate();
+    getPostToUpdate();
   }, [props]);
 
   function handleChange(event) {
@@ -245,11 +263,21 @@ function postform(props) {
   }, [valid]);
   return (
     <Form className="container">
-      <Alert show={submitted} variant="success">
+      <Alert
+        show={submitted}
+        variant="success"
+        onClose={() => setSubmitted(false)}
+        dismissible
+      >
         <Alert.Heading>Success!</Alert.Heading>
         <p>Your blog was successfully {props.update ? "updated" : "posted"}</p>
       </Alert>
-      <Alert show={errorSubmit} variant="danger">
+      <Alert
+        show={errorSubmit}
+        variant="danger"
+        onClose={() => setErrorSubmit(false)}
+        dismissible
+      >
         <Alert.Heading>OOPS!!</Alert.Heading>
         <p>Something went wrong.</p>
       </Alert>
