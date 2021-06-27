@@ -1,5 +1,8 @@
 import { Card, Badge, Col, Row } from "react-bootstrap";
 import Link from "next/link";
+import Author from "../data/authors.json";
+
+const authors = Author.authors;
 
 function ArticleCard(props) {
   const getDate = () => {
@@ -56,7 +59,7 @@ function ArticleCard(props) {
                       href="/authors/[author]"
                       as={`/authors/${props.author}`}
                     >
-                      {props.author}
+                      {authors.find((item) => item.id === props.author).name}
                     </Link>
                   </cite>
                 </small>
@@ -78,7 +81,7 @@ function ArticleCard(props) {
               <span key={item}>
                 <Badge pill variant="warning">
                   <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
-                    {item.name ? item.name : item}
+                    {item}
                   </Link>
                 </Badge>{" "}
               </span>

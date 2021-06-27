@@ -12,11 +12,8 @@ library.add(faFacebook, faInstagram, faLinkedin);
 
 function memeberCard(props) {
   return (
-    <div
-      className="p-2"
-      style={{ display: "flex", alignItems: "stretch", height: "auto" }}
-    >
-      <Card style={{ width: "22rem", height: "auto" }} className="text-center">
+    <div className="p-2 d-flex align-items-strech h-auto">
+      <Card style={{ width: "22rem" }} className="text-center">
         <Card.Img variant="top" src={props.image} />
         <Card.Body>
           <Card.Title className="font-weight-bold ">{props.name}</Card.Title>

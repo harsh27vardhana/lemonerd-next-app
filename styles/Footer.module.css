@@ -12,8 +12,11 @@
   color: #f3ec07;
 }
 
-.footerNav {
+.footerNav a {
   color: aliceblue !important;
+}
+.footerNav a:hover {
+  text-decoration: none;
 }
 
 .footerMain {
