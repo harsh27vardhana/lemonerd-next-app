@@ -6,27 +6,42 @@ import { server } from "../config/config";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Modal from "react-bootstrap/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 function admin({ posts }) {
   const data = posts.data;
   const [key, setKey] = useState("create");
-
   const [Blogs, setBlogs] = useState(data);
+  const [confirmation, setConfirmation] = useState(false);
+  const [agreeDelete, setAgreeDelete] = useState(false);
 
   async function getPosts() {
     const res = await fetch("/api/admin", {
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       method: "GET",
     }).then((result) => {
       result.json().then((resp) => {
-        console.log(resp.data);
+        // console.log(resp.data);
         setBlogs(resp.data);
       });
     });
   }
+
+  useEffect(async () => {
+    getPosts();
+  }, [confirmation, key]);
+
+  useEffect(async () => {
+    if (key !== "create") {
+      setToUpdate({
+        update: false,
+        id: "",
+      });
+    }
+  }, [key]);
 
   const [toUpdate, setToUpdate] = useState({
     update: false,
@@ -41,19 +56,29 @@ function admin({ posts }) {
     setKey("create");
   }
 
-  async function deletePost(id) {
-    const res = await fetch(`/api/posts/${id}`, {
+  const [deleteId, setDeleteId] = useState("");
+
+  async function deletePost() {
+    const res = await fetch(`/api/posts/${deleteId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
-    }).then(() => getPosts());
+    })
+      .then((response) => response.json())
+      .then((attempt) => {
+        console.log(attempt);
+        setAgreeDelete(false);
+        getPosts();
+      });
   }
 
   async function hidePost(id) {
     const res = await fetch(`/api/posts/${id}`, {
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       method: "GET",
     });
@@ -63,6 +88,7 @@ function admin({ posts }) {
       body: JSON.stringify(result),
       headers: {
         "Content-Type": "application/json",
+        Accept: "application/json",
       },
       method: "PATCH",
     }).then(() => getPosts());
@@ -70,6 +96,34 @@ function admin({ posts }) {
 
   return (
     <div className="pt-5">
+      <Modal
+        show={confirmation}
+        onHide={() => setConfirmation(false)}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Delete Confirmation</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          Are you sure you want to delete this post? You cannot undo the
+          changes.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setConfirmation(false)}>
+            No
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              deletePost();
+              setConfirmation(false);
+            }}
+          >
+            Yes
+          </Button>
+        </Modal.Footer>
+      </Modal>
       <Container className="py-5 my-5 bg-white">
         <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
           <Tab eventKey="create" title="Create">
@@ -85,7 +139,7 @@ function admin({ posts }) {
                     <Row className="pt-2 text-center">
                       <Col>
                         <Button
-                          className="px-5 py-1 mb-2 "
+                          className="px-md-5 py-1 mb-2 "
                           variant="primary"
                           onClick={() => updatePost(element._id)}
                         >
@@ -94,16 +148,19 @@ function admin({ posts }) {
                       </Col>
                       <Col>
                         <Button
-                          className="px-5 py-1 mb-2 "
+                          className="px-md-5 py-1 mb-2 "
                           variant="danger"
-                          onClick={() => deletePost(element._id)}
+                          onClick={() => {
+                            setDeleteId(element._id);
+                            setConfirmation(true);
+                          }}
                         >
                           Delete
                         </Button>
                       </Col>
                       <Col>
                         <Button
-                          className="px-5 py-1 mb-2 "
+                          className="px-md-5 py-1 mb-2 "
                           variant="warning"
                           onClick={() => hidePost(element._id)}
                         >

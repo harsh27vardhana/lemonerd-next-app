@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
@@ -12,6 +12,8 @@ function AuthorForm() {
   });
   const [submitted, setSubmitted] = useState(false);
   const [valid, setValid] = useState(false);
+  const [submitAttempt, setSubmitAttempt] = useState(false);
+  const [errorSubmit, setErrorSubmit] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -52,24 +54,40 @@ function AuthorForm() {
 
   async function handleClick(event) {
     event.preventDefault();
+    setSubmitAttempt(true);
     const newInput = {
       name: input.name,
       description: input.description,
       image: image.location,
     };
-    setInput(newInput);
-    console.log(newInput);
-    const res = await fetch("/api/authors", {
-      body: JSON.stringify(newInput),
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "POST",
-    });
 
     if (newInput.name && newInput.image && newInput.description) setValid(true);
-    setSubmitted(true);
+    setInput(newInput);
   }
+
+  useEffect(async () => {
+    if (valid) {
+      const res = await fetch("/api/authors", {
+        body: JSON.stringify(input),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      })
+        .then((response) => response.json())
+        .then((attempt) => {
+          setSubmitted(true);
+          setInput({
+            name: "",
+            description: "",
+            image: "",
+          });
+          setImage("");
+          setSubmitAttempt(false);
+          window.scrollTo(0, 0);
+        });
+    }
+  }, [valid]);
 
   return (
     <Form className="container">
@@ -86,7 +104,7 @@ function AuthorForm() {
           value={input.name}
           onChange={handleChange}
           required
-          isInvalid={submitted && !input.name}
+          isInvalid={submitAttempt && !input.name}
         />
         <Form.Control.Feedback type="invalid">
           Author name cannot be left blank.
@@ -102,7 +120,7 @@ function AuthorForm() {
           value={input.description}
           onChange={handleChange}
           required
-          isInvalid={submitted && !input.description}
+          isInvalid={submitAttempt && !input.description}
         />
         <Form.Control.Feedback type="invalid">
           Description cannot be left blank.
@@ -113,8 +131,8 @@ function AuthorForm() {
           src={
             image ? image.location.replace(/%2F/gi, "/") : "/author/default.png"
           }
-          width="500px"
-          height="500px"
+          width="300px"
+          height="300px"
           thumbnail
         />
         <br />
@@ -131,9 +149,9 @@ function AuthorForm() {
           type="file"
           custom
           required
-          isInvalid={submitted && !image}
+          isInvalid={submitAttempt && !image}
         />
-        {submitted && !image ? (
+        {submitAttempt && !image ? (
           <span className="text-danger">Please select author image</span>
         ) : null}
       </Form.Group>

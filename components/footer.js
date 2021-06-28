@@ -17,15 +17,18 @@ function footer() {
     <div className={styles.footerMain}>
       <Navbar className="justify-content-center">
         <Nav>
-          <Nav.Link className={styles.footerNav} href="/">
-            HOME
-          </Nav.Link>
-          <Nav.Link className={styles.footerNav} href="/about">
-            ABOUT
-          </Nav.Link>
-          <Nav.Link className={styles.footerNav} href="/team">
-            TEAM
-          </Nav.Link>
+          <div className={styles.footerNav + " nav-link nav-item"}>
+            <Link href="/">HOME</Link>
+          </div>
+          <div className={styles.footerNav + " nav-link nav-item"}>
+            <Link href="/about">ABOUT</Link>
+          </div>
+          <div className={styles.footerNav + " nav-link nav-item"}>
+            <Link href="/team">TEAM</Link>
+          </div>
+          <div className={styles.footerNav + " nav-link nav-item"}>
+            <Link href="/authors">AUTHORS</Link>
+          </div>
         </Nav>
       </Navbar>
       <Container>
@@ -36,6 +39,7 @@ function footer() {
           <Col>
             <a
               href="https://www.facebook.com/lemonerd22/"
+              target="_blank"
               className={styles.icons}
             >
               <FontAwesomeIcon icon={["fab", "facebook"]} size="2x" />
@@ -44,6 +48,7 @@ function footer() {
           <Col>
             <a
               href="https://www.instagram.com/lemo_nerd/"
+              target="_blank"
               className={styles.icons}
             >
               <FontAwesomeIcon icon={["fab", "instagram"]} size="2x" />
@@ -52,6 +57,7 @@ function footer() {
           <Col>
             <a
               href="https://www.linkedin.com/company/lemonerd/"
+              target="_blank"
               className={styles.icons}
             >
               <FontAwesomeIcon icon={["fab", "linkedin"]} size="2x" />

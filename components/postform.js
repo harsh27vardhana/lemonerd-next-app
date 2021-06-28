@@ -67,6 +67,8 @@ function postform(props) {
   const [thumb, setThumb] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [valid, setValid] = useState(false);
+  const [submitAttempt, setSubmitAttempt] = useState(false);
+  const [errorSubmit, setErrorSubmit] = useState(false);
 
   const [input, setInput] = useState({
     title: "",
@@ -82,7 +84,7 @@ function postform(props) {
   function updateActiveCategory(item) {
     setActiveCategory((oldArray) => [...oldArray, item]);
     const newAvailableCategory = availableCategory.filter(
-      (element) => element.id !== item.id
+      (element) => element !== item
     );
     setAvailableCategory(newAvailableCategory);
   }
@@ -95,21 +97,41 @@ function postform(props) {
       method: "GET",
     });
     const result = await res.json();
-    result.date = result.date.substring(0, 10);
-    console.log(result);
-    setInput(result);
-    setThumb(result.thumbnail);
-    setAuthor(authors.find(({ name }) => name === result.author));
-    availableCategory.forEach((item) =>
-      item.name === result.tags.find((element) => element === item.name)
-        ? updateActiveCategory(item)
-        : null
-    );
-    tinyMCE.activeEditor.setContent(result.content);
+    if (props.update) {
+      result.date = result.date.substring(0, 10);
+      setSubmitted(false);
+      setInput(result);
+      setThumb(result.thumbnail);
+      setAuthor(authors.find(({ id }) => id === result.author));
+      setActiveCategory(result.tags);
+      const newAvailableCategory = availableCategory.filter(
+        (tag) => !result.tags.includes(tag)
+      );
+      setAvailableCategory(newAvailableCategory);
+      tinyMCE.activeEditor.setContent(result.content);
+    } else {
+      setSubmitted(false);
+      const newInput = {
+        title: "",
+        caption: "",
+        author: "",
+        content: "",
+        date: "",
+        tags: "",
+        thumbnail: "",
+        hidden: "false",
+      };
+      setInput(newInput);
+      setThumb("");
+      setAuthor("");
+      setActiveCategory([]);
+      setAvailableCategory(category);
+      tinymce.get("postcontent").setContent("");
+    }
   }
 
   useEffect(() => {
-    props.update && getPostToUpdate();
+    getPostToUpdate();
   }, [props]);
 
   function handleChange(event) {
@@ -141,46 +163,25 @@ function postform(props) {
       });
 
       const result = await res.json();
-      console.log(result);
+      // console.log(result);
       setThumb(result.location);
-      // Image.get('thumbnailimg').setContent({src:result.location})
-      // thumbnailwidth = 50;
-      // thumbnailheight = 50;
     };
     reader.readAsDataURL(file);
   }
 
   async function handleClick(event) {
     event.preventDefault();
-    const tagName = activeCategory.map((item) => item.name);
+    setSubmitAttempt(true);
     const newInput = {
       title: input.title,
       caption: input.caption,
-      author: author.name,
+      author: author.id,
       content: tinymce.get("postcontent").getContent(),
       date: input.date,
-      tags: tagName,
+      tags: activeCategory,
       thumbnail: thumb,
       hidden: input.hidden,
     };
-    setInput(newInput);
-    if (props.update) {
-      const res = await fetch(`/api/posts/${props.id}`, {
-        body: JSON.stringify(newInput),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "PATCH",
-      });
-    } else {
-      const res = await fetch("/api/admin", {
-        body: JSON.stringify(newInput),
-        headers: {
-          "Content-Type": "application/json",
-        },
-        method: "POST",
-      });
-    }
     if (
       newInput.title &&
       newInput.caption &&
@@ -191,13 +192,94 @@ function postform(props) {
       newInput.thumbnail
     )
       setValid(true);
-    setSubmitted(true);
+    setInput(newInput);
   }
+
+  useEffect(async () => {
+    // console.log(input);
+    // console.log(valid);
+    if (props.update && valid) {
+      const res = await fetch(`/api/posts/${props.id}`, {
+        body: JSON.stringify(input),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "PATCH",
+      })
+        .then((response) => response.json())
+        .then((attempt) => {
+          console.log(attempt);
+          setSubmitted(true);
+          setActiveCategory([]);
+          setAvailableCategory(category);
+          setAuthor("");
+          setThumb("");
+          tinyMCE.activeEditor.setContent("");
+          const newInput = {
+            title: "",
+            caption: "",
+            author: author,
+            content: "",
+            date: "",
+            tags: activeCategory,
+            thumbnail: "",
+            hidden: "false",
+          };
+          setInput(newInput);
+          setSubmitAttempt(false);
+          window.scrollTo(0, 0);
+        });
+    } else if (valid) {
+      const res = await fetch("/api/admin", {
+        body: JSON.stringify(input),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "POST",
+      })
+        .then((response) => response.json())
+        .then((attempt) => {
+          attempt.success ? setSubmitted(true) : setErrorSubmit(true);
+          setActiveCategory([]);
+          setAvailableCategory(category);
+          setAuthor("");
+          setThumb("");
+          tinyMCE.activeEditor.setContent("");
+          const newInput = {
+            title: "",
+            caption: "",
+            author: author,
+            content: "",
+            date: "",
+            tags: activeCategory,
+            thumbnail: "",
+            hidden: "false",
+          };
+          setInput(newInput);
+          setSubmitAttempt(false);
+          window.scrollTo(0, 0);
+        });
+    }
+  }, [valid]);
   return (
     <Form className="container">
-      <Alert show={submitted && valid} variant="success">
+      <Alert
+        show={submitted}
+        variant="success"
+        onClose={() => setSubmitted(false)}
+        dismissible
+      >
         <Alert.Heading>Success!</Alert.Heading>
         <p>Your blog was successfully {props.update ? "updated" : "posted"}</p>
+      </Alert>
+      <Alert
+        show={errorSubmit}
+        variant="danger"
+        onClose={() => setErrorSubmit(false)}
+        dismissible
+      >
+        <Alert.Heading>OOPS!!</Alert.Heading>
+        <p>Something went wrong.</p>
       </Alert>
       <Form.Group>
         <Form.Label>POST DATE</Form.Label>
@@ -209,7 +291,7 @@ function postform(props) {
           value={input.date}
           onChange={handleChange}
           required
-          isInvalid={submitted && !input.date}
+          isInvalid={submitAttempt && !input.date}
         />
         <Form.Control.Feedback type="invalid">
           Please choose the post date.
@@ -224,7 +306,7 @@ function postform(props) {
           value={input.title}
           onChange={handleChange}
           required
-          isInvalid={submitted && !input.title}
+          isInvalid={submitAttempt && !input.title}
         />
         <Form.Control.Feedback type="invalid">
           The title cannot be left blank.
@@ -240,7 +322,7 @@ function postform(props) {
           value={input.caption}
           onChange={handleChange}
           required
-          isInvalid={submitted && !input.caption}
+          isInvalid={submitAttempt && !input.caption}
         />
         <Form.Control.Feedback type="invalid">
           The caption cannot be left blank.
@@ -249,8 +331,8 @@ function postform(props) {
       <div className="text-center">
         <Image
           src={thumb ? thumb.replace(/%2F/gi, "/") : "/thumbnail/default.png"}
-          height="500px"
-          width="500px"
+          height="300px"
+          width="300px"
           thumbnail
         />
         <br />
@@ -265,9 +347,9 @@ function postform(props) {
           type="file"
           custom
           required
-          isInvalid={submitted && !thumb}
+          isInvalid={submitAttempt && !thumb}
         />
-        {submitted && !thumb ? (
+        {submitAttempt && !thumb ? (
           <span className="text-danger">Please select the thumbnail</span>
         ) : null}
       </Form.Group>
@@ -278,15 +360,15 @@ function postform(props) {
           <Dropdown.Menu>
             {availableCategory.map((item) => (
               <Dropdown.Item
-                key={item.id}
+                key={item}
                 onClick={() => updateActiveCategory(item)}
               >
-                {item.name}
+                {item}
               </Dropdown.Item>
             ))}
           </Dropdown.Menu>
         </Dropdown>
-        {submitted && !activeCategory.length ? (
+        {submitAttempt && !activeCategory.length ? (
           <span className="text-danger">
             Please select the categories of the blog
           </span>
@@ -296,9 +378,10 @@ function postform(props) {
           <h5>
             {activeCategory.length > 0 &&
               activeCategory.map((element) => (
-                <span key={element.id}>
+                <span key={element}>
                   <Badge
                     pill
+                    role="button"
                     variant="info"
                     onClick={() => {
                       setAvailableCategory((oldArray) => [
@@ -306,12 +389,12 @@ function postform(props) {
                         element,
                       ]);
                       const newActiveCategory = activeCategory.filter(
-                        (item) => item.id !== element.id
+                        (item) => item !== element
                       );
                       setActiveCategory(newActiveCategory);
                     }}
                   >
-                    {element.name}
+                    {element}
                   </Badge>{" "}
                 </span>
               ))}
@@ -319,7 +402,7 @@ function postform(props) {
         </div>
       </Form.Group>
       <Form.Group>
-        {submitted && !tinymce.get("postcontent").getContent() ? (
+        {submitAttempt && !tinymce.get("postcontent").getContent() ? (
           <Alert variant="danger">You cannot post an empty blog</Alert>
         ) : null}
         <Editor
@@ -370,7 +453,7 @@ function postform(props) {
             ))}
           </Dropdown.Menu>
         </Dropdown>
-        {submitted && !author.name ? (
+        {submitAttempt && !author.name ? (
           <span className="text-danger">Please select the author</span>
         ) : null}
       </Form.Group>
