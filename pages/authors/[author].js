@@ -11,26 +11,44 @@ function Authors({ posts, author }) {
     <Container className="mt-5 py-5">
       <Card>
         <Card.Body>
-          <Card.Title className="text-center display-1">
-            About Author
-          </Card.Title>
-          <Row className="justify-content-center">
-            <Col xs={4} style={{ borderRadius: "50%" }}>
-              <Image
-                className="py-4"
-                src={
-                  currentAuthor.image
-                    ? currentAuthor.image.replace(/%2F/gi, "/")
-                    : "/author/default.png"
-                }
-                roundedCircle
-              />
+          <Row>
+            <Col lg={3} md={4} sm={12} className="my-auto">
+              <div className="d-flex justify-content-center">
+                <div
+                  style={{
+                    width: "200px",
+                    height: "200px",
+                    borderRadius: "50%",
+                    position: "relative",
+                    overflow: "hidden",
+                  }}
+                >
+                  <Image
+                    src={
+                      currentAuthor
+                        ? currentAuthor.image.replace(/%2F/gi, "/")
+                        : "/author/default.png"
+                    }
+                    style={{
+                      minWidth: "100%",
+                      minHeight: "100%",
+                      width: "auto",
+                      height: "auto",
+                      position: "absolute",
+                      left: "50%",
+                      top: "50%",
+                      transform: "translate(-50%, -50%)",
+                    }}
+                  />
+                </div>
+              </div>
             </Col>
-            <Col xs={12} className="text-center">
-              <Card.Subtitle className="display-4">
-                {currentAuthor.name}
-              </Card.Subtitle>
-              <Card.Text>{currentAuthor.description}</Card.Text>
+            <Col lg={9} md={8} sm={12}>
+              <h1>{currentAuthor ? currentAuthor.name : null} </h1>
+              <hr />
+              <Card.Text>
+                {currentAuthor ? currentAuthor.description : null}
+              </Card.Text>
             </Col>
           </Row>
         </Card.Body>

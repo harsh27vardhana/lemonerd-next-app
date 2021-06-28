@@ -3,11 +3,12 @@ import Image from "react-bootstrap/Image";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Dropdown from "react-bootstrap/Dropdown";
-import NavDropdown from "react-bootstrap/NavDropdown";
 import Form from "react-bootstrap/Form";
 import FormControl from "react-bootstrap/FormControl";
 import { Container, Button } from "react-bootstrap";
+import Tags from "../data/tags.json";
 import style from "../styles/nav.module.css";
+const tags = Tags.categories;
 
 function navbar() {
   return (
@@ -21,7 +22,7 @@ function navbar() {
         <Navbar.Brand>
           <Link href="/">
             <Image
-              src="./icon.png"
+              src="./icon.svg"
               fluid
               className={style.BrandIcon}
               role="button"
@@ -45,6 +46,27 @@ function navbar() {
             </div>
             <div className={style.routes}>
               <Link href="/admin">ADMIN </Link>
+            </div>
+            <div className="pt-2">
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="transparent"
+                  id="dropdown-basic"
+                  className="text-white"
+                >
+                  BLOGS
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                  {tags.map((tag) => (
+                    <div className="dropdown-item" key={tag}>
+                      <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                        {tag}
+                      </Link>
+                    </div>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
             </div>
           </Nav>
           <Nav>

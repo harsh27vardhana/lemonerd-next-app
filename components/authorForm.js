@@ -76,7 +76,7 @@ function AuthorForm() {
       })
         .then((response) => response.json())
         .then((attempt) => {
-          setSubmitted(true);
+          attempt.success ? setSubmitted(true) : setErrorSubmit(true);
           setInput({
             name: "",
             description: "",
@@ -91,9 +91,23 @@ function AuthorForm() {
 
   return (
     <Form className="container">
-      <Alert show={submitted && valid} variant="success">
+      <Alert
+        show={submitted}
+        variant="success"
+        onClose={() => setSubmitted(false)}
+        dismissible
+      >
         <Alert.Heading>Success!</Alert.Heading>
         <p>Author successfully added</p>
+      </Alert>
+      <Alert
+        show={errorSubmit}
+        variant="danger"
+        onClose={() => setErrorSubmit(false)}
+        dismissible
+      >
+        <Alert.Heading>OOPS!!</Alert.Heading>
+        <p>Something went wrong.</p>
       </Alert>
       <Form.Group>
         <Form.Label>NAME</Form.Label>

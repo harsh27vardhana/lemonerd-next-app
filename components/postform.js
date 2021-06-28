@@ -97,37 +97,34 @@ function postform(props) {
       method: "GET",
     });
     const result = await res.json();
-    if (props.update) {
-      result.date = result.date.substring(0, 10);
-      setSubmitted(false);
-      setInput(result);
-      setThumb(result.thumbnail);
-      setAuthor(authors.find(({ id }) => id === result.author));
-      setActiveCategory(result.tags);
-      const newAvailableCategory = availableCategory.filter(
-        (tag) => !result.tags.includes(tag)
-      );
-      setAvailableCategory(newAvailableCategory);
-      tinyMCE.activeEditor.setContent(result.content);
-    } else {
-      setSubmitted(false);
-      const newInput = {
-        title: "",
-        caption: "",
-        author: "",
-        content: "",
-        date: "",
-        tags: "",
-        thumbnail: "",
-        hidden: "false",
-      };
-      setInput(newInput);
-      setThumb("");
-      setAuthor("");
-      setActiveCategory([]);
-      setAvailableCategory(category);
-      tinymce.get("postcontent").setContent("");
-    }
+    // console.log(result);
+    props.update ? (result.date = result.date.substring(0, 10)) : null;
+    setSubmitted(false);
+    const newInput = {
+      title: "",
+      caption: "",
+      author: "",
+      content: "",
+      date: "",
+      tags: "",
+      thumbnail: "",
+      hidden: "false",
+    };
+    props.update ? setInput(result) : setInput(newInput);
+    props.update ? setThumb(result.thumbnail) : setThumb("");
+    props.update
+      ? setAuthor(authors.find(({ id }) => id === result.author))
+      : setAuthor("");
+    props.update ? setActiveCategory(result.tags) : setActiveCategory([]);
+    const newAvailableCategory = props.update
+      ? availableCategory.filter((tag) => !result.tags.includes(tag))
+      : null;
+    props.update
+      ? setAvailableCategory(newAvailableCategory)
+      : setAvailableCategory(category);
+    props.update
+      ? tinymce.get("postcontent").setContent(result.content)
+      : tinymce.get("postcontent").setContent("");
   }
 
   useEffect(() => {
@@ -208,13 +205,12 @@ function postform(props) {
       })
         .then((response) => response.json())
         .then((attempt) => {
-          console.log(attempt);
-          setSubmitted(true);
+          attempt.success ? setSubmitted(true) : setErrorSubmit(true);
           setActiveCategory([]);
           setAvailableCategory(category);
           setAuthor("");
           setThumb("");
-          tinyMCE.activeEditor.setContent("");
+          tinymce.get("postcontent").setContent("");
           const newInput = {
             title: "",
             caption: "",
@@ -244,7 +240,7 @@ function postform(props) {
           setAvailableCategory(category);
           setAuthor("");
           setThumb("");
-          tinyMCE.activeEditor.setContent("");
+          tinymce.get("postcontent").setContent("");
           const newInput = {
             title: "",
             caption: "",
