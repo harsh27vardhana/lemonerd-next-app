@@ -1,6 +1,13 @@
-import { Card, Container } from "react-bootstrap";
+import { Card, Container, Row, Col } from "react-bootstrap";
 import { server } from "../../config/config";
+import Author from "../../data/authors.json";
+import Image from "react-bootstrap/Image";
+
+const authors = Author.authors;
+
 function Posts({ post }) {
+  const postAuthor = authors.find((item) => item.id === post.author);
+
   const getDate = () => {
     const month = [
       "January",
@@ -34,11 +41,51 @@ function Posts({ post }) {
         <Card className="p-5 mx-md-5">
           <div className="p-lg-5 mx-lg-5">
             <h1>{post.title}</h1>
-            <footer className="blockquote-footer">
+            {/* <footer className="blockquote-footer">
               {getDate()}
-              <cite> by {post.author}</cite>
-            </footer>
+              <cite> by {postAuthor.name}</cite>
+            </footer> */}
             <br />
+            <div>
+              {/* <h5>About Author</h5>
+              <hr /> */}
+              <Row>
+                <Col md={1}>
+                  <div
+                    style={{
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                      position: "relative",
+                      overflow: "hidden",
+                    }}
+                  >
+                    <Image
+                      src={
+                        postAuthor.image
+                          ? postAuthor.image.replace(/%2F/gi, "/")
+                          : "/author/default.png"
+                      }
+                      style={{
+                        minWidth: "100%",
+                        minHeight: "100%",
+                        width: "auto",
+                        height: "auto",
+                        position: "absolute",
+                        left: "50%",
+                        top: "50%",
+                        transform: "translate(-50%, -50%)",
+                      }}
+                    />
+                  </div>
+                </Col>
+                <Col md={11}>
+                  <h5>{postAuthor.name}</h5>
+                  <footer className="blockquote-footer">{getDate()}</footer>
+                </Col>
+              </Row>
+              <hr />
+            </div>
             <div
               id="postContent"
               dangerouslySetInnerHTML={{

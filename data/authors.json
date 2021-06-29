@@ -1,154 +1,22 @@
 {
   "authors": [
     {
-      "id": "author0001",
-      "name": "Harshavardhana Singh",
-      "description": "dis",
-      "image": ""
+      "id": "16248954594372c5f9e00-a8b8-48c6-ab56-396d09ce7482",
+      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. ",
+      "image": "%2Fauthor/christopher-campbell-rDEOVtE7vOs-unsplash-min1624895447452344a352a-6e7b-4beb-aeba-eb4f0d57421b.jpg",
+      "name": "Elizabeth "
     },
     {
-      "id": "author0002",
-      "name": "Tejaswini Singh",
-      "description": "dis",
-      "image": ""
+      "id": "16248966576763bba8577-9e75-4061-abca-4d5109f2b2d4",
+      "description": "Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,",
+      "image": "%2Fauthor/jonas-kakaroto-mjRwhvqEC0U-unsplash-min1624896648466534ced54-eb31-462f-9d2e-3c266e3f6c91.jpg",
+      "name": "Rajesh Kootrapli"
     },
     {
-      "id": "author0003",
-      "name": "Sreya Sanghamitra",
-      "description": "dis",
-      "image": ""
-    },
-    {
-      "id": "author0004",
-      "name": "Anubhav Sinha",
-      "description": "dis",
-      "image": ""
-    },
-    {
-      "id": "author0005",
-      "name": "Random",
-      "description": "dis",
-      "image": ""
-    },
-    {
-      "id": "author0006",
-      "name": "Random",
-      "description": "dis",
-      "image": ""
-    },
-    {
-      "id": "author0007",
-      "name": "Harshavardhana Singh",
-      "description": "fsdsfsdf",
-      "image": ""
-    },
-    {
-      "id": "author0008",
-      "name": "Dhehe",
-      "description": "vdfgdfg",
-      "image": ""
-    },
-    {
-      "id": "162437630283737521256-e5a8-4699-bcd4-dfcc2b992e6c",
-      "image": "",
-      "name": "Random",
-      "description": "dis"
-    },
-    {
-      "id": "1624376326846bd905766-fa78-4be7-9e4b-fd534262ea23",
-      "description": "dis",
-      "image": "",
-      "name": "Random"
-    },
-    {
-      "id": "16243763549457ee1014c-d330-4db8-8ce6-74ca06529426",
-      "description": "dis",
-      "image": "",
-      "name": "Random"
-    },
-    {
-      "id": "1624472494820b48be091-1ab0-467d-8e05-4faffcb26240",
-      "description": "",
-      "name": "kjdjhvfjvhjadcvjabscjhbsdjc",
-      "image": ""
-    },
-    {
-      "id": "162447250355773bb70b4-0e93-4518-9093-ca7f62925c44",
-      "description": "",
-      "name": "kjdjhvfjvhjadcvmn cmn sc",
-      "image": ""
-    },
-    {
-      "id": "162447252693655ea50dc-4a04-4331-8e9a-7176db966c73",
-      "description": "",
-      "name": "kjdjhvfjvhjadcmbsc anc v",
-      "image": ""
-    },
-    {
-      "id": "162447259707968099933-0991-4f82-b5a9-19bf1136f736",
-      "description": "kankjankjaskjd",
-      "image": "",
-      "name": "Bla Bla 1"
-    },
-    {
-      "id": "16244726884356363bcec-fd48-43c6-98f5-116e88fd7a0b",
-      "description": "",
-      "name": "kajbkjbakjdbak",
-      "image": ""
-    },
-    {
-      "id": "162447493780669048ce0-5c92-4c17-b0ce-454269af3d14",
-      "description": "",
-      "name": "mnacbaskjbc",
-      "image": ""
-    },
-    {
-      "id": "1624704046093ef6a6887-f738-4ecb-91dd-df651ac3ea96",
-      "description": "",
-      "name": "jbaccjbajs",
-      "image": ""
-    },
-    {
-      "id": "1624709213848075bb9b2-eb1d-452e-bc34-ab211153146f",
-      "description": "kansdkjbaskjbajsbkjs xjkaskcjaskjnkasj",
-      "image": "",
-      "name": "kabcjbakjcbkjdkajs"
-    },
-    {
-      "id": "1624802785403d04734dd-129f-404b-a462-12439680fe23",
-      "description": "kcsjbckjsbkdcbjskdjcbskj",
-      "image": "%2Fauthor/Background1624802780907671077c6-ada7-49f6-80fe-7048c76e0b93.png",
-      "name": "jsdbksbkjbdfkj"
-    },
-    {
-      "id": "16248028914390d98cb49-2317-4ff5-99ce-82b01d45ee53",
-      "description": "kbksjdbckjsbdkcjbskdjbcksjbckjs",
-      "image": "%2Fauthor/fourth16248028887756adb83e1-6112-4b06-966f-fc292ce500f4.png",
-      "name": "bdjhbsjdhbajhb"
-    },
-    {
-      "id": "16248031501014d55e661-6a72-4920-ad6f-846bcd2e4c2c",
-      "description": "jskdjbnksjdbfkjsbdfjkabkjabskjbakjdbaskj",
-      "image": "%2Fauthor/thumbnail1624803147471a1821e44-d831-47c3-81ab-913f7b09dc2a.png",
-      "name": "jbdskjabskdjbaskjb"
-    },
-    {
-      "id": "16248034152636e07c920-5414-4fdb-bc90-641a9023e847",
-      "description": "kbkdjcbkjsbdckjbsdkcjbakcjs",
-      "image": "%2Fauthor/SILVER-min1624803402487b887e454-9a8f-4112-896f-77ddbd0779e6.png",
-      "name": "sbshbsjhbsjhbsjh"
-    },
-    {
-      "id": "1624803709885c4306f41-5911-4416-b2f8-22479cc6d608",
-      "description": "kjbjbfkjbkfjwbekjwbkejbfwjkebfkwj",
-      "image": "%2Fauthor/Picture1-compressed1624803706698dc52989a-a2ec-47c0-b79a-114a34f6992f.jpg",
-      "name": "khbdkajbdkjabjb"
-    },
-    {
-      "id": "1624814064317d471e6ea-561e-494b-936b-41b851b2cd7e",
-      "description": "kjbkjdbkjbkdjbqkjbkjwbkqwjbkj",
-      "image": "%2Fauthor/Picture31624814058122ed74cf8a-e7cf-4422-9faf-12b21047b243.png",
-      "name": "ajbubdcbjsj"
+      "id": "162489682678676f6e614-23f5-40be-975f-e389849635e2",
+      "description": "Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. ",
+      "image": "%2Fauthor/mohammad-khaksarmadani-4FDsNcCR8iQ-unsplash-min1624896748931ccb6d636-6d7c-4d80-be77-2ae762833eaf.jpg",
+      "name": "Shanaya Bhatt"
     }
   ]
 }

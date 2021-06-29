@@ -66,7 +66,7 @@ function ArticleCard(props) {
               </footer>
             </blockquote>
             <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
-              Read More
+              <span className="btn btn-outline-info">Read More</span>
             </Link>
             <Card.Text>
               <small className="text-muted">Posted {getDate()}</small>
