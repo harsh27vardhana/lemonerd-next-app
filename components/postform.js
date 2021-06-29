@@ -122,9 +122,11 @@ function postform(props) {
     props.update
       ? setAvailableCategory(newAvailableCategory)
       : setAvailableCategory(category);
-    props.update
-      ? tinymce.activeEditor.setContent(result.content)
-      : tinymce.activeEditor.setContent("");
+    if (typeof tinymce !== "undefined" && tinymce !== null) {
+      props.update
+        ? tinymce.activeEditor.setContent(result.content)
+        : tinymce.activeEditor.setContent("");
+    }
   }
 
   useEffect(() => {

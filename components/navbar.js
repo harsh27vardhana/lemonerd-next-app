@@ -71,7 +71,6 @@ function navbar() {
           </Nav>
           <Nav>
             <Form inline>
-              <script async src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"></script>
               <div className="gcse-search"></div>
             </Form>
           </Nav>

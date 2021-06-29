@@ -1,4 +1,5 @@
-import { Container, Card, Row, Col } from "react-bootstrap";
+import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import Link from "next/link";
 import ArticleCard from "../../components/articleCard";
 import { server } from "../../config/config";
 import Author from "../../data/authors.json";
@@ -7,9 +8,14 @@ import Image from "react-bootstrap/Image";
 function Authors({ posts, author }) {
   const data = posts.data;
   const currentAuthor = Author.authors.find((item) => item.id === author);
+  const authorBlog = data.filter((item) => item.author === author);
+  const authorTags = authorBlog.map((blog) => blog.tags);
+  const allTags = [].concat.apply([], authorTags);
+  const tags = [...new Set([...allTags])];
+  console.log(tags);
   return (
-    <Container className="mt-5 py-5">
-      <Card>
+    <Container className="mt-5 py-5 bg-white">
+      <Card border="white">
         <Card.Body>
           <Row>
             <Col lg={3} md={4} sm={12} className="my-auto">
@@ -53,13 +59,25 @@ function Authors({ posts, author }) {
           </Row>
         </Card.Body>
       </Card>
-      {data.map((item) =>
-        item.author === author ? (
-          <div className="p-3" key={item._id}>
-            <ArticleCard {...item} />
-          </div>
-        ) : null
-      )}
+      {authorBlog.map((item) => (
+        <div className="p-3" key={item._id}>
+          <ArticleCard {...item} />
+        </div>
+      ))}
+      <div className="pt-5 px-5 text-center">
+        <h5>
+          Related Tags:{" "}
+          {tags.map((tag) => (
+            <span key={tag}>
+              <Button variant="outline-info" size="sm" className="px-1 py-0">
+                <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                  {tag}
+                </Link>
+              </Button>{" "}
+            </span>
+          ))}
+        </h5>
+      </div>
     </Container>
   );
 }

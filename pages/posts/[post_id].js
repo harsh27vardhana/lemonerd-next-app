@@ -1,4 +1,5 @@
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import Link from "next/link";
 import { server } from "../../config/config";
 import Author from "../../data/authors.json";
 import Image from "react-bootstrap/Image";
@@ -92,7 +93,22 @@ function Posts({ post }) {
                 __html: post.content.replace(/%2F/gi, "/"),
               }}
             />
+            <br />
+            <hr />
+            <br />
             <div>
+              {post.tags.map((tag) => (
+                <span key={tag}>
+                  <Button variant="outline-info" size="sm">
+                    <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                      {tag}
+                    </Link>
+                  </Button>{" "}
+                </span>
+              ))}
+            </div>
+            <br />
+            <div className="mt-5 pt-5">
               <h3 className="font-weight-bold text-center">
                 Want to share your ideas?
               </h3>

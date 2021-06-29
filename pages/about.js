@@ -4,8 +4,8 @@ function about() {
   return (
     <div>
       <h1 className="text-center py-5 mt-5 monotone display-1">ABOUT US</h1>
-      <Container>
-        <Card className="p-5 mx-5 mb-5">
+      <Container className="p-5 bg-white">
+        <div className="p-5" style={{ fontSize: "1.2rem" }}>
           <p>
             Lemonerd is an honest and ambitious effort to share the collective
             interest and enthusiasm for technology, science and the millennial
@@ -99,7 +99,7 @@ function about() {
               to share, subscribe and get your articles featured here.
             </cite>
           </footer>
-        </Card>
+        </div>
       </Container>
     </div>
   );
