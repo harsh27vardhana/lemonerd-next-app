@@ -123,8 +123,8 @@ function postform(props) {
       ? setAvailableCategory(newAvailableCategory)
       : setAvailableCategory(category);
     props.update
-      ? tinymce.get("postcontent").setContent(result.content)
-      : tinymce.get("postcontent").setContent("");
+      ? tinymce.activeEditor.setContent(result.content)
+      : tinymce.activeEditor.setContent("");
   }
 
   useEffect(() => {
