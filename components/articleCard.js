@@ -55,12 +55,13 @@ function ArticleCard(props) {
                 <small className="text-muted">
                   Written by{" "}
                   <cite title="Source Title">
-                    {/* <Link
+                    <Link
                       href="/authors/[author]"
                       as={`/authors/${props.author}`}
-                    >
-                      {authors.find((item) => item.id === props.author.name)}
-                    </Link> */}
+                      {authors.find((item) => item.id === props.author)
+                        ? authors.find((item) => item.id === props.author).name
+                        : null}
+                    </Link>
                   </cite>
                 </small>
               </footer>
