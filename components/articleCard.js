@@ -1,4 +1,4 @@
-import { Card, Badge, Col, Row } from "react-bootstrap";
+import { Card, Button, Col, Row } from "react-bootstrap";
 import Link from "next/link";
 import Author from "../data/authors.json";
 
@@ -33,7 +33,8 @@ function ArticleCard(props) {
     return date;
   };
   return (
-    <Card className="p-md-3">
+    <Card className="p-md-3" border="white">
+      <hr />
       <Row>
         <Col xs={12} md={4}>
           <Card.Img
@@ -48,7 +49,7 @@ function ArticleCard(props) {
         </Col>
         <Col xs={12} md={8}>
           <Card.Body>
-            <Card.Title className="p-md-3">{props.title}</Card.Title>
+            <Card.Title className="">{props.title}</Card.Title>
             <Card.Text>{props.caption}</Card.Text>
             <blockquote className="blockquote mb-0 card-body">
               <footer className="blockquote-footer">
@@ -58,6 +59,7 @@ function ArticleCard(props) {
                     <Link
                       href="/authors/[author]"
                       as={`/authors/${props.author}`}
+                    >
                       {authors.find((item) => item.id === props.author)
                         ? authors.find((item) => item.id === props.author).name
                         : null}
@@ -75,21 +77,20 @@ function ArticleCard(props) {
           </Card.Body>
         </Col>
       </Row>
-      <Card.Footer>
+      <div className="p-3 bg-light">
         <small className="text-muted">
-          <h6>
-            {props.tags.map((item) => (
-              <span key={item}>
-                <Badge pill variant="warning">
-                  <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
-                    {item}
-                  </Link>
-                </Badge>{" "}
-              </span>
-            ))}
-          </h6>
+          {props.tags.map((item) => (
+            <span key={item}>
+              <Button variant="outline-info" size="sm">
+                <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
+                  {item}
+                </Link>
+              </Button>{" "}
+            </span>
+          ))}
         </small>
-      </Card.Footer>
+      </div>
+      <hr />
     </Card>
   );
 }
