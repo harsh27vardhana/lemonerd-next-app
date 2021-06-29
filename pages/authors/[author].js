@@ -12,7 +12,6 @@ function Authors({ posts, author }) {
   const authorTags = authorBlog.map((blog) => blog.tags);
   const allTags = [].concat.apply([], authorTags);
   const tags = [...new Set([...allTags])];
-  console.log(tags);
   return (
     <Container className="mt-5 py-5 bg-white">
       <Card border="white">
