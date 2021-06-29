@@ -71,12 +71,8 @@ function navbar() {
           </Nav>
           <Nav>
             <Form inline>
-              <FormControl
-                type="search"
-                placeholder="Search"
-                className="mr-2"
-              />
-              <Button variant="outline-warning">Search</Button>
+              <script async src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"></script>
+              <div className="gcse-search"></div>
             </Form>
           </Nav>
         </Navbar.Collapse>
