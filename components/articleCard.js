@@ -59,7 +59,9 @@ function ArticleCard(props) {
                       href="/authors/[author]"
                       as={`/authors/${props.author}`}
                     >
-                      {authors.find((item) => item.id === props.author).name}
+                      {authors.find((item) => item.id === props.author)
+                        ? authors.find((item) => item.id === props.author).name
+                        : null}
                     </Link>
                   </cite>
                 </small>
