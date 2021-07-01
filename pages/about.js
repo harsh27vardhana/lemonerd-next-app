@@ -4,7 +4,7 @@ function about() {
   return (
     <div>
       <h1 className="text-center py-5 mt-5 monotone display-1">ABOUT US</h1>
-      <Container className="p-5 bg-white">
+      <Container className="p-5 mb-5 bg-white">
         <div className="p-md-5 p-2" style={{ fontSize: "1.2rem" }}>
           <p>
             Lemonerd is an honest and ambitious effort to share the collective

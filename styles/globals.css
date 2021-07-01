@@ -44,6 +44,23 @@ img {
   font-size: 7vw;
 }
 
-.jumbotronSubhead {
+.jumbotronSubhead,
+.quicksplainedSubhead,
+.quicksplainedMobileText {
   font-size: 2vw;
+}
+
+.quicksplainedHead {
+  font-size: 4vw;
+}
+
+.quicksplainedMobileText {
+  padding-top: 10vw;
+}
+
+.quicksplainedMobileText-sm {
+  font-size: 4vw;
+  max-width: 30vw;
+  transform: translateY(-77vw);
+  color: #000022 !important;
 }
