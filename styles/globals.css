@@ -64,3 +64,41 @@ img {
   transform: translateY(-77vw);
   color: #000022 !important;
 }
+
+.gsc-control-cse {
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.gsc-input-box {
+  border: transparent !important;
+  border-radius: 5px !important;
+  background: transparent !important;
+}
+
+td input {
+  background-color: transparent !important;
+  color: whitesmoke !important;
+}
+
+.table.gsc-search-box td.gsc-input {
+  padding-right: 0;
+}
+
+.gsc-search-button-v2 {
+  padding: 11px 12px !important;
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.gsc-search-button-v2,
+.gsc-search-button-v2:hover,
+.gsc-search-button-v2:focus {
+  border-color: transparent !important;
+  background-color: transparent !important;
+}
+
+.gsc-control-wrapper-cse {
+  border: 1px solid #dfe1e5;
+  border-radius: 5px;
+}

@@ -1,11 +1,19 @@
 import Link from "next/link";
 import Image from "react-bootstrap/Image";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
 import FormControl from "react-bootstrap/FormControl";
 import { Container, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faGlobe,
+  faHome,
+  faInfoCircle,
+  faLightbulb,
+  faPaperPlane,
+  faSignInAlt,
+  faUserEdit,
+  faUsers,
+} from "@fortawesome/free-solid-svg-icons";
 import styles from "../styles/Footer.module.css";
 import {
   faFacebook,
@@ -19,7 +27,7 @@ function footer() {
     <footer className={styles.footerMain}>
       <Container className="pt-5">
         <Row className="text-center justify-content-center">
-          <Col md={2} sm={6} xs={3} className="pb-4">
+          <Col md={2} sm={6} xs={5} className="pb-4">
             <Link href="/">
               <Image
                 src="./icon.svg"
@@ -29,27 +37,70 @@ function footer() {
               />
             </Link>
           </Col>
-          <Col md={2} sm={6} xs={12} className="pb-4">
-            <div className={styles.footerNav}>
-              <Link href="/">HOME</Link>
-            </div>
-            <div className={styles.footerNav}>
-              <Link href="/about">ABOUT</Link>
-            </div>
-            <div className={styles.footerNav}>
-              <Link href="/team">TEAM</Link>
-            </div>
-            <div className={styles.footerNav}>
-              <Link href="/authors">AUTHORS</Link>
+          <Col
+            md={3}
+            sm={6}
+            xs={12}
+            className="pb-4 d-flex justify-content-center"
+          >
+            <div className="text-left">
+              <Row>
+                <Col xs={3}></Col>
+                <Col xs={1}>
+                  <FontAwesomeIcon icon={faHome} />
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                  <FontAwesomeIcon icon={faUsers} />
+                  <FontAwesomeIcon icon={faUserEdit} />
+                  <FontAwesomeIcon icon={faLightbulb} />
+                  <FontAwesomeIcon icon={faSignInAlt} />
+                </Col>
+                <Col xs={4}>
+                  <div className={styles.footerNav}>
+                    <Link href="/">HOME</Link>
+                  </div>
+                  <div className={styles.footerNav}>
+                    <Link href="/about">ABOUT</Link>
+                  </div>
+                  <div className={styles.footerNav}>
+                    <Link href="/team">TEAM</Link>
+                  </div>
+                  <div className={styles.footerNav}>
+                    <Link href="/authors">AUTHORS</Link>
+                  </div>
+                  <div className={styles.footerNav}>
+                    <Link href="/quicksplained">QUICKSPLAINED</Link>
+                  </div>
+                  <div className={styles.footerNav}>
+                    <Link href="/login">LOGIN</Link>
+                  </div>
+                </Col>
+                <Col xs={3}></Col>
+              </Row>
             </div>
           </Col>
-          <Col lg={2} md={1} sm={0} xs={8} className="pb-4"></Col>
-          <Col md={4} sm={6} xs={7} className="pb-4">
-            <FormControl />
+          <Col md={1} sm={0} xs={8} className="pb-4"></Col>
+          <Col
+            md={4}
+            sm={6}
+            xs={7}
+            className="py-4 d-flex align-items-center justify-content-center"
+          >
+            <div>
+              <span className="d-flex align-items-center border rounded px-2">
+                <FormControl className="bg-transparent border-0 text-white" />
+                <FontAwesomeIcon icon={faPaperPlane} />
+              </span>
+              <div>Stay in touch with us for insightful content!</div>
+            </div>
           </Col>
-          <Col md={2} sm={6} xs={6} className="p-sm-0 px-3 pb-4">
+          <Col
+            md={2}
+            sm={6}
+            xs={6}
+            className="p-sm-0 px-3 py-4 d-flex align-items-center justify-content-center"
+          >
             <Row className="text-center">
-              <Col>
+              <Col xs={3}>
                 <a
                   href="https://www.facebook.com/lemonerd22/"
                   target="_blank"
@@ -58,7 +109,7 @@ function footer() {
                   <FontAwesomeIcon icon={["fab", "facebook"]} />
                 </a>
               </Col>
-              <Col>
+              <Col xs={3}>
                 <a
                   href="https://www.instagram.com/lemo_nerd/"
                   target="_blank"
@@ -67,13 +118,22 @@ function footer() {
                   <FontAwesomeIcon icon={["fab", "instagram"]} />
                 </a>
               </Col>
-              <Col>
+              <Col xs={3}>
                 <a
                   href="https://www.linkedin.com/company/lemonerd/"
                   target="_blank"
                   className={styles.icons}
                 >
                   <FontAwesomeIcon icon={["fab", "linkedin"]} />
+                </a>
+              </Col>
+              <Col xs={3}>
+                <a
+                  href="https://www.lemonerd.in/"
+                  target="_blank"
+                  className={styles.icons}
+                >
+                  <FontAwesomeIcon icon={faGlobe} />
                 </a>
               </Col>
             </Row>
