@@ -17,6 +17,8 @@
 }
 .footerNav a:hover {
   text-decoration: none;
+  color: #f3ec07 !important;
+  font-size: 102%;
 }
 
 .footerMain {

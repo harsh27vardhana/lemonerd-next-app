@@ -9,7 +9,12 @@ function Authors() {
   return (
     <div className="my-5 pt-5">
       <Container>
-        <h1 className="monotone display-1 text-center py-5">Authors</h1>
+        <h1 className="monotone text-center py-5 display-2 d-none d-sm-block">
+          Authors
+        </h1>
+        <h1 className="monotone text-center py-5 display-4 d-block d-sm-none">
+          Authors
+        </h1>
         <Row>
           {authors.map((author) => (
             <Col
@@ -33,7 +38,7 @@ function Authors() {
                 </Link>
                 <Card.Body className="p-md-3">
                   <Link href="/authors/[author]" as={`/authors/${author.id}`}>
-                    <Card.Title role="button" className="display-4">
+                    <Card.Title role="button" style={{ fontSize: "3rem" }}>
                       {author.name}
                     </Card.Title>
                   </Link>

@@ -70,7 +70,7 @@ function navbar() {
             </div>
           </Nav>
           <Nav>
-            <Form inline>
+            <Form inline className="search-form">
               <div className="gcse-search"></div>
             </Form>
           </Nav>

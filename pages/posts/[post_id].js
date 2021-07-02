@@ -65,36 +65,47 @@ function Posts({ post }) {
             <div className="pt-5 mt-5">
               <Row>
                 <Col lg={3} md={4}>
-                  <div
-                    style={{
-                      width: "50px",
-                      height: "50px",
-                      borderRadius: "50%",
-                      position: "relative",
-                      overflow: "hidden",
-                    }}
+                  <Link
+                    href="/authors/[author]"
+                    as={`/authors/${postAuthor.id}`}
                   >
-                    <Image
-                      src={
-                        postAuthor.image
-                          ? postAuthor.image.replace(/%2F/gi, "/")
-                          : "/author/default.png"
-                      }
+                    <div
                       style={{
-                        minWidth: "100%",
-                        minHeight: "100%",
-                        width: "auto",
-                        height: "auto",
-                        position: "absolute",
-                        left: "50%",
-                        top: "50%",
-                        transform: "translate(-50%, -50%)",
+                        width: "50px",
+                        height: "50px",
+                        borderRadius: "50%",
+                        position: "relative",
+                        overflow: "hidden",
                       }}
-                    />
-                  </div>
+                    >
+                      <Image
+                        src={
+                          postAuthor.image
+                            ? postAuthor.image.replace(/%2F/gi, "/")
+                            : "/author/default.png"
+                        }
+                        style={{
+                          minWidth: "100%",
+                          minHeight: "100%",
+                          width: "auto",
+                          height: "auto",
+                          position: "absolute",
+                          left: "50%",
+                          top: "50%",
+                          transform: "translate(-50%, -50%)",
+                        }}
+                        role="button"
+                      />
+                    </div>
+                  </Link>
                 </Col>
                 <Col lg={9} md={8} className="d-flex align-self-end">
-                  <h5>{postAuthor.name}</h5>
+                  <Link
+                    href="/authors/[author]"
+                    as={`/authors/${postAuthor.id}`}
+                  >
+                    <h5 role="button">{postAuthor.name}</h5>
+                  </Link>
                 </Col>
               </Row>
               <hr />
@@ -128,36 +139,47 @@ function Posts({ post }) {
                   <br />
                   <Row className="d-flex d-md-none">
                     <Col xs={2}>
-                      <div
-                        style={{
-                          width: "50px",
-                          height: "50px",
-                          borderRadius: "50%",
-                          position: "relative",
-                          overflow: "hidden",
-                        }}
+                      <Link
+                        href="/authors/[author]"
+                        as={`/authors/${postAuthor.id}`}
                       >
-                        <Image
-                          src={
-                            postAuthor.image
-                              ? postAuthor.image.replace(/%2F/gi, "/")
-                              : "/author/default.png"
-                          }
+                        <div
                           style={{
-                            minWidth: "100%",
-                            minHeight: "100%",
-                            width: "auto",
-                            height: "auto",
-                            position: "absolute",
-                            left: "50%",
-                            top: "50%",
-                            transform: "translate(-50%, -50%)",
+                            width: "50px",
+                            height: "50px",
+                            borderRadius: "50%",
+                            position: "relative",
+                            overflow: "hidden",
                           }}
-                        />
-                      </div>
+                        >
+                          <Image
+                            src={
+                              postAuthor.image
+                                ? postAuthor.image.replace(/%2F/gi, "/")
+                                : "/author/default.png"
+                            }
+                            style={{
+                              minWidth: "100%",
+                              minHeight: "100%",
+                              width: "auto",
+                              height: "auto",
+                              position: "absolute",
+                              left: "50%",
+                              top: "50%",
+                              transform: "translate(-50%, -50%)",
+                            }}
+                            role="button"
+                          />
+                        </div>
+                      </Link>
                     </Col>
                     <Col xs={10}>
-                      <h5>{postAuthor.name}</h5>
+                      <Link
+                        href="/authors/[author]"
+                        as={`/authors/${postAuthor.id}`}
+                      >
+                        <h5 role="button">{postAuthor.name}</h5>
+                      </Link>
                       <footer className="blockquote-footer">{getDate()}</footer>
                     </Col>
                   </Row>

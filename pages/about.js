@@ -3,7 +3,12 @@ import { Container, Card } from "react-bootstrap";
 function about() {
   return (
     <div>
-      <h1 className="text-center py-5 mt-5 monotone display-1">ABOUT US</h1>
+      <h1 className="text-center py-5 mt-5 monotone display-2 d-none d-sm-block">
+        ABOUT US
+      </h1>
+      <h1 className="text-center py-5 mt-5 monotone display-4 d-block d-sm-none">
+        ABOUT US
+      </h1>
       <Container className="p-5 mb-5 bg-white">
         <div className="p-md-5 p-2" style={{ fontSize: "1.2rem" }}>
           <p>
