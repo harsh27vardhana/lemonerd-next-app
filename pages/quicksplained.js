@@ -1,4 +1,4 @@
-import InstagramEmbed from "react-instagram-embed";
+
 import { Button, Row, Col } from "react-bootstrap";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Image from "react-bootstrap/Image";
@@ -70,20 +70,9 @@ export default function quicksplained() {
           </div>
         </Col>
       </Row>
-
-      <InstagramEmbed
-        clientAccessToken="356402385840008|68c46a230a78e6a40e80834f3a19fc91"
-        url="https://www.instagram.com/p/CQlSSgcFKqW/"
-        maxWidth={320}
-        hideCaption={false}
-        containerTagName="div"
-        protocol=""
-        injectScript
-        onLoading={() => {}}
-        onSuccess={() => {}}
-        onAfterRender={() => {}}
-        onFailure={() => {}}
-      />
+    
+          
+      
     </div>
   );
 }
