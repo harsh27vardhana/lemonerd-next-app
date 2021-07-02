@@ -125,7 +125,7 @@ function postform(props) {
     if (typeof tinymce !== "undefined" && tinymce !== null) {
       props.update
         ? tinymce.activeEditor.setContent(result.content)
-        : tinymce.activeEditor.setContent("");
+        : tinymce.activeEditor.setContent(" ");
     }
   }
 
