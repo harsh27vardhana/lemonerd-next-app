@@ -7,6 +7,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
+import Quicksplained from "../components/quicksplainedform";
 
 function admin({ posts }) {
   const data = posts.data;
@@ -177,6 +178,10 @@ function admin({ posts }) {
             <br />
             <AuthorForm />
           </Tab>
+          <tab eventKey="quicksplained" title="Link">
+            <br />
+            <Quicksplained />
+          </tab>
         </Tabs>
       </Container>
     </div>
