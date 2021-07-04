@@ -2,6 +2,7 @@
 import { Button, Row, Col } from "react-bootstrap";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Image from "react-bootstrap/Image";
+import Feed from '../components/quickSplainedpost'
 export default function quicksplained() {
   return (
     <div style={{ overflowX: "hidden" }}>
@@ -71,7 +72,7 @@ export default function quicksplained() {
         </Col>
       </Row>
     
-          
+      <Feed/>          
       
     </div>
   );
