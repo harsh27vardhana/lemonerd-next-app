@@ -8,8 +8,24 @@ import Tab from "react-bootstrap/Tab";
 import Modal from "react-bootstrap/Modal";
 import { useEffect, useState } from "react";
 import Quicksplained from "../components/quicksplainedform";
+import { useAuth } from "../context/AuthContext";
+import { useRouter } from "next/router";
+
+function Redirect({ to }) {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push(to);
+  }, [to]);
+
+  return null;
+}
 
 function admin({ posts }) {
+  const { currentUser } = useAuth();
+  if (!currentUser) {
+    return <Redirect to="/login" />;
+  }
   const data = posts.data;
   const [key, setKey] = useState("create");
   const [Blogs, setBlogs] = useState(data);

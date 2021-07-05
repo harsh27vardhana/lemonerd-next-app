@@ -1,5 +1,18 @@
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import {
+  TwitterIcon,
+  TwitterShareButton,
+  WhatsappShareButton,
+  WhatsappIcon,
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinShareButton,
+  LinkedinIcon,
+} from "react-share";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCopy } from "@fortawesome/free-solid-svg-icons";
 import { server } from "../../config/config";
 import Author from "../../data/authors.json";
 import Image from "react-bootstrap/Image";
@@ -132,11 +145,38 @@ function Posts({ post }) {
             <Card className="py-5" border="white">
               <div className="py-lg-5">
                 <h1>{post.title}</h1>
-                <footer className="blockquote-footer d-none d-md-block">
-                  {getDate()}
-                </footer>
+                <div className="justify-content-between d-none d-md-flex">
+                  <footer className="blockquote-footer">{getDate()}</footer>
+                  <span>
+                    <CopyToClipboard
+                      text={"https://lemonerd.in/posts/" + post._id}
+                    >
+                      <FontAwesomeIcon icon={faCopy} size="lg" role="button" />
+                    </CopyToClipboard>{" "}
+                    <WhatsappShareButton
+                      url={`https://lemonerd.in/posts/${post._id}`}
+                    >
+                      <WhatsappIcon size={26} round />
+                    </WhatsappShareButton>{" "}
+                    <FacebookShareButton
+                      url={`https://lemonerd.in/posts/${post._id}`}
+                    >
+                      <FacebookIcon size={26} round />
+                    </FacebookShareButton>{" "}
+                    <TwitterShareButton
+                      url={`https://lemonerd.in/posts/${post._id}`}
+                    >
+                      <TwitterIcon size={26} round />
+                    </TwitterShareButton>{" "}
+                    <LinkedinShareButton
+                      url={`https://lemonerd.in/posts/${post._id}`}
+                    >
+                      <LinkedinIcon size={26} round />
+                    </LinkedinShareButton>
+                  </span>
+                </div>
                 <div>
-                  <br />
+                  <br className="d-block d-md-none" />
                   <Row className="d-flex d-md-none">
                     <Col xs={2}>
                       <Link
@@ -180,7 +220,42 @@ function Posts({ post }) {
                       >
                         <h5 role="button">{postAuthor.name}</h5>
                       </Link>
-                      <footer className="blockquote-footer">{getDate()}</footer>
+                      <div className="d-flex d-md-none justify-content-between">
+                        <footer className="blockquote-footer">
+                          {getDate()}
+                        </footer>
+                        <span>
+                          <CopyToClipboard
+                            text={"https://lemonerd.in/posts/" + post._id}
+                          >
+                            <FontAwesomeIcon
+                              icon={faCopy}
+                              size="lg"
+                              role="button"
+                            />
+                          </CopyToClipboard>{" "}
+                          <WhatsappShareButton
+                            url={`https://lemonerd.in/posts/${post._id}`}
+                          >
+                            <WhatsappIcon size={26} round />
+                          </WhatsappShareButton>{" "}
+                          <FacebookShareButton
+                            url={`https://lemonerd.in/posts/${post._id}`}
+                          >
+                            <FacebookIcon size={26} round />
+                          </FacebookShareButton>{" "}
+                          <TwitterShareButton
+                            url={`https://lemonerd.in/posts/${post._id}`}
+                          >
+                            <TwitterIcon size={26} round />
+                          </TwitterShareButton>{" "}
+                          <LinkedinShareButton
+                            url={`https://lemonerd.in/posts/${post._id}`}
+                          >
+                            <LinkedinIcon size={26} round />
+                          </LinkedinShareButton>
+                        </span>
+                      </div>
                     </Col>
                   </Row>
                   <hr />

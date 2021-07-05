@@ -2,6 +2,7 @@ import Link from "next/link";
 import Image from "react-bootstrap/Image";
 import FormControl from "react-bootstrap/FormControl";
 import { Container, Row, Col } from "react-bootstrap";
+import { useAuth } from "../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
@@ -23,6 +24,7 @@ import {
 
 library.add(faFacebook, faInstagram, faLinkedin);
 function footer() {
+  const { currentUser, logout } = useAuth();
   return (
     <footer className={styles.footerMain}>
       <Container className="pt-5">
@@ -71,7 +73,21 @@ function footer() {
                     <Link href="/quicksplained">QUICKSPLAINED</Link>
                   </div>
                   <div className={styles.footerNav}>
-                    <Link href="/login">LOGIN</Link>
+                    {!currentUser && <Link href="/login">LOGIN</Link>}
+                    {currentUser && (
+                      <a
+                        role="button"
+                        onClick={async () => {
+                          try {
+                            await logout();
+                          } catch (error) {
+                            console.log(error);
+                          }
+                        }}
+                      >
+                        LOGOUT
+                      </a>
+                    )}
                   </div>
                 </Col>
                 <Col xs={3}></Col>
@@ -85,13 +101,13 @@ function footer() {
             xs={7}
             className="py-4 d-flex align-items-center justify-content-center"
           >
-            <div>
+            {/* <div>
               <span className="d-flex align-items-center border rounded px-2">
                 <FormControl className="bg-transparent border-0 text-white" />
                 <FontAwesomeIcon icon={faPaperPlane} />
               </span>
               <div>Stay in touch with us for insightful content!</div>
-            </div>
+            </div> */}
           </Col>
           <Col
             md={2}
