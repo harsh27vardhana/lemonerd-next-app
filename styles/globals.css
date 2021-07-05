@@ -17,7 +17,6 @@ html {
 body {
   overflow-x: hidden;
   background-color: whitesmoke;
-  
 }
 
 img {
@@ -35,7 +34,6 @@ img {
   background-image: url("/background.svg");
   background-repeat: no-repeat;
   background-size: cover;
-
 }
 
 .jumbotronHead {
@@ -99,4 +97,8 @@ td input {
 .gsc-control-wrapper-cse {
   border: 1px solid #dfe1e5;
   border-radius: 5px;
+}
+
+.qsp-btn-xs {
+  font-size: xx-small;
 }

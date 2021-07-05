@@ -8,9 +8,11 @@ import FormControl from "react-bootstrap/FormControl";
 import { Container, Button } from "react-bootstrap";
 import Tags from "../data/tags.json";
 import style from "../styles/nav.module.css";
+import { useAuth } from "../context/AuthContext";
 const tags = Tags.categories;
 
 function navbar() {
+  const { currentUser, logout } = useAuth();
   return (
     <Navbar
       variant="dark"
@@ -44,9 +46,6 @@ function navbar() {
             <div className={style.routes}>
               <Link href="/team">TEAM </Link>
             </div>
-            <div className={style.routes}>
-              <Link href="/admin">ADMIN </Link>
-            </div>
             <div className="pt-2">
               <Dropdown>
                 <Dropdown.Toggle
@@ -68,6 +67,11 @@ function navbar() {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
+            {currentUser && (
+              <div className={style.routes}>
+                <Link href="/admin">ADMIN </Link>
+              </div>
+            )}
           </Nav>
           <Nav>
             <Form inline className="search-form">
