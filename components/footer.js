@@ -23,7 +23,7 @@ function footer() {
               <Image
                 src="./icon.svg"
                 fluid
-                style={{ width: "180px" }}
+                className={styles.brandIcon}
                 role="button"
               />
             </Link>

@@ -1,4 +1,5 @@
 import { Card, Button, Col, Row } from "react-bootstrap";
+import style from "../styles/articleCard.module.css";
 import Link from "next/link";
 import Author from "../data/authors.json";
 
@@ -33,14 +34,7 @@ function ArticleCard(props) {
     return date;
   };
   return (
-    <Card
-      className="p-md-3"
-      border="white"
-      style={{
-        boxShadow:
-          "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-      }}
-    >
+    <Card className={`p-md-3 ${style.articleCard}`} border="white">
       <Row>
         <Col xs={12} md={4}>
           <Card.Img
@@ -50,7 +44,7 @@ function ArticleCard(props) {
                 ? props.thumbnail.replace(/%2F/gi, "/")
                 : "/thumbnail/default.png"
             }
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            className={style.cardImage}
           />
         </Col>
         <Col xs={12} md={8}>

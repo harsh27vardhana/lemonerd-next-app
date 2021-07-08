@@ -1,5 +1,6 @@
 import { Card, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import styles from "../styles/memeberCard.module.css";
 import {
   faFacebookF,
   faInstagram,
@@ -11,17 +12,9 @@ function memeberCard(props) {
     <>
       <Col md={6} xs={12} className="d-none d-lg-flex">
         <div
-          className="p-2 align-items-stretch d-none d-lg-flex m-lg-5"
-          style={{ height: "85%" }}
+          className={`p-2 align-items-stretch d-none d-lg-flex m-lg-5 ${styles.h85}`}
         >
-          <Card
-            className="text-center"
-            style={{
-              boxShadow:
-                "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-              backgroundColor: "rgb(255, 255, 255, 0.6)",
-            }}
-          >
+          <Card className={styles.cardShadow}>
             <Card.Img variant="top" src={props.image} />
             <Card.Body>
               <Card.Title className="font-weight-bold">{props.name}</Card.Title>
@@ -46,7 +39,7 @@ function memeberCard(props) {
       </Col>
       <Col md={6} xs={12} className="d-none d-md-flex d-lg-none">
         <div className="p-2 align-items-stretch d-none d-md-flex d-lg-none m-lg-5 h-100">
-          <Card className="text-center">
+          <Card className={styles.cardShadow}>
             <Card.Img variant="top" src={props.image} />
             <Card.Body>
               <Card.Title className="font-weight-bold ">
@@ -73,7 +66,7 @@ function memeberCard(props) {
       </Col>
       <Col md={6} xs={12} className=" d-md-none">
         <div className="p-2 align-items-stretch h-auto w-auto d-flex d-md-none">
-          <Card className="text-center">
+          <Card className={styles.cardShadow}>
             <Card.Img variant="top" src={props.image} />
             <Card.Body>
               <Card.Title className="font-weight-bold ">

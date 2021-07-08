@@ -144,12 +144,8 @@ function Posts({ post, posts }) {
                     {copied && (
                       <Alert
                         transition
-                        style={{
-                          display: "inline",
-                          textAlign: "center",
-                        }}
                         variant="success"
-                        className="py-0 px-1"
+                        className="py-0 px-1 d-inline text-center"
                       >
                         Copied!
                       </Alert>
@@ -238,12 +234,8 @@ function Posts({ post, posts }) {
                           {copied && (
                             <Alert
                               transition
-                              style={{
-                                display: "inline",
-                                textAlign: "center",
-                              }}
                               variant="success"
-                              className="py-0 px-1"
+                              className="py-0 px-1 d-inline text-center"
                             >
                               Copied!
                             </Alert>

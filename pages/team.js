@@ -5,7 +5,7 @@ import { Row, Container } from "react-bootstrap";
 const data = Data.members;
 function team() {
   return (
-    <div style={{ overflowX: "hidden" }}>
+    <div className="hideOverflowX">
       <Head>
         <title>Team | Lemonerd</title>
         <script

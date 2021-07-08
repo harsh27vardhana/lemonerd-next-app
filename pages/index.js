@@ -52,7 +52,7 @@ export default function Home({ posts }) {
             onClick={executeScroll}
           >
             <div className="text-center">
-              <Image src="/assets/blogs.svg" className="h-50 w-50" />
+              <Image src="/assets/blogs1.png" className="h-50 w-50" />
               <p className="d-none d-sm-block">BLOGS</p>
               <small className="d-block d-sm-none">BLOGS</small>
             </div>
@@ -63,11 +63,7 @@ export default function Home({ posts }) {
           <Link href="/quicksplained">
             <Col role="button" xs={3} className="justify-content-center d-flex">
               <div className="text-center">
-                <Image
-                  src="/assets/stats.svg"
-                  className="h-50 w-50"
-                  style={{ fill: "url(/background.svg" }}
-                />
+                <Image src="/assets/stats1.png" className="h-50 w-50" />
                 <p className="d-none d-sm-block">INFOGRAPHICS</p>
                 <small className="d-block d-sm-none">INFOGRAPHICS</small>
               </div>
@@ -79,7 +75,7 @@ export default function Home({ posts }) {
           <Link href="/authors">
             <Col role="button" xs={3} className="justify-content-center d-flex">
               <div className="text-center">
-                <Image src="/assets/magnify.svg" className="h-50 w-50" />
+                <Image src="/assets/magnify1.png" className="h-50 w-50" />
                 <p className="d-none d-sm-block">AUTHORS</p>
                 <small className="d-block d-sm-none">AUTHORS</small>
               </div>

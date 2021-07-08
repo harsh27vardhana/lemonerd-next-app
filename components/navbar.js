@@ -39,9 +39,9 @@ function navbar() {
         />
         <Navbar.Collapse
           id="basic-navbar-nav"
-          style={{ justifyContent: "space-between" }}
+          className="justify-content-between"
         >
-          <Nav className="text-whitesmoke">
+          <Nav className="text-whitesmoke" navbarScroll>
             <div className={style.routes} onClick={() => setExpanded(false)}>
               <Link href="/"> HOME </Link>
             </div>
@@ -54,17 +54,21 @@ function navbar() {
             <div className={style.routes} onClick={() => setExpanded(false)}>
               <Link href="/quicksplained">QUICKSPLAINED </Link>
             </div>
-            {tags.map((tag) => (
-              <div
-                className={style.routes + " d-block d-lg-none"}
-                key={tag}
-                onClick={() => setExpanded(false)}
-              >
-                <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
-                  {tag}
-                </Link>
-              </div>
-            ))}
+            <hr className="p-0 m-0 bg-white" />
+            <span className={style.navbarDropdownCollapse}>
+              {tags.map((tag) => (
+                <div
+                  className={`${style.routes} d-block d-lg-none`}
+                  key={tag}
+                  onClick={() => setExpanded(false)}
+                >
+                  <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                    {tag}
+                  </Link>
+                  <hr className="p-0 m-0 bg-white" />
+                </div>
+              ))}
+            </span>
             <div className="pt-2 d-none d-lg-block">
               <Dropdown>
                 <Dropdown.Toggle
@@ -75,7 +79,7 @@ function navbar() {
                   BLOGS
                 </Dropdown.Toggle>
 
-                <Dropdown.Menu className={style.frost}>
+                <Dropdown.Menu className={style.dropdownNavbar}>
                   {tags.map((tag) => (
                     <div
                       className="dropdown-item"
