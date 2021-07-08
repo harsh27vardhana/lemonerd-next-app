@@ -14,6 +14,9 @@
 
 .footerNav a {
   color: aliceblue !important;
+  display: block;
+  padding: 5px;
+  margin: 10px;
 }
 .footerNav a:hover {
   text-decoration: none;

@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import Tags from "../data/tags.json";
 import Data from "../data/authors.json";
-import { Badge } from "react-bootstrap";
+import { Badge, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
 const authors = Data.authors;
@@ -446,7 +446,21 @@ function postform(props) {
             <Dropdown.Divider />
             {authors.map((item) => (
               <Dropdown.Item key={item.id} onClick={() => setAuthor(item)}>
-                {item.name}
+                <Row className="justify-content-between align-items-center">
+                  {item.name}
+                  &ensp; &ensp;
+                  <div
+                    className="circular-img"
+                    style={{
+                      width: "30px",
+                      height: "30px",
+                      backgroundImage: `url(${item.image.replace(
+                        /%2F/gi,
+                        "/"
+                      )})`,
+                    }}
+                  />
+                </Row>
               </Dropdown.Item>
             ))}
           </Dropdown.Menu>

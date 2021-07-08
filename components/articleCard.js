@@ -33,8 +33,14 @@ function ArticleCard(props) {
     return date;
   };
   return (
-    <Card className="p-md-3" border="white">
-      <hr />
+    <Card
+      className="p-md-3"
+      border="white"
+      style={{
+        boxShadow:
+          "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
+      }}
+    >
       <Row>
         <Col xs={12} md={4}>
           <Card.Img
@@ -55,7 +61,7 @@ function ArticleCard(props) {
               <footer className="blockquote-footer">
                 <small className="text-muted">
                   Written by{" "}
-                  <cite title="Source Title">
+                  <cite title="Source Title" className="author-anchor">
                     <Link
                       href="/authors/[author]"
                       as={`/authors/${props.author}`}
@@ -81,7 +87,7 @@ function ArticleCard(props) {
         <small className="text-muted">
           {props.tags.map((item) => (
             <span key={item}>
-              <Button variant="outline-info" size="sm">
+              <Button variant="outline-info" className="tags" size="sm">
                 <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
                   {item}
                 </Link>
@@ -90,7 +96,6 @@ function ArticleCard(props) {
           ))}
         </small>
       </div>
-      <hr />
     </Card>
   );
 }

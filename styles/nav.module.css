@@ -4,7 +4,7 @@
   margin: 10px;
 }
 .routes a {
-  color: white;
+  color: white !important;
 }
 .routes :hover {
   text-decoration: none;
@@ -21,4 +21,20 @@
 
 .BrandIcon {
   width: 50px;
+}
+
+.frost {
+  background: rgba(255, 255, 255 0.8);
+}
+
+.frost a {
+  text-decoration: none;
+  color: #0d3b66;
+}
+
+@supports (-webkit-backdrop-filter: none) or (backdrop-filter: none) {
+  .frost {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+  }
 }

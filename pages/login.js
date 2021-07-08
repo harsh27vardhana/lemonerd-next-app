@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Form from "react-bootstrap/Form";
 import { Button, Container, Card } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
@@ -41,6 +42,13 @@ function Login() {
   }
   return (
     <div className="mt-5 pt-5">
+      <Head>
+        <title>Login | Lemonerd</title>
+        <script
+          async
+          src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
+        ></script>
+      </Head>
       <Container>
         <div className="d-flex justify-content-center py-5 px-md-5 my-5 mx-md-5">
           <Card style={{ width: "600px" }} className="py-5 px-md-5">
