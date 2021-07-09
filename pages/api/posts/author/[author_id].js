@@ -6,7 +6,7 @@ dbConnect();
 export default async function handler(req, res) {
     const { author_id } = req.query
     try {
-        const post = await Post.find({ author: author_id });
+        const post = await Post.find({ author: author_id, hidden: "false" }).sort({ date: -1 });
         res.send(post);
 
     } catch (err) {
