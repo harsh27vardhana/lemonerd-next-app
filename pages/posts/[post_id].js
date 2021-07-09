@@ -379,13 +379,16 @@ export async function getServerSideProps(context) {
   const url = `${server}/api/posts/`;
   const res = await fetch(url + post_id);
   const post = await res.json();
-  const result = await fetch(url);
-  const posts = await result.json();
+  const recentpostsurl= url+'recentposts/'+post_id;
+  const recentposts=await (await fetch(recentpostsurl)).json();
+  const relatedpostsurl = url + 'relatedposts/' + post_id;
+  const relatedposts = await (await fetch(relatedpostsurl)).json();
+
   const tagsUrl = `${server}/api/authors/${post_id}`;
-  const response=await fetch(tagsUrl);
+  const response = await fetch(tagsUrl);
   const tags = await response.json();
   return {
-    props: { post, posts,tags },
+    props: { post, recentposts,relatedposts, tags },
   };
 }
 

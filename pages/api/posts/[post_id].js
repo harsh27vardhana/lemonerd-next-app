@@ -19,28 +19,6 @@ export default async function handler(req, res) {
         res.send(err);
       }
       break;
-    case "PATCH":
-      try {
-        const post = await Post.findByIdAndUpdate(post_id, req.body, {
-          new: true,
-        });
-        res.send({ success: true, data: post });
-      } catch (err) {
-        // console.log(err);
-        res.status(404);
-        res.send({ success: false });
-      }
-      break;
-    case "DELETE":
-      try {
-        const post = await Post.findByIdAndRemove(post_id);
-        res.send("POST DELETED");
-      } catch (err) {
-        console.log(err);
-        // res.status(410);
-        res.send(err);
-      }
-      break;
     default:
       res.status(400).json({ success: false });
       break;
