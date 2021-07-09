@@ -131,6 +131,7 @@ function navbar() {
               <Link href="/admin" role="button">
                 <div
                   className={style.routes}
+                  role="button"
                   onClick={() => setExpanded(false)}
                 >
                   ADMIN
