@@ -2,8 +2,6 @@
   display: block;
   padding: 5px;
   margin: 10px;
-}
-.routes a {
   color: white !important;
 }
 .routes :hover {
@@ -33,4 +31,8 @@
 
 .navbarDropdownCollapse {
   background-color: rgb(0, 0, 0, 0.1);
+}
+
+.navLink:hover {
+  text-decoration: none;
 }

@@ -26,10 +26,7 @@ function Authors({ posts }) {
         ></script>
       </Head>
       <Container>
-        <h1 className="font-weight-bold text-center py-5 display-2 d-none d-sm-block gradient-text">
-          Authors
-        </h1>
-        <h1 className="font-weight-bold text-center py-5 display-4 d-block d-sm-none gradient-text">
+        <h1 className="font-weight-bold text-center py-5 display-4 gradient-text">
           Authors
         </h1>
         <Row className="justify-content-center">
@@ -51,7 +48,7 @@ function Authors({ posts }) {
                 <Link href="/authors/[author]" as={`/authors/${author.id}`}>
                   <div className="d-flex justify-content-center">
                     <div
-                      className="circular-img d-none d-sm-block"
+                      className="circular-img d-none d-sm-block "
                       role="button"
                       style={{
                         width: "19rem",

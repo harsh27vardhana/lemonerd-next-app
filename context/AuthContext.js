@@ -16,7 +16,8 @@ export function AuthProvider({ children }) {
   async function login(email, password) {
     return await auth
       .signInWithEmailAndPassword(email, password)
-      .then(() => router.push("/admin"));
+      .then(() => router.push("/admin"))
+      .catch((error) => error);
   }
 
   function logout() {

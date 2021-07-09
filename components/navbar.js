@@ -26,7 +26,7 @@ function navbar() {
         <Navbar.Brand>
           <Link href="/">
             <Image
-              src="./icon.svg"
+              src="/icon.svg"
               fluid
               className={style.BrandIcon}
               role="button"
@@ -42,31 +42,64 @@ function navbar() {
           className="justify-content-between"
         >
           <Nav className="text-whitesmoke" navbarScroll>
-            <div className={style.routes} onClick={() => setExpanded(false)}>
-              <Link href="/"> HOME </Link>
-            </div>
-            <div className={style.routes} onClick={() => setExpanded(false)}>
-              <Link href="/team">TEAM </Link>
-            </div>
-            <div className={style.routes} onClick={() => setExpanded(false)}>
-              <Link href="/authors">AUTHORS </Link>
-            </div>
-            <div className={style.routes} onClick={() => setExpanded(false)}>
-              <Link href="/quicksplained">QUICKSPLAINED </Link>
-            </div>
+            <Link href="/" role="button">
+              <div
+                className={style.routes}
+                onClick={() => setExpanded(false)}
+                role="button"
+              >
+                HOME
+              </div>
+            </Link>
+
+            <Link href="/team" role="button">
+              <div
+                className={style.routes}
+                onClick={() => setExpanded(false)}
+                role="button"
+              >
+                TEAM{" "}
+              </div>
+            </Link>
+
+            <Link href="/authors" role="button">
+              <div
+                className={style.routes}
+                onClick={() => setExpanded(false)}
+                role="button"
+              >
+                AUTHORS{" "}
+              </div>
+            </Link>
+
+            <a href="/quicksplained" role="button" className="anchor">
+              <div
+                className={style.routes}
+                onClick={() => setExpanded(false)}
+                role="button"
+              >
+                QUICKSPLAINED{" "}
+              </div>
+            </a>
+
             <hr className="p-0 m-0 bg-white" />
             <span className={style.navbarDropdownCollapse}>
               {tags.map((tag) => (
-                <div
-                  className={`${style.routes} d-block d-lg-none`}
+                <Link
+                  href="/tags/[tag_name]"
+                  as={`/tags/${tag}`}
                   key={tag}
-                  onClick={() => setExpanded(false)}
+                  role="button"
                 >
-                  <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                  <div
+                    className={`${style.routes} d-block d-lg-none`}
+                    onClick={() => setExpanded(false)}
+                    role="button"
+                  >
                     {tag}
-                  </Link>
-                  <hr className="p-0 m-0 bg-white" />
-                </div>
+                    <hr className="p-0 m-0 bg-white" />
+                  </div>
+                </Link>
               ))}
             </span>
             <div className="pt-2 d-none d-lg-block">
@@ -95,9 +128,14 @@ function navbar() {
               </Dropdown>
             </div>
             {currentUser && (
-              <div className={style.routes} onClick={() => setExpanded(false)}>
-                <Link href="/admin">ADMIN </Link>
-              </div>
+              <Link href="/admin" role="button">
+                <div
+                  className={style.routes}
+                  onClick={() => setExpanded(false)}
+                >
+                  ADMIN
+                </div>
+              </Link>
             )}
           </Nav>
           <Nav>

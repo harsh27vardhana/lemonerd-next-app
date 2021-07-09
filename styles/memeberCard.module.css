@@ -5,6 +5,21 @@
   text-align: center;
 }
 
-.h85 {
-  height: 85%;
+.cardMedia {
+  height: 95%;
+  margin: 20px;
+  display: flex;
+}
+
+@media screen and (max-width: 992px) {
+  .cardMedia {
+    height: 100%;
+    margin: 0;
+  }
+}
+@media screen and (max-width: 768px) {
+  .cardMedia {
+    height: auto;
+    width: auto;
+  }
 }
