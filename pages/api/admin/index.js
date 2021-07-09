@@ -1,7 +1,5 @@
-import dbConnect from "../../database/dbconnect";
-import Post from "../../database/postSchema";
-const file = "./data/authors.json";
-import Data from "../../data/authors.json";
+import dbConnect from "../../../database/dbconnect";
+import Post from "../../../database/postSchema";
 
 dbConnect();
 
