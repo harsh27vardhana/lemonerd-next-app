@@ -392,8 +392,11 @@ export async function getServerSideProps(context) {
   const post = await res.json();
   const result = await fetch(url);
   const posts = await result.json();
+  const tagsUrl = `${server}/api/authors/${post_id}`;
+  const response=await fetch(tagsUrl);
+  const tags = await response.json();
   return {
-    props: { post, posts },
+    props: { post, posts,tags },
   };
 }
 
