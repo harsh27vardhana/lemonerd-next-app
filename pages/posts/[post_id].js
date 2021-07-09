@@ -1,5 +1,6 @@
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
+import Head from "next/head";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   TwitterIcon,
@@ -12,37 +13,34 @@ import {
   LinkedinIcon,
 } from "react-share";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCopy } from "@fortawesome/free-solid-svg-icons";
+import { faShareSquare } from "@fortawesome/free-solid-svg-icons";
 import { server } from "../../config/config";
 import Author from "../../data/authors.json";
-import Image from "react-bootstrap/Image";
+import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
 
 const authors = Author.authors;
 
-function Posts({ post }) {
+function Posts({ post, posts }) {
   const postAuthor = authors.find((item) => item.id === post.author);
   const [writerTags, setWriterTags] = useState([]);
-  async function getPosts() {
-    const res = await fetch("/api/posts", {
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      method: "GET",
-    });
-    const result = await res.json();
-    const data = result.data;
+  const [copied, setCopied] = useState(false);
+  const data = posts.data;
+
+  useEffect(async () => {
     const authorBlog = data.filter((item) => item.author === post.author);
     const authorTags = authorBlog.map((blog) => blog.tags);
     const allTags = [].concat.apply([], authorTags);
     const tags = [...new Set([...allTags])];
     setWriterTags(tags);
-  }
-
-  useEffect(async () => {
-    getPosts();
   }, []);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setCopied(false);
+    }, 10000);
+  }, [copied]);
+
   const getDate = () => {
     const month = [
       "January",
@@ -72,44 +70,36 @@ function Posts({ post }) {
   };
   return (
     <div className="my-5 pt-5">
-      <Container className=" bg-white">
-        <Row>
-          <Col md={3} sm={12} className="d-none d-md-block">
+      <Head>
+        <title>{post.title} | Lemonerd</title>
+        <meta name="description" content={post.caption} />
+        <meta name="keywords" content={post.tags} />
+        <script
+          async
+          src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
+        ></script>
+      </Head>
+      <Container className=" bg-white" fluid="xl">
+        <Row className="justify-content-center">
+          <Col md={2} sm={12} className="d-none d-md-block mt-5 pt-5">
             <div className="pt-5 mt-5">
-              <Row>
+              <Row className="mt-5 pt-5">
                 <Col lg={3} md={4}>
                   <Link
                     href="/authors/[author]"
                     as={`/authors/${postAuthor.id}`}
                   >
                     <div
+                      className="circular-img"
                       style={{
-                        width: "50px",
-                        height: "50px",
-                        borderRadius: "50%",
-                        position: "relative",
-                        overflow: "hidden",
+                        width: "40px",
+                        height: "40px",
+                        backgroundImage: `url(${postAuthor.image.replace(
+                          /%2F/gi,
+                          "/"
+                        )})`,
                       }}
-                    >
-                      <Image
-                        src={
-                          postAuthor.image
-                            ? postAuthor.image.replace(/%2F/gi, "/")
-                            : "/author/default.png"
-                        }
-                        style={{
-                          minWidth: "100%",
-                          minHeight: "100%",
-                          width: "auto",
-                          height: "auto",
-                          position: "absolute",
-                          left: "50%",
-                          top: "50%",
-                          transform: "translate(-50%, -50%)",
-                        }}
-                        role="button"
-                      />
-                    </div>
+                    />
                   </Link>
                 </Col>
                 <Col lg={9} md={8} className="d-flex align-self-end">
@@ -117,20 +107,23 @@ function Posts({ post }) {
                     href="/authors/[author]"
                     as={`/authors/${postAuthor.id}`}
                   >
-                    <h5 role="button">{postAuthor.name}</h5>
+                    <span role="button">{postAuthor.name}</span>
                   </Link>
                 </Col>
               </Row>
               <hr />
-              <div>{postAuthor.description}</div>
+              <small>
+                <em>{postAuthor.description}</em>
+              </small>
               <div>
+                <br />
                 <h6>Writer Tags</h6>
                 {writerTags.map((tag) => (
                   <span key={tag}>
                     <Button
                       variant="outline-info"
                       size="sm"
-                      className="px-1 py-0"
+                      className="px-1 py-0 tags"
                     >
                       <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
                         {tag}
@@ -148,30 +141,60 @@ function Posts({ post }) {
                 <div className="justify-content-between d-none d-md-flex">
                   <footer className="blockquote-footer">{getDate()}</footer>
                   <span>
+                    {copied && (
+                      <Alert
+                        transition
+                        variant="success"
+                        className="py-0 px-1 d-inline text-center"
+                      >
+                        Copied!
+                      </Alert>
+                    )}{" "}
                     <CopyToClipboard
-                      text={"https://lemonerd.in/posts/" + post._id}
+                      onCopy={() => setCopied(true)}
+                      text={`https://lemonerd.in/posts/${post._id}`}
                     >
-                      <FontAwesomeIcon icon={faCopy} size="lg" role="button" />
+                      <FontAwesomeIcon icon={faShareSquare} role="button" />
                     </CopyToClipboard>{" "}
                     <WhatsappShareButton
                       url={`https://lemonerd.in/posts/${post._id}`}
                     >
-                      <WhatsappIcon size={26} round />
-                    </WhatsappShareButton>{" "}
+                      <WhatsappIcon
+                        size={26}
+                        round
+                        iconFillColor="black"
+                        bgStyle={{ fill: "white" }}
+                      />
+                    </WhatsappShareButton>
                     <FacebookShareButton
                       url={`https://lemonerd.in/posts/${post._id}`}
                     >
-                      <FacebookIcon size={26} round />
-                    </FacebookShareButton>{" "}
+                      <FacebookIcon
+                        size={26}
+                        round
+                        iconFillColor="black"
+                        bgStyle={{ fill: "white" }}
+                      />
+                    </FacebookShareButton>
                     <TwitterShareButton
                       url={`https://lemonerd.in/posts/${post._id}`}
                     >
-                      <TwitterIcon size={26} round />
-                    </TwitterShareButton>{" "}
+                      <TwitterIcon
+                        size={26}
+                        round
+                        iconFillColor="black"
+                        bgStyle={{ fill: "white" }}
+                      />
+                    </TwitterShareButton>
                     <LinkedinShareButton
                       url={`https://lemonerd.in/posts/${post._id}`}
                     >
-                      <LinkedinIcon size={26} round />
+                      <LinkedinIcon
+                        size={26}
+                        round
+                        iconFillColor="black"
+                        bgStyle={{ fill: "white" }}
+                      />
                     </LinkedinShareButton>
                   </span>
                 </div>
@@ -184,33 +207,16 @@ function Posts({ post }) {
                         as={`/authors/${postAuthor.id}`}
                       >
                         <div
+                          className="circular-img"
                           style={{
                             width: "50px",
                             height: "50px",
-                            borderRadius: "50%",
-                            position: "relative",
-                            overflow: "hidden",
+                            backgroundImage: `url(${postAuthor.image.replace(
+                              /%2F/gi,
+                              "/"
+                            )})`,
                           }}
-                        >
-                          <Image
-                            src={
-                              postAuthor.image
-                                ? postAuthor.image.replace(/%2F/gi, "/")
-                                : "/author/default.png"
-                            }
-                            style={{
-                              minWidth: "100%",
-                              minHeight: "100%",
-                              width: "auto",
-                              height: "auto",
-                              position: "absolute",
-                              left: "50%",
-                              top: "50%",
-                              transform: "translate(-50%, -50%)",
-                            }}
-                            role="button"
-                          />
-                        </div>
+                        />
                       </Link>
                     </Col>
                     <Col xs={10}>
@@ -225,34 +231,63 @@ function Posts({ post }) {
                           {getDate()}
                         </footer>
                         <span>
+                          {copied && (
+                            <Alert
+                              transition
+                              variant="success"
+                              className="py-0 px-1 d-inline text-center"
+                            >
+                              Copied!
+                            </Alert>
+                          )}{" "}
                           <CopyToClipboard
+                            onCopy={() => setCopied(true)}
                             text={"https://lemonerd.in/posts/" + post._id}
                           >
                             <FontAwesomeIcon
-                              icon={faCopy}
-                              size="lg"
+                              icon={faShareSquare}
                               role="button"
                             />
                           </CopyToClipboard>{" "}
                           <WhatsappShareButton
                             url={`https://lemonerd.in/posts/${post._id}`}
                           >
-                            <WhatsappIcon size={26} round />
-                          </WhatsappShareButton>{" "}
+                            <WhatsappIcon
+                              size={26}
+                              round
+                              iconFillColor="black"
+                              bgStyle={{ fill: "white" }}
+                            />
+                          </WhatsappShareButton>
                           <FacebookShareButton
                             url={`https://lemonerd.in/posts/${post._id}`}
                           >
-                            <FacebookIcon size={26} round />
-                          </FacebookShareButton>{" "}
+                            <FacebookIcon
+                              size={26}
+                              round
+                              iconFillColor="black"
+                              bgStyle={{ fill: "white" }}
+                            />
+                          </FacebookShareButton>
                           <TwitterShareButton
                             url={`https://lemonerd.in/posts/${post._id}`}
                           >
-                            <TwitterIcon size={26} round />
-                          </TwitterShareButton>{" "}
+                            <TwitterIcon
+                              size={26}
+                              round
+                              iconFillColor="black"
+                              bgStyle={{ fill: "white" }}
+                            />
+                          </TwitterShareButton>
                           <LinkedinShareButton
                             url={`https://lemonerd.in/posts/${post._id}`}
                           >
-                            <LinkedinIcon size={26} round />
+                            <LinkedinIcon
+                              size={26}
+                              round
+                              iconFillColor="black"
+                              bgStyle={{ fill: "white" }}
+                            />
                           </LinkedinShareButton>
                         </span>
                       </div>
@@ -276,7 +311,7 @@ function Posts({ post }) {
             Related Tags:{" "}
             {post.tags.map((tag) => (
               <span key={tag}>
-                <Button variant="outline-info" size="sm">
+                <Button variant="outline-info" className="tags" size="sm">
                   <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
                     {tag}
                   </Link>
@@ -303,11 +338,13 @@ function Posts({ post }) {
 
 export async function getServerSideProps(context) {
   const { post_id } = context.query;
-  const url = server + "/api/posts/" + post_id;
-  const res = await fetch(url);
+  const url = `${server}/api/posts/`;
+  const res = await fetch(url + post_id);
   const post = await res.json();
+  const result = await fetch(url);
+  const posts = await result.json();
   return {
-    props: { post },
+    props: { post, posts },
   };
 }
 

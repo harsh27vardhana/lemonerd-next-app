@@ -1,5 +1,3 @@
-@import url("https://fonts.googleapis.com/css2?family=Monoton&display=swap");
-
 @font-face {
   font-family: san-francisco-pro;
   src: url("/FontsFree-Net-SFProDisplay-Regular.ttf");
@@ -12,6 +10,7 @@
 html {
   margin: 0px;
   padding: 0;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -24,8 +23,16 @@ img {
   height: auto;
 }
 
-.monotone {
-  font-family: "Monoton";
+.text-yellow {
+  color: #f3ec07;
+}
+.outline-yellow {
+  color: #f3ec07;
+  border-color: #f3ec07;
+}
+.outline-yellow:hover {
+  background-color: #f3ec07;
+  border-color: #f3ec07;
 }
 
 .mainJumbotron {
@@ -72,6 +79,10 @@ img {
   background: transparent !important;
 }
 
+#gsc-i-id1::placeholder {
+  color: whitesmoke;
+}
+
 td input {
   background-color: transparent !important;
   color: whitesmoke !important;
@@ -101,4 +112,61 @@ td input {
 
 .qsp-btn-xs {
   font-size: xx-small;
+}
+
+.tags {
+  border-color: #0d3b66;
+  color: #0d3b66;
+}
+
+.tags:hover {
+  background-color: #0d3b66;
+  border-color: #0d3b66;
+  color: white;
+}
+.tags:hover a {
+  color: white;
+}
+
+.tags a {
+  color: #0d3b66;
+}
+
+.tags a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.vl {
+  border-left: 1px solid black;
+  height: 75%;
+}
+
+.circular-img {
+  background-size: cover;
+  background-position: center;
+  border-radius: 50% 50% 50% 50%;
+}
+
+.author-anchor a {
+  color: #0d3b66;
+}
+
+.author-anchor a:hover {
+  text-decoration: none;
+}
+
+.gradient-text {
+  background-color: #f3ec78;
+  background-image: url("/background.svg");
+  background-size: 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -moz-text-fill-color: transparent;
+}
+
+.hideOverflowX {
+  overflow-x: "hidden";
 }

@@ -1,4 +1,5 @@
 import { Card, Button, Col, Row } from "react-bootstrap";
+import style from "../styles/articleCard.module.css";
 import Link from "next/link";
 import Author from "../data/authors.json";
 
@@ -33,8 +34,7 @@ function ArticleCard(props) {
     return date;
   };
   return (
-    <Card className="p-md-3" border="white">
-      <hr />
+    <Card className={`p-md-3 ${style.articleCard}`} border="white">
       <Row>
         <Col xs={12} md={4}>
           <Card.Img
@@ -44,7 +44,7 @@ function ArticleCard(props) {
                 ? props.thumbnail.replace(/%2F/gi, "/")
                 : "/thumbnail/default.png"
             }
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            className={style.cardImage}
           />
         </Col>
         <Col xs={12} md={8}>
@@ -55,7 +55,7 @@ function ArticleCard(props) {
               <footer className="blockquote-footer">
                 <small className="text-muted">
                   Written by{" "}
-                  <cite title="Source Title">
+                  <cite title="Source Title" className="author-anchor">
                     <Link
                       href="/authors/[author]"
                       as={`/authors/${props.author}`}
@@ -81,7 +81,7 @@ function ArticleCard(props) {
         <small className="text-muted">
           {props.tags.map((item) => (
             <span key={item}>
-              <Button variant="outline-info" size="sm">
+              <Button variant="outline-info" className="tags" size="sm">
                 <Link href="/tags/[tag_name]" as={`/tags/${item}`}>
                   {item}
                 </Link>
@@ -90,7 +90,6 @@ function ArticleCard(props) {
           ))}
         </small>
       </div>
-      <hr />
     </Card>
   );
 }

@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
 import ArticleCard from "../../components/articleCard";
@@ -14,38 +15,29 @@ function Authors({ posts, author }) {
   const tags = [...new Set([...allTags])];
   return (
     <Container className="mt-5 py-5 bg-white">
+      <Head>
+        <title>{currentAuthor.name} | Lemonerd</title>
+        <script
+          async
+          src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
+        ></script>
+      </Head>
       <Card border="white">
         <Card.Body>
           <Row>
             <Col lg={3} md={4} sm={12} className="my-auto">
               <div className="d-flex justify-content-center">
                 <div
+                  className="circular-img"
                   style={{
                     width: "200px",
                     height: "200px",
-                    borderRadius: "50%",
-                    position: "relative",
-                    overflow: "hidden",
+                    backgroundImage: `url(${currentAuthor.image.replace(
+                      /%2F/gi,
+                      "/"
+                    )})`,
                   }}
-                >
-                  <Image
-                    src={
-                      currentAuthor
-                        ? currentAuthor.image.replace(/%2F/gi, "/")
-                        : "/author/default.png"
-                    }
-                    style={{
-                      minWidth: "100%",
-                      minHeight: "100%",
-                      width: "auto",
-                      height: "auto",
-                      position: "absolute",
-                      left: "50%",
-                      top: "50%",
-                      transform: "translate(-50%, -50%)",
-                    }}
-                  />
-                </div>
+                />
               </div>
             </Col>
             <Col lg={9} md={8} sm={12}>
@@ -53,6 +45,24 @@ function Authors({ posts, author }) {
               <hr />
               <Card.Text>
                 {currentAuthor ? currentAuthor.description : null}
+                <br />
+                <br />
+                <span>
+                  <strong className="h5">Related Tags: </strong>
+                  {tags.map((tag) => (
+                    <span key={tag}>
+                      <Button
+                        variant="outline-info"
+                        size="sm"
+                        className="px-1 py-0 tags"
+                      >
+                        <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                          {tag}
+                        </Link>
+                      </Button>{" "}
+                    </span>
+                  ))}
+                </span>
               </Card.Text>
             </Col>
           </Row>
@@ -68,7 +78,11 @@ function Authors({ posts, author }) {
           Related Tags:{" "}
           {tags.map((tag) => (
             <span key={tag}>
-              <Button variant="outline-info" size="sm" className="px-1 py-0">
+              <Button
+                variant="outline-info"
+                size="sm"
+                className="px-1 py-0 tags"
+              >
                 <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
                   {tag}
                 </Link>

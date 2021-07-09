@@ -1,5 +1,4 @@
 .copyright {
-  /* background: #102941; */
   padding: 1rem;
 }
 
@@ -14,6 +13,9 @@
 
 .footerNav a {
   color: aliceblue !important;
+  display: block;
+  padding: 5px;
+  margin: 10px;
 }
 .footerNav a:hover {
   text-decoration: none;
@@ -22,11 +24,14 @@
 }
 
 .footerMain {
-  /* background-color: #0d3b66; */
   background-image: url("/background.svg");
   background-repeat: no-repeat;
   background-size: cover;
   color: whitesmoke;
+}
+
+.brandIcon {
+  width: 180px;
 }
 
 .icons {

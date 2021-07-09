@@ -1,3 +1,4 @@
+import Head from "next/head";
 import Form from "../components/postform";
 import AuthorForm from "../components/authorForm";
 import ArticleCard from "../components/articleCard";
@@ -113,6 +114,13 @@ function admin({ posts }) {
 
   return (
     <div className="pt-5">
+      <Head>
+        <title>Admin | Lemonerd</title>
+        <script
+          async
+          src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
+        ></script>
+      </Head>
       <Modal
         show={confirmation}
         onHide={() => setConfirmation(false)}
