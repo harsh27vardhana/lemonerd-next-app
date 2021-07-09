@@ -1,5 +1,7 @@
 import dbConnect from "../../database/dbconnect";
 import Post from "../../database/postSchema";
+const file = "./data/authors.json";
+import Data from "../../data/authors.json";
 
 dbConnect();
 
@@ -19,9 +21,6 @@ export default async (req, res) => {
         case "POST":
             try {
                 const post = await Post.create(req.body);
-                // console.log(req.body.hidden);
-                // console.log(post);
-
                 res.status(201).json({ success: true, data: post });
             } catch (error) {
                 res.status(400).json({ success: false });
