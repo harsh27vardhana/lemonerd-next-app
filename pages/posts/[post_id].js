@@ -18,21 +18,25 @@ import { server } from "../../config/config";
 import Author from "../../data/authors.json";
 import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
+import ArticleCard from "../../components/articleCard";
 
 const authors = Author.authors;
 
 function Posts({ post, posts }) {
   const postAuthor = authors.find((item) => item.id === post.author);
   const [writerTags, setWriterTags] = useState([]);
+  const [tagBlogs, setTagBlogs] = useState([]);
   const [copied, setCopied] = useState(false);
   const data = posts.data;
 
   useEffect(async () => {
+    const blogsTag = data.filter((item) => item.tags.includes(post.tags[0]));
     const authorBlog = data.filter((item) => item.author === post.author);
     const authorTags = authorBlog.map((blog) => blog.tags);
     const allTags = [].concat.apply([], authorTags);
     const tags = [...new Set([...allTags])];
     setWriterTags(tags);
+    setTagBlogs(blogsTag);
   }, []);
 
   useEffect(() => {
@@ -331,6 +335,40 @@ function Posts({ post, posts }) {
             <span className="h4 font-weight-bold"> info@lemonerd.in</span>
           </p>
         </div>
+      </Container>
+      <br />
+      <Container>
+        <h1 className="px-2 py-4 anchor-link">
+          Related to{" "}
+          <Link
+            href="/tags/[tag_name]"
+            as={`/tags/${post.tags[0]}`}
+            role="button"
+          >
+            {post.tags[0]}
+          </Link>
+          :{" "}
+        </h1>
+        <Row>
+          {tagBlogs.map((item, index) =>
+            index < 5 ? (
+              <Col key={item._id} xs={12} className="align-items-stretch h-100">
+                <ArticleCard {...item} className="h-100" />
+              </Col>
+            ) : null
+          )}
+        </Row>
+        <br />
+        <h1 className="px-2 py-4">Recent Articles:</h1>
+        <Row>
+          {data.map((item, index) =>
+            index < 5 ? (
+              <Col key={item._id} xs={12} className="align-items-stretch h-100">
+                <ArticleCard {...item} className="h-100" />
+              </Col>
+            ) : null
+          )}
+        </Row>
       </Container>
     </div>
   );

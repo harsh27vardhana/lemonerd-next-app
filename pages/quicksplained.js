@@ -23,7 +23,7 @@ export default function quicksplained() {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
-      <div className="hideOverflowX">
+      <div style={{ overflowX: "hidden" }}>
         <Jumbotron fluid className="mainJumbotron mb-0 my-xs-5 pt-xs-5">
           <Row style={{ paddingTop: "5vw" }}>
             <Col xs={6}>

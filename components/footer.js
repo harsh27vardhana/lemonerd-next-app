@@ -21,7 +21,7 @@ function footer() {
           <Col md={2} sm={6} xs={5} className="pb-4 d-none d-md-block">
             <Link href="/">
               <Image
-                src="./icon.svg"
+                src="/icon.svg"
                 fluid
                 className={styles.brandIcon}
                 role="button"
@@ -41,7 +41,7 @@ function footer() {
                   <Link href="/authors">AUTHORS</Link>
                 </div>
                 <div className={styles.footerNav}>
-                  <Link href="/quicksplained">QUICKSPLAINED</Link>
+                  <a href="/quicksplained">QUICKSPLAINED</a>
                 </div>
                 <div className={styles.footerNav}>
                   {currentUser && (

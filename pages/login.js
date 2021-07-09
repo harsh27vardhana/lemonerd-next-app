@@ -32,8 +32,10 @@ function Login() {
     try {
       setError("");
       setLoading(true);
-      login(emailRef.current.value, passwordRef.current.value);
+      const res = login(emailRef.current.value, passwordRef.current.value);
+      res.then((r) => setError(r.message));
     } catch (error) {
+      console.log("failed");
       console.log(error);
       setError("Failed to signin");
     }

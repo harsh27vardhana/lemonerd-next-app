@@ -26,7 +26,7 @@ export default function Home({ posts }) {
       </Head>
 
       <Jumbotron fluid className="mainJumbotron mb-0">
-        <h1 className="display-1  text-center font-weight-bold text-yellow jumbotronHead pt-5">
+        <h1 className="display-1 text-center font-weight-bold text-yellow jumbotronHead pt-5">
           <span className="text-white">Lemo</span>nerd
         </h1>
         <h2 className="jumbotronSubhead text-center text-white">
@@ -60,15 +60,15 @@ export default function Home({ posts }) {
           <Col sm={1} xs={1} className="justify-content-center d-flex">
             <div className="vl" />
           </Col>
-          <Link href="/quicksplained">
-            <Col role="button" xs={3} className="justify-content-center d-flex">
+          <Col role="button" xs={3} className="justify-content-center d-flex">
+            <a href="/quicksplained" className="anchor" role="button">
               <div className="text-center">
                 <Image src="/assets/stats1.png" className="h-50 w-50" />
                 <p className="d-none d-sm-block">INFOGRAPHICS</p>
                 <small className="d-block d-sm-none">INFOGRAPHICS</small>
               </div>
-            </Col>
-          </Link>
+            </a>
+          </Col>
           <Col sm={1} xs={1} className="justify-content-center d-flex">
             <div className="vl" />
           </Col>
