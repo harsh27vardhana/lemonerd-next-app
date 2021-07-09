@@ -84,22 +84,24 @@ export default function Home({ posts }) {
         </Row>
         <Row className="pl-md-3 pr-md-0" ref={blogsRef}>
           <Col lg={2} className="pt-5 d-none d-lg-block">
-            <h6>Trending on Lemonerd</h6>
-            <p>
-              {tags.map((tag) => (
-                <span key={tag}>
-                  <Button
-                    variant="outline-info"
-                    size="md"
-                    className="px-1 py-0 m-1 tags"
-                  >
-                    <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
-                      {tag}
-                    </Link>
-                  </Button>{" "}
-                </span>
-              ))}
-            </p>
+            <div className="sticky-top" style={{ top: "6rem" }}>
+              <h6>Trending on Lemonerd</h6>
+              <p>
+                {tags.map((tag) => (
+                  <span key={tag}>
+                    <Button
+                      variant="outline-info"
+                      size="md"
+                      className="px-1 py-0 m-1 tags"
+                    >
+                      <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                        {tag}
+                      </Link>
+                    </Button>{" "}
+                  </span>
+                ))}
+              </p>
+            </div>
           </Col>
           <Col lg={10}>
             {data.map((element) => (
