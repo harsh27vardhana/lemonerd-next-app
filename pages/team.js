@@ -5,7 +5,7 @@ import { Row, Container } from "react-bootstrap";
 const data = Data.members;
 function team() {
   return (
-    <div className="hideOverflowX">
+    <div className="hideOverflowX my-5 pt-5">
       <Head>
         <title>Team | Lemonerd</title>
         <script
@@ -13,7 +13,7 @@ function team() {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
-      <h1 className="text-center py-5 mt-5 monotone display-4 font-weight-bold gradient-text">
+      <h1 className="text-center py-5 display-3 font-weight-bold gradient-text">
         Our Team
       </h1>
       <Container>

@@ -26,7 +26,7 @@ function Authors({ posts }) {
         ></script>
       </Head>
       <Container>
-        <h1 className="font-weight-bold text-center py-5 display-4 gradient-text">
+        <h1 className="font-weight-bold text-center py-5 display-3 gradient-text">
           Authors
         </h1>
         <Row className="justify-content-center">
@@ -34,10 +34,10 @@ function Authors({ posts }) {
             <Col
               key={author.id}
               lg={6}
-              className="d-flex align-items-strech h-auto"
+              className="d-flex align-items-strech h-auto w-auto"
             >
               <Card
-                className="px-3 py-5 m-3"
+                className="px-3 py-5 m-3 w-auto"
                 border="white"
                 style={{
                   boxShadow:
@@ -53,10 +53,10 @@ function Authors({ posts }) {
                       style={{
                         width: "19rem",
                         height: "19rem",
-                        backgroundImage: `url(${author.image.replace(
+                        backgroundImage: `url("${author.image.replace(
                           /%2F/gi,
                           "/"
-                        )})`,
+                        )}")`,
                       }}
                     />
                     <div
@@ -65,17 +65,20 @@ function Authors({ posts }) {
                       style={{
                         width: "15rem",
                         height: "15rem",
-                        backgroundImage: `url(${author.image.replace(
+                        backgroundImage: `url("${author.image.replace(
                           /%2F/gi,
                           "/"
-                        )})`,
+                        )}")`,
                       }}
                     />
                   </div>
                 </Link>
                 <Card.Body className="p-md-3">
                   <Link href="/authors/[author]" as={`/authors/${author.id}`}>
-                    <Card.Title role="button" style={{ fontSize: "3rem" }}>
+                    <Card.Title
+                      role="button"
+                      style={{ fontSize: "2rem", textAlign: "center" }}
+                    >
                       {author.name}
                     </Card.Title>
                   </Link>

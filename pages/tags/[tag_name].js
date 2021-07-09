@@ -14,7 +14,9 @@ function Tags({ posts, tag }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
-      <h1 className="pt-5 text-center font-weight-bold gradient-text">{tag}</h1>
+      <h1 className="py-5 text-center font-weight-bold display-3 gradient-text">
+        {tag}
+      </h1>
       {data.map((item) =>
         item.tags.includes(tag) ? (
           <div className="p-3" key={item._id}>

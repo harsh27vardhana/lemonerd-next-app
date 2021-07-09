@@ -1,4 +1,5 @@
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
+import Carousel from "react-bootstrap/Carousel";
 import Link from "next/link";
 import Head from "next/head";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -18,26 +19,13 @@ import { server } from "../../config/config";
 import Author from "../../data/authors.json";
 import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
-import ArticleCard from "../../components/articleCard";
+import RelatedArticle from "../../components/relatedArticle";
 
 const authors = Author.authors;
 
-function Posts({ post, posts }) {
+function Posts({ post, recentposts, relatedposts, tags }) {
   const postAuthor = authors.find((item) => item.id === post.author);
-  const [writerTags, setWriterTags] = useState([]);
-  const [tagBlogs, setTagBlogs] = useState([]);
   const [copied, setCopied] = useState(false);
-  const data = posts.data;
-
-  useEffect(async () => {
-    const blogsTag = data.filter((item) => item.tags.includes(post.tags[0]));
-    const authorBlog = data.filter((item) => item.author === post.author);
-    const authorTags = authorBlog.map((blog) => blog.tags);
-    const allTags = [].concat.apply([], authorTags);
-    const tags = [...new Set([...allTags])];
-    setWriterTags(tags);
-    setTagBlogs(blogsTag);
-  }, []);
 
   useEffect(() => {
     setTimeout(() => {
@@ -122,7 +110,7 @@ function Posts({ post, posts }) {
               <div>
                 <br />
                 <h6>Writer Tags</h6>
-                {writerTags.map((tag) => (
+                {tags.map((tag) => (
                   <span key={tag}>
                     <Button
                       variant="outline-info"
@@ -338,36 +326,43 @@ function Posts({ post, posts }) {
       </Container>
       <br />
       <Container>
-        <h1 className="px-2 py-4 anchor-link">
-          Related to{" "}
-          <Link
-            href="/tags/[tag_name]"
-            as={`/tags/${post.tags[0]}`}
-            role="button"
-          >
-            {post.tags[0]}
-          </Link>
-          :{" "}
-        </h1>
         <Row>
-          {tagBlogs.map((item, index) =>
-            index < 5 ? (
-              <Col key={item._id} xs={12} className="align-items-stretch h-100">
-                <ArticleCard {...item} className="h-100" />
-              </Col>
-            ) : null
-          )}
-        </Row>
-        <br />
-        <h1 className="px-2 py-4">Recent Articles:</h1>
-        <Row>
-          {data.map((item, index) =>
-            index < 5 ? (
-              <Col key={item._id} xs={12} className="align-items-stretch h-100">
-                <ArticleCard {...item} className="h-100" />
-              </Col>
-            ) : null
-          )}
+          <Col xs={12} md={6}>
+            <h1 className="px-2 py-4 anchor-link">
+              Related to{" "}
+              <Link
+                href="/tags/[tag_name]"
+                as={`/tags/${post.tags[0]}`}
+                role="button"
+              >
+                {post.tags[0]}
+              </Link>
+              :{" "}
+            </h1>
+            <Carousel>
+              {relatedposts.map((item) => (
+                <Carousel.Item key={item._id} interval={3000}>
+                  <RelatedArticle
+                    {...item}
+                    className="d-flex align-items-stretch h-100"
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </Col>
+          <Col xs={12} md={6}>
+            <h1 className="px-2 py-4">Recent Articles:</h1>
+            <Carousel>
+              {recentposts.map((item) => (
+                <Carousel.Item key={item._id} interval={3000}>
+                  <RelatedArticle
+                    {...item}
+                    className="d-flex align-items-stretch h-100"
+                  />
+                </Carousel.Item>
+              ))}
+            </Carousel>
+          </Col>
         </Row>
       </Container>
     </div>
@@ -379,16 +374,15 @@ export async function getServerSideProps(context) {
   const url = `${server}/api/posts/`;
   const res = await fetch(url + post_id);
   const post = await res.json();
-  const recentpostsurl= url+'recentposts/'+post_id;
-  const recentposts=await (await fetch(recentpostsurl)).json();
-  const relatedpostsurl = url + 'relatedposts/' + post_id;
+  const recentpostsurl = url + "recentposts/" + post_id;
+  const recentposts = await (await fetch(recentpostsurl)).json();
+  const relatedpostsurl = url + "relatedposts/" + post_id;
   const relatedposts = await (await fetch(relatedpostsurl)).json();
-
-  const tagsUrl = `${server}/api/authors/${post_id}`;
+  const tagsUrl = `${server}/api/authors/${post.author}`;
   const response = await fetch(tagsUrl);
   const tags = await response.json();
   return {
-    props: { post, recentposts,relatedposts, tags },
+    props: { post, recentposts, relatedposts, tags },
   };
 }
 
