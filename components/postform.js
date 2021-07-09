@@ -90,7 +90,7 @@ function postform(props) {
   }
 
   async function getPostToUpdate() {
-    const res = await fetch(`/api/posts/${props.id}`, {
+    const res = await fetch(`/api/admin/${props.id}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -198,7 +198,7 @@ function postform(props) {
     // console.log(input);
     // console.log(valid);
     if (props.update && valid) {
-      const res = await fetch(`/api/posts/${props.id}`, {
+      const res = await fetch(`/api/admin/${props.id}`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
