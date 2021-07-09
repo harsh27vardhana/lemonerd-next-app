@@ -15,7 +15,7 @@ export default async function handler(req, res) {
         case "GET":
             try {
 
-                var maxlimit=5;
+                var maxlimit=10;
                 const size=tags.length
                 var ans=[];
 
