@@ -19,6 +19,7 @@ import Author from "../../data/authors.json";
 import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
 import ArticleCard from "../../components/articleCard";
+import RelatedArticle from "../../components/relatedArticle";
 
 const authors = Author.authors;
 
@@ -352,8 +353,13 @@ function Posts({ post, posts }) {
         <Row>
           {tagBlogs.map((item, index) =>
             index < 5 ? (
-              <Col key={item._id} xs={12} className="align-items-stretch h-100">
-                <ArticleCard {...item} className="h-100" />
+              <Col
+                key={item._id}
+                md={6}
+                xs={12}
+                className="align-items-stretch h-100"
+              >
+                <RelatedArticle {...item} className="h-100" />
               </Col>
             ) : null
           )}
@@ -363,7 +369,12 @@ function Posts({ post, posts }) {
         <Row>
           {data.map((item, index) =>
             index < 5 ? (
-              <Col key={item._id} xs={12} className="align-items-stretch h-100">
+              <Col
+                key={item._id}
+                md={6}
+                xs={12}
+                className="align-items-stretch h-100"
+              >
                 <ArticleCard {...item} className="h-100" />
               </Col>
             ) : null
