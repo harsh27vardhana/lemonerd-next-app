@@ -18,12 +18,11 @@ import { server } from "../../config/config";
 import Author from "../../data/authors.json";
 import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
-import ArticleCard from "../../components/articleCard";
 import RelatedArticle from "../../components/relatedArticle";
 
 const authors = Author.authors;
 
-function Posts({ post, posts }) {
+function Posts({ post, posts, tags }) {
   const postAuthor = authors.find((item) => item.id === post.author);
   const [writerTags, setWriterTags] = useState([]);
   const [tagBlogs, setTagBlogs] = useState([]);
@@ -123,7 +122,7 @@ function Posts({ post, posts }) {
               <div>
                 <br />
                 <h6>Writer Tags</h6>
-                {writerTags.map((tag) => (
+                {tags.map((tag) => (
                   <span key={tag}>
                     <Button
                       variant="outline-info"
@@ -353,12 +352,7 @@ function Posts({ post, posts }) {
         <Row>
           {tagBlogs.map((item, index) =>
             index < 5 ? (
-              <Col
-                key={item._id}
-                md={6}
-                xs={12}
-                className="align-items-stretch h-100"
-              >
+              <Col key={item._id} lg={6} xs={12} className="p-3">
                 <RelatedArticle {...item} className="h-100" />
               </Col>
             ) : null
@@ -369,13 +363,8 @@ function Posts({ post, posts }) {
         <Row>
           {data.map((item, index) =>
             index < 5 ? (
-              <Col
-                key={item._id}
-                md={6}
-                xs={12}
-                className="align-items-stretch h-100"
-              >
-                <ArticleCard {...item} className="h-100" />
+              <Col key={item._id} lg={6} xs={12} className="p-3">
+                <RelatedArticle {...item} className="h-100" />
               </Col>
             ) : null
           )}
@@ -392,11 +381,11 @@ export async function getServerSideProps(context) {
   const post = await res.json();
   const result = await fetch(url);
   const posts = await result.json();
-  const tagsUrl = `${server}/api/authors/${post_id}`;
-  const response=await fetch(tagsUrl);
+  const tagsUrl = `${server}/api/authors/${post.author}`;
+  const response = await fetch(tagsUrl);
   const tags = await response.json();
   return {
-    props: { post, posts,tags },
+    props: { post, posts, tags },
   };
 }
 

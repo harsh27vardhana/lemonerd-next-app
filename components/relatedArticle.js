@@ -33,50 +33,42 @@ function RelatedArticle(props) {
       props.date[3];
     return date;
   };
+
   return (
-    <Card className="my-2">
-      <div className="d-flex align-items-stretch h-50">
-        <Row>
-          <Col xs={12}>
-            <Card.Img
-              variant="top"
-              src={
-                props.thumbnail
-                  ? props.thumbnail.replace(/%2F/gi, "/")
-                  : "/thumbnail/default.png"
-              }
-              className={style.cardImage}
-            />
-          </Col>
-          <Col xs={12}>
-            <Card.Body>
-              <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
-                <Card.Title role="button">{props.title}</Card.Title>
-              </Link>
-              <Card.Text>
-                <small className="text-muted">Posted {getDate()}</small>
-              </Card.Text>
-            </Card.Body>
-            <blockquote className="blockquote my-0 card-body">
-              <footer className="blockquote-footer">
-                <small className="text-muted">
-                  Written by{" "}
-                  <cite title="Source Title" className="author-anchor">
-                    <Link
-                      href="/authors/[author]"
-                      as={`/authors/${props.author}`}
-                    >
-                      {authors.find((item) => item.id === props.author)
-                        ? authors.find((item) => item.id === props.author).name
-                        : null}
-                    </Link>
-                  </cite>
-                </small>
-              </footer>
-            </blockquote>
-          </Col>
-        </Row>
-      </div>
+    <Card className="d-flex align-items-stretch m-2" style={{ height: "100%" }}>
+      <div
+        style={{
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundImage: `url("${props.thumbnail.replace(/%2F/gi, "/")}")`,
+          height: "35rem",
+          width: "100%",
+        }}
+      />
+      <Card.Body>
+        <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
+          <Card.Title className="font-weight-bold" role="button">
+            {props.title}
+          </Card.Title>
+        </Link>
+        <Card.Text>
+          <small className="text-muted">Posted {getDate()}</small>
+        </Card.Text>
+        <blockquote className="blockquote my-0 card-body">
+          <footer className="blockquote-footer my=0">
+            <small className="text-muted">
+              Written by{" "}
+              <cite title="Source Title" className="author-anchor">
+                <Link href="/authors/[author]" as={`/authors/${props.author}`}>
+                  {authors.find((item) => item.id === props.author)
+                    ? authors.find((item) => item.id === props.author).name
+                    : null}
+                </Link>
+              </cite>
+            </small>
+          </footer>
+        </blockquote>
+      </Card.Body>
     </Card>
   );
 }

@@ -53,10 +53,10 @@ function Authors({ posts }) {
                       style={{
                         width: "19rem",
                         height: "19rem",
-                        backgroundImage: `url(${author.image.replace(
+                        backgroundImage: `url("${author.image.replace(
                           /%2F/gi,
                           "/"
-                        )})`,
+                        )}")`,
                       }}
                     />
                     <div
@@ -65,10 +65,10 @@ function Authors({ posts }) {
                       style={{
                         width: "15rem",
                         height: "15rem",
-                        backgroundImage: `url(${author.image.replace(
+                        backgroundImage: `url"(${author.image.replace(
                           /%2F/gi,
                           "/"
-                        )})`,
+                        )}")`,
                       }}
                     />
                   </div>
