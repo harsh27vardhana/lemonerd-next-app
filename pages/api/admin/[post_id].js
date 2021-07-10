@@ -1,4 +1,4 @@
-import dbConnect from "../../../database/dbconnectadmin";
+import dbConnect from "../../../database/dbconnect";
 import Post from "../../../database/postSchema";
 
 dbConnect();

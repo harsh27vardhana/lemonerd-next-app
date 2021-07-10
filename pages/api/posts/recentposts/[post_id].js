@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     switch (method) {
         case "GET":
             try {
-                const post = await Post.find({ '_id':{ $ne: post_id},hidden: "false" }).sort({ date: -1 }).limit(5)
+                const post = await Post.find({ '_id':{ $ne: post_id},hidden: "false" }).sort({ date: -1 }).limit(10)
                 res.send(post)
             } catch (err) {
                 res.status(404);

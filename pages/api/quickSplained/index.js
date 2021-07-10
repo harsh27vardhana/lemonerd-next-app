@@ -4,7 +4,7 @@ const fs = require("fs");
 
 export default async (req, res) => {
   try {
-    Data.feed.push(req.body);
+    Data.feed.unshift(req.body);
     fs.writeFile(file, JSON.stringify(Data, null, 2), (e) => {});
     res.send({ success: true });
   } catch (err) {
