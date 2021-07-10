@@ -75,9 +75,9 @@ export default function Home({ posts }) {
             onClick={executeScroll}
           >
             <div className="text-center">
-              <Image src="/assets/blogs1.png" className="h-50 w-50" />
-              <p className="d-none d-sm-block">BLOGS</p>
-              <small className="d-block d-sm-none">BLOGS</small>
+              <Image src="/assets/blogs.png" className="h-50 w-auto" />
+              <p className="mt-2 d-none d-sm-block">BLOGS</p>
+              <small className="mt-2 d-block d-sm-none">BLOGS</small>
             </div>
           </Col>
           <Col sm={1} xs={1} className="justify-content-center d-flex">
@@ -86,9 +86,9 @@ export default function Home({ posts }) {
           <Link href="/quicksplained" className="anchor" role="button">
             <Col role="button" xs={3} className="justify-content-center d-flex">
               <div className="text-center">
-                <Image src="/assets/stats1.png" className="h-50 w-50" />
-                <p className="d-none d-sm-block">INFOGRAPHICS</p>
-                <small className="d-block d-sm-none">INFOGRAPHICS</small>
+                <Image src="/assets/stats.png" className="h-50 w-auto" />
+                <p className="mt-2 d-none d-sm-block">INFOGRAPHICS</p>
+                <small className="mt-2 d-block d-sm-none">INFOGRAPHICS</small>
               </div>
             </Col>
           </Link>
@@ -98,9 +98,9 @@ export default function Home({ posts }) {
           <Link href="/authors">
             <Col role="button" xs={3} className="justify-content-center d-flex">
               <div className="text-center">
-                <Image src="/assets/magnify1.png" className="h-50 w-50" />
-                <p className="d-none d-sm-block">AUTHORS</p>
-                <small className="d-block d-sm-none">AUTHORS</small>
+                <Image src="/assets/magnify.png" className="h-50 w-auto" />
+                <p className="mt-2 d-none d-sm-block">AUTHORS</p>
+                <small className="mt-2 d-block d-sm-none">AUTHORS</small>
               </div>
             </Col>
           </Link>
