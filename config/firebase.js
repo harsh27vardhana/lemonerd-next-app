@@ -3,12 +3,12 @@ import "firebase/auth";
 
 const app = !firebase.apps.length
   ? firebase.initializeApp({
-      apiKey: "AIzaSyBgp4zRKz0TYcI91i_dSmP_ow2ZKr9HUBs",
-      authDomain: "lemonerd-auth.firebaseapp.com",
-      projectId: "lemonerd-auth",
-      storageBucket: "lemonerd-auth.appspot.com",
-      messagingSenderId: "718718940698",
-      appId: "1:718718940698:web:d5f41c42b1bade11ed83a3",
+      apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+      authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
     })
   : firebase.app();
 
