@@ -20,12 +20,32 @@ import Author from "../../data/authors.json";
 import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
 import RelatedArticle from "../../components/relatedArticle";
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore from "swiper";
+import "swiper/swiper-bundle.css";
 
 const authors = Author.authors;
 
 function Posts({ post, recentposts, relatedposts, tags }) {
   const postAuthor = authors.find((item) => item.id === post.author);
   const [copied, setCopied] = useState(false);
+
+  const recentSlides = [];
+  recentposts.forEach((element) => {
+    recentSlides.push(
+      <SwiperSlide key={element._id}>
+        <RelatedArticle {...element} />
+      </SwiperSlide>
+    );
+  });
+  const relatedSlides = [];
+  relatedposts.forEach((element) => {
+    relatedSlides.push(
+      <SwiperSlide key={element._id}>
+        <RelatedArticle {...element} />
+      </SwiperSlide>
+    );
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -326,6 +346,34 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </Container>
       <br />
       <Container>
+        <h1 className="px-2 py-4 anchor-link">
+          Related to{" "}
+          <Link
+            href="/tags/[tag_name]"
+            as={`/tags/${post.tags[0]}`}
+            role="button"
+          >
+            {post.tags[0]}
+          </Link>
+          :{" "}
+        </h1>
+        <Swiper className="d-none d-lg-block" slidesPerView={3}>
+          {recentSlides}
+        </Swiper>
+        <Swiper className="d-block d-lg-none" slidesPerView={2}>
+          {recentSlides}
+        </Swiper>
+      </Container>
+      <Container>
+        <h1 className="px-2 py-4">Recent Articles:</h1>
+        <Swiper className="d-none d-lg-block" slidesPerView={3}>
+          {relatedSlides}
+        </Swiper>
+        <Swiper className="d-block d-lg-none" slidesPerView={2}>
+          {relatedSlides}
+        </Swiper>
+      </Container>
+      {/* <Container>
         <Row>
           <Col xs={12} md={6}>
             <h1 className="px-2 py-4 anchor-link">
@@ -364,7 +412,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
             </Carousel>
           </Col>
         </Row>
-      </Container>
+      </Container> */}
     </div>
   );
 }

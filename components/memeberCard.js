@@ -21,13 +21,25 @@ function memeberCard(props) {
             <Card.Text>{props.discription}</Card.Text>
           </Card.Body>
           <div className="d-flex justify-content-around align-items-end px-5 mx-5 pb-4">
-            <a href={props.facebook} className="fa-lg text-dark">
+            <a
+              href={props.facebook}
+              target="_blank"
+              className="fa-lg text-dark"
+            >
               <FontAwesomeIcon icon={faFacebookF} />
             </a>
-            <a href={props.instagram} className="fa-lg text-dark">
+            <a
+              href={props.instagram}
+              target="_blank"
+              className="fa-lg text-dark"
+            >
               <FontAwesomeIcon icon={faInstagram} />
             </a>
-            <a href={props.linkedin} className="fa-lg text-dark">
+            <a
+              href={props.linkedin}
+              target="_blank"
+              className="fa-lg text-dark"
+            >
               <FontAwesomeIcon icon={faLinkedinIn} />
             </a>
           </div>

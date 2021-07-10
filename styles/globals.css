@@ -203,3 +203,36 @@ td input {
 .carousel-control-next {
   height: 75%;
 }
+
+.scrollTop {
+  background-color: #0d3b66;
+  color: white;
+  padding: 4px;
+  border-radius: 50%;
+  position: fixed;
+  width: 40px;
+  text-align: end;
+  bottom: 20px;
+  right: 20px;
+  align-items: flex-end;
+  height: 40px;
+  justify-content: right;
+  z-index: 100;
+  cursor: pointer;
+  animation: fadeIn 0.3s;
+  transition: opacity 0.4s;
+  opacity: 0.5;
+}
+
+.scrollTop:hover {
+  opacity: 1;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
