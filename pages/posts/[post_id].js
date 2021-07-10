@@ -38,14 +38,14 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </SwiperSlide>
     );
   });
-  // const relatedSlides = [];
-  // relatedposts.forEach((element) => {
-  //   relatedSlides.push(
-  //     <SwiperSlide key={element._id}>
-  //       <RelatedArticle {...element} />
-  //     </SwiperSlide>
-  //   );
-  // });
+  const relatedSlides = [];
+  relatedposts.forEach((element) => {
+    relatedSlides.push(
+      <SwiperSlide key={element._id}>
+        <RelatedArticle {...element} />
+      </SwiperSlide>
+    );
+  });
 
   useEffect(() => {
     setTimeout(() => {
@@ -346,7 +346,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </Container>
       <br />
       <Container>
-        <h1 className="px-2 py-4 gradient-text">Recent Articles:</h1>
+        <h1 className="px-2 py-4 gradient-text">Related Articles:</h1>
         <Swiper
           className="d-none d-xl-block"
           slidesPerView={5}
@@ -372,6 +372,44 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           pagination={{ clickable: true }}
           loop
         >
+          {relatedSlides}
+        </Swiper>
+        <Swiper
+          className="d-block d-md-none"
+          slidesPerView={2}
+          pagination={{ clickable: true }}
+          loop
+        >
+          {relatedSlides}
+        </Swiper>
+      </Container>
+      <Container>
+        <h1 className="px-2 py-4 gradient-text">Recent Articles:</h1>
+        <Swiper
+          className="d-none d-xl-block"
+          slidesPerView={5}
+          navigation
+          pagination={{ clickable: true }}
+          loop
+        >
+          {recentSlides}
+        </Swiper>
+        <Swiper
+          className="d-none d-lg-block d-xl-none"
+          slidesPerView={4}
+          navigation
+          pagination={{ clickable: true }}
+          loop
+        >
+          {recentSlides}
+        </Swiper>
+        <Swiper
+          className="d-none d-md-block d-lg-none"
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true }}
+          loop
+        >
           {recentSlides}
         </Swiper>
         <Swiper
@@ -386,9 +424,8 @@ function Posts({ post, recentposts, relatedposts, tags }) {
     </div>
   );
 }
-const prp = {}
+const prp = {};
 export async function getServerSideProps(context) {
-  
   const { post_id } = context.query;
   const url = `${server}/api/`;
   // const res = await fetch(url + post_id);
@@ -400,25 +437,30 @@ export async function getServerSideProps(context) {
   // const tagsUrl = `${server}/api/authors/${post.author}`;
   // const response = await fetch(tagsUrl);
   // const tags = await response.json();
-  const fetchpost = fetch(url + 'posts/' + post_id);
-  const fetchrecentposts = fetch(url + 'posts/recentposts/' + post_id);
-  const fetchrelatedposts = fetch(url + 'posts/relatedposts/' + post_id);
+  const fetchpost = fetch(url + "posts/" + post_id);
+  const fetchrecentposts = fetch(url + "posts/recentposts/" + post_id);
+  const fetchrelatedposts = fetch(url + "posts/relatedposts/" + post_id);
   // const fetchtags =fetch(url+'authors/'+post_id)
 
-
-  const result =await Promise.all([fetchpost, fetchrecentposts, fetchrelatedposts]).then(values => {
-    return Promise.all(values.map(res => res.json()))
-  }).then(async ([posti, recentpostsi, relatedpostsi]) => {
-    prp.post = posti;
-    prp.recentposts = recentpostsi;
-    prp.relatedposts = relatedpostsi;
-    const tagsUrl = url + `authors/${posti.author}`;
-    const response = await fetch(tagsUrl);
-    const tags = await response.json();
-    prp.tags = tags;
-    return prp
-  })
-    //  console.log(result)
+  const result = await Promise.all([
+    fetchpost,
+    fetchrecentposts,
+    fetchrelatedposts,
+  ])
+    .then((values) => {
+      return Promise.all(values.map((res) => res.json()));
+    })
+    .then(async ([posti, recentpostsi, relatedpostsi]) => {
+      prp.post = posti;
+      prp.recentposts = recentpostsi;
+      prp.relatedposts = relatedpostsi;
+      const tagsUrl = url + `authors/${posti.author}`;
+      const response = await fetch(tagsUrl);
+      const tags = await response.json();
+      prp.tags = tags;
+      return prp;
+    });
+  //  console.log(result)
   return {
     props: result,
   };
