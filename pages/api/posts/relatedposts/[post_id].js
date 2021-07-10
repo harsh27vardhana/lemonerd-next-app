@@ -18,25 +18,34 @@ export default async function handler(req, res) {
                 var maxlimit=10;
                 const size=tags.length
                 var ans=[];
-
-                while(maxlimit>0 && tags.length>0 && ans.length<5)
+                var neid=[];
+                neid.push(post_id);
+                while(maxlimit>0 && tags.length>0 && ans.length<10)
                 {
-                    var temp =await Post.find({ '_id': { $ne: post_id }, tags: { $all: tags }, hidden: "false" }).limit(maxlimit);
+                    var temp =await Post.find({ '_id': { $nin: [neid] }, tags: { $all: tags }, hidden: "false" }).limit(maxlimit);
                    
                     while (temp.length) {
-                        ans.push(temp.pop());
+                        let temppost=temp.pop();
+                        ans.push(temppost);
+                        neid.push(temppost._id)
                     }
-                    maxlimit=5-ans.length
+                    maxlimit=10-ans.length
                     tags.pop()
                 }
                 
-                if(ans.length<5)
+                if(ans.length<10)
                 {
-                    const post = await Post.aggregate([
-                        { $match: { _id: {$ne: post_id} } },
+                    var post = await Post.aggregate([
+                        { $match: { _id: { $nin: [neid] } } },
                         { $sample: { size: maxlimit } }
                     ])
-                    ans.push(...post);
+                    // ans.push(...post);
+                    while (post.length) {
+                        let temppost = post.pop();
+                        ans.push(temppost);
+                        neid.push(temppost._id)
+                    }
+                    
                 }
                 res.send(ans)
             } catch (err) {

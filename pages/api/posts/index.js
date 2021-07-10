@@ -9,7 +9,9 @@ export default async (req, res) => {
   switch (method) {
     case "GET":
       try {
+        
         const posts = await Post.find({ hidden: "false" }).sort({ date: -1 });
+    
 
         res.status(200).json({ success: true, data: posts });
       } catch (error) {
