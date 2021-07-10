@@ -33,7 +33,6 @@ export default function Home({ posts }) {
 
   window.addEventListener("scroll", checkScrollTop);
 
-  console.log(process.env);
   return (
     <div>
       <Head>
