@@ -61,12 +61,12 @@ export default function Home({ posts }) {
         </div>
       </Jumbotron>
 
-      <FaArrowUp
-        className="scrollTop"
-        onClick={scrollTop}
-        style={{ height: 40, display: showScroll ? "flex" : "none" }}
-      />
       <Container className="bg-white">
+        <FaArrowUp
+          className="scrollTop"
+          onClick={scrollTop}
+          style={{ height: 40, display: showScroll ? "flex" : "none" }}
+        />
         <Row className="text-center pt-5 justify-content-center">
           <Col
             role="button"
