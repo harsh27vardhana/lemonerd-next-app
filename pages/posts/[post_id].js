@@ -21,10 +21,11 @@ import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
 import RelatedArticle from "../../components/relatedArticle";
 import { Swiper, SwiperSlide } from "swiper/react";
-import SwiperCore from "swiper";
+import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/swiper-bundle.css";
 
 const authors = Author.authors;
+SwiperCore.use([Navigation, Pagination]);
 
 function Posts({ post, recentposts, relatedposts, tags }) {
   const postAuthor = authors.find((item) => item.id === post.author);
@@ -357,62 +358,44 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           </Link>
           :{" "}
         </h1>
-        <Swiper className="d-none d-lg-block" slidesPerView={3}>
+        <Swiper
+          className="d-none d-lg-block"
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true }}
+          loop
+        >
           {recentSlides}
         </Swiper>
-        <Swiper className="d-block d-lg-none" slidesPerView={2}>
+        <Swiper
+          className="d-block d-lg-none"
+          slidesPerView={2}
+          pagination={{ clickable: true }}
+          loop
+        >
           {recentSlides}
         </Swiper>
       </Container>
       <Container>
         <h1 className="px-2 py-4">Recent Articles:</h1>
-        <Swiper className="d-none d-lg-block" slidesPerView={3}>
+        <Swiper
+          className="d-none d-lg-block"
+          slidesPerView={3}
+          navigation
+          pagination={{ clickable: true }}
+          loop
+        >
           {relatedSlides}
         </Swiper>
-        <Swiper className="d-block d-lg-none" slidesPerView={2}>
+        <Swiper
+          className="d-block d-lg-none"
+          slidesPerView={2}
+          pagination={{ clickable: true }}
+          loop
+        >
           {relatedSlides}
         </Swiper>
       </Container>
-      {/* <Container>
-        <Row>
-          <Col xs={12} md={6}>
-            <h1 className="px-2 py-4 anchor-link">
-              Related to{" "}
-              <Link
-                href="/tags/[tag_name]"
-                as={`/tags/${post.tags[0]}`}
-                role="button"
-              >
-                {post.tags[0]}
-              </Link>
-              :{" "}
-            </h1>
-            <Carousel>
-              {relatedposts.map((item) => (
-                <Carousel.Item key={item._id} interval={3000}>
-                  <RelatedArticle
-                    {...item}
-                    className="d-flex align-items-stretch h-100"
-                  />
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          </Col>
-          <Col xs={12} md={6}>
-            <h1 className="px-2 py-4">Recent Articles:</h1>
-            <Carousel>
-              {recentposts.map((item) => (
-                <Carousel.Item key={item._id} interval={3000}>
-                  <RelatedArticle
-                    {...item}
-                    className="d-flex align-items-stretch h-100"
-                  />
-                </Carousel.Item>
-              ))}
-            </Carousel>
-          </Col>
-        </Row>
-      </Container> */}
     </div>
   );
 }
