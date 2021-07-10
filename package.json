@@ -18,7 +18,7 @@
     "data-uri-to-file": "^0.1.8",
     "dotenv": "^10.0.0",
     "firebase": "^8.7.0",
-    "mongoose": "^5.12.12",
+    "mongoose": "^5.13.2",
     "next": "10.2.3",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.0",

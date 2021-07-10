@@ -6,14 +6,15 @@ async function dbConnect() {
     if (connection.isConnected) {
         return;
     }
-
-    const db = await mongoose.connect(process.env.MONGODB_URI, {
+    // console.log(connection)
+    const db = await mongoose.connect('mongodb+srv://testbud:testbud@cluster0.rzgja.mongodb.net/POST?retryWrites=true&w=majority', {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
     });
 
     connection.isConnected = db.connections[0].readyState;
+    
 
 }
 
