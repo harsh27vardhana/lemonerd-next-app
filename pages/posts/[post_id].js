@@ -354,7 +354,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           pagination={{ clickable: true }}
           loop
         >
-          {recentSlides}
+          {relatedSlides}
         </Swiper>
         <Swiper
           className="d-none d-lg-block d-xl-none"
@@ -363,7 +363,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           pagination={{ clickable: true }}
           loop
         >
-          {recentSlides}
+          {relatedSlides}
         </Swiper>
         <Swiper
           className="d-none d-md-block d-lg-none"
@@ -386,22 +386,41 @@ function Posts({ post, recentposts, relatedposts, tags }) {
     </div>
   );
 }
-
+const prp = {}
 export async function getServerSideProps(context) {
+  
   const { post_id } = context.query;
-  const url = `${server}/api/posts/`;
-  const res = await fetch(url + post_id);
-  const post = await res.json();
-  const recentpostsurl = url + "recentposts/" + post_id;
-  const recentposts = await (await fetch(recentpostsurl)).json();
-  const relatedpostsurl = url + "relatedposts/" + post_id;
-  const relatedposts = await (await fetch(relatedpostsurl)).json();
-  const tagsUrl = `${server}/api/authors/${post.author}`;
-  const response = await fetch(tagsUrl);
-  const tags = await response.json();
+  const url = `${server}/api/`;
+  // const res = await fetch(url + post_id);
+  // const post = await res.json();
+  // const recentpostsurl = url + "recentposts/" + post_id;
+  // const recentposts = await (await fetch(recentpostsurl)).json();
+  // const relatedpostsurl = url + "relatedposts/" + post_id;
+  // const relatedposts = await (await fetch(relatedpostsurl)).json();
+  // const tagsUrl = `${server}/api/authors/${post.author}`;
+  // const response = await fetch(tagsUrl);
+  // const tags = await response.json();
+  const fetchpost = fetch(url + 'posts/' + post_id);
+  const fetchrecentposts = fetch(url + 'posts/recentposts/' + post_id);
+  const fetchrelatedposts = fetch(url + 'posts/relatedposts/' + post_id);
+  // const fetchtags =fetch(url+'authors/'+post_id)
 
+
+  const result =await Promise.all([fetchpost, fetchrecentposts, fetchrelatedposts]).then(values => {
+    return Promise.all(values.map(res => res.json()))
+  }).then(async ([posti, recentpostsi, relatedpostsi]) => {
+    prp.post = posti;
+    prp.recentposts = recentpostsi;
+    prp.relatedposts = relatedpostsi;
+    const tagsUrl = url + `authors/${posti.author}`;
+    const response = await fetch(tagsUrl);
+    const tags = await response.json();
+    prp.tags = tags;
+    return prp
+  })
+    //  console.log(result)
   return {
-    props: { post, recentposts, relatedposts, tags },
+    props: result,
   };
 }
 

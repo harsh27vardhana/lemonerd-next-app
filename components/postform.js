@@ -404,7 +404,7 @@ function postform(props) {
           <Alert variant="danger">You cannot post an empty blog</Alert>
         ) : null}
         <Editor
-          apiKey="tfdzlyaoyss9o0y1lrzoheoxrhpz8l7rfe0myrgrqra266fq"
+          apiKey={process.env.NEXT_PUBLIC_TINYMCE_API}
           id="postcontent"
           init={{
             height: 500,
