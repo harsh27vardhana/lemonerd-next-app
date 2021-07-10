@@ -1,5 +1,4 @@
 import { Card, Container, Row, Col, Button } from "react-bootstrap";
-import Carousel from "react-bootstrap/Carousel";
 import Link from "next/link";
 import Head from "next/head";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -39,14 +38,14 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </SwiperSlide>
     );
   });
-  const relatedSlides = [];
-  relatedposts.forEach((element) => {
-    relatedSlides.push(
-      <SwiperSlide key={element._id}>
-        <RelatedArticle {...element} />
-      </SwiperSlide>
-    );
-  });
+  // const relatedSlides = [];
+  // relatedposts.forEach((element) => {
+  //   relatedSlides.push(
+  //     <SwiperSlide key={element._id}>
+  //       <RelatedArticle {...element} />
+  //     </SwiperSlide>
+  //   );
+  // });
 
   useEffect(() => {
     setTimeout(() => {
@@ -347,20 +346,10 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </Container>
       <br />
       <Container>
-        <h1 className="px-2 py-4 anchor-link">
-          Related to{" "}
-          <Link
-            href="/tags/[tag_name]"
-            as={`/tags/${post.tags[0]}`}
-            role="button"
-          >
-            {post.tags[0]}
-          </Link>
-          :{" "}
-        </h1>
+        <h1 className="px-2 py-4 gradient-text">Recent Articles:</h1>
         <Swiper
-          className="d-none d-lg-block"
-          slidesPerView={3}
+          className="d-none d-xl-block"
+          slidesPerView={5}
           navigation
           pagination={{ clickable: true }}
           loop
@@ -368,18 +357,16 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           {relatedSlides}
         </Swiper>
         <Swiper
-          className="d-block d-lg-none"
-          slidesPerView={2}
+          className="d-none d-lg-block d-xl-none"
+          slidesPerView={4}
+          navigation
           pagination={{ clickable: true }}
           loop
         >
           {relatedSlides}
         </Swiper>
-      </Container>
-      <Container>
-        <h1 className="px-2 py-4">Recent Articles:</h1>
         <Swiper
-          className="d-none d-lg-block"
+          className="d-none d-md-block d-lg-none"
           slidesPerView={3}
           navigation
           pagination={{ clickable: true }}
@@ -388,7 +375,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           {recentSlides}
         </Swiper>
         <Swiper
-          className="d-block d-lg-none"
+          className="d-block d-md-none"
           slidesPerView={2}
           pagination={{ clickable: true }}
           loop

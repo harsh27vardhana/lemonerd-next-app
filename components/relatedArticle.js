@@ -36,25 +36,34 @@ function RelatedArticle(props) {
 
   return (
     <Card className={style.cardMain}>
-      <div
-        className={style.cardImg}
-        style={{
-          backgroundImage: `url("${props.thumbnail.replace(/%2F/gi, "/")}")`,
-        }}
-      />
-      <div className="d-flex align-items-stretch" style={{ height: "100%" }}>
+      <Link
+        href="/posts/[post_id]"
+        as={`/posts/${props._id}`}
+        className="stretched-link"
+      >
+        <div
+          role="button"
+          className={style.cardImg}
+          style={{
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.3),rgba(70, 70, 70, 1)), url("${props.thumbnail.replace(
+              /%2F/gi,
+              "/"
+            )}")`,
+          }}
+        >
+          <Card.Title className={style.cardTitle}>
+            {props.title.substring(0, 25) +
+              (props.title.length > 24 ? "..." : "")}
+          </Card.Title>
+        </div>
+      </Link>
+      <div className="d-flex align-items-stretch">
         <Card.Body>
-          <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
-            <Card.Title role="button" className={style.cardTitle}>
-              {props.title.substring(0, 30) +
-                (props.title.length > 29 ? "..." : "")}
-            </Card.Title>
-          </Link>
-          <footer className="blockquote-footer my-0">
+          <footer className="blockquote-footer my-0 pb-3">
             <small className="text-muted">
               Posted {getDate()}
               <br />
-              Written by{" "}
+              by{" "}
               <cite title="Source Title" className="author-anchor">
                 <Link href="/authors/[author]" as={`/authors/${props.author}`}>
                   {authors.find((item) => item.id === props.author)
