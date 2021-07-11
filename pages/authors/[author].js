@@ -32,10 +32,7 @@ function Authors({ posts, author }) {
                   style={{
                     width: "200px",
                     height: "200px",
-                    backgroundImage: `url(${currentAuthor.image.replace(
-                      /%2F/gi,
-                      "/"
-                    )})`,
+                    backgroundImage: `url(${currentAuthor.image})`,
                   }}
                 />
               </div>

@@ -1,5 +1,18 @@
 {
   "authors": [
-
+    {
+      "id": "1626012960648c9c06e77-d325-4ec2-a167-4fe3ad23ce00",
+      "description": "He is an author who writes random shit but does not know anything about them after all. So don't buy his shit and do whatever you feel like doing.",
+      "image": "https://firebasestorage.googleapis.com/v0/b/lemonerd-auth.appspot.com/o/authors%2F1626012946204rain_.jpg?alt=media&token=b19f624f-1a06-4520-a408-f81e91439e7a",
+      "name": "Anubhav Sinha",
+      "tags": []
+    },
+    {
+      "id": "1626013525647bd135377-f43e-454b-9600-7d0e950058d3",
+      "description": "bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla ",
+      "image": "https://firebasestorage.googleapis.com/v0/b/lemonerd-auth.appspot.com/o/authors%2F1626013506944thunderstorm-3430471_1920.jpg?alt=media&token=20fe0780-6143-4823-975e-8d6b89a858f7",
+      "name": "Anubhav Singh Bassi",
+      "tags": []
+    }
   ]
 }
