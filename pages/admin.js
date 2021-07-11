@@ -211,7 +211,7 @@ function admin({ posts }) {
   );
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const url = server + "/api/admin";
   const res = await fetch(url);
   const posts = await res.json();

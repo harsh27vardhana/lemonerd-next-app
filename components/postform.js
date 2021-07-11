@@ -418,7 +418,7 @@ function postform(props) {
       </Form.Group>
       <Form.Group>
         {submitAttempt && !tinymce.get("postcontent").getContent() ? (
-          <Alert variant="danger">You cannot post an empty blog</Alert>
+          <Alert variant = "danger">You cannot post an empty blog</Alert>
         ) : null}
         <Editor
           apiKey={process.env.NEXT_PUBLIC_TINYMCE_API}
