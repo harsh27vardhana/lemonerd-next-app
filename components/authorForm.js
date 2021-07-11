@@ -47,7 +47,6 @@ function AuthorForm() {
       const result = await res.json();
 
       setImage(result);
-      // console.log(result);
     };
     reader.readAsDataURL(file);
   }
