@@ -36,21 +36,32 @@ function ArticleCard(props) {
   return (
     <Card className={`p-md-3 ${style.articleCard}`} border="white">
       <Row>
-        <Col xs={12} md={4}>
-          <Card.Img
-            variant="top"
-            src={
-              props.thumbnail
-                ? props.thumbnail.replace(/%2F/gi, "/")
-                : "/thumbnail/default.png"
-            }
-            className={style.cardImage}
-          />
+        <Col xs={12} md={4} role="button">
+          <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
+            <Card.Img
+              variant="top"
+              src={
+                props.thumbnail
+                  ? props.thumbnail.replace(/%2F/gi, "/")
+                  : "/thumbnail/default.png"
+              }
+              className={style.cardImage}
+            />
+          </Link>
         </Col>
         <Col xs={12} md={8}>
           <Card.Body>
-            <Card.Title className="">{props.title}</Card.Title>
-            <Card.Text>{props.caption}</Card.Text>
+            <Card.Title className="anchor-link" role="button">
+              <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
+                {props.title}
+              </Link>
+            </Card.Title>
+
+            <Card.Text className="anchor-link" role="button">
+              <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
+                {props.caption}
+              </Link>
+            </Card.Text>
             <blockquote className="blockquote mb-0 card-body">
               <footer className="blockquote-footer">
                 <small className="text-muted">

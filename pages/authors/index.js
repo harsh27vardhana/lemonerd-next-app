@@ -82,7 +82,9 @@ function Authors({ posts }) {
                       {author.name}
                     </Card.Title>
                   </Link>
-                  <Card.Text>{author.description}</Card.Text>
+                  <Link href="/authors/[author]" as={`/authors/${author.id}`}>
+                    <Card.Text role="button">{author.description}</Card.Text>
+                  </Link>
                 </Card.Body>
                 <span className="d-inline pl-3">
                   <strong className="h5">Related Tags: </strong>

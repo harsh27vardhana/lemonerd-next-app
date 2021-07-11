@@ -14,7 +14,10 @@ function Tags({ posts, tag }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
-      <h1 className="py-5 text-center font-weight-bold display-3 gradient-text">
+      <h1 className="py-5 text-center font-weight-bold display-3 gradient-text d-none d-sm-block">
+        {tag}
+      </h1>
+      <h1 className="py-5 text-center font-weight-bold display-4 gradient-text d-block d-sm-none">
         {tag}
       </h1>
       {data.map((item) =>
