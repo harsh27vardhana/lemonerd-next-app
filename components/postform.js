@@ -97,7 +97,6 @@ function postform(props) {
       method: "GET",
     });
     const result = await res.json();
-    // console.log(result);
     props.update ? (result.date = result.date.substring(0, 10)) : null;
     setSubmitted(false);
     const newInput = {
@@ -162,7 +161,6 @@ function postform(props) {
       });
 
       const result = await res.json();
-      // console.log(result);
       setThumb(result.location);
     };
     reader.readAsDataURL(file);
@@ -195,8 +193,6 @@ function postform(props) {
   }
 
   useEffect(async () => {
-    // console.log(input);
-    // console.log(valid);
     if (props.update && valid) {
       const res = await fetch(`/api/admin/${props.id}`, {
         body: JSON.stringify(input),

@@ -42,7 +42,6 @@ function admin({ posts }) {
       method: "GET",
     }).then((result) => {
       result.json().then((resp) => {
-        // console.log(resp.data);
         setBlogs(resp.data);
       });
     });

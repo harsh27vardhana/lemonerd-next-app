@@ -67,7 +67,7 @@ export default function quicksplained() {
                 className={index % 2 ? "d-flex justify-content-end" : "d-none"}
               >
                 <Image
-                  src="/assets/coloredst.svg"
+                  src="/assets/connectors.svg"
                   className="d-none d-md-flex pb-5 pl-5 h-75"
                   style={{ transform: "translate(2rem)" }}
                 />
@@ -89,7 +89,7 @@ export default function quicksplained() {
               >
                 {index ? (
                   <Image
-                    src="/assets/coloredst.svg"
+                    src="/assets/connectors.svg"
                     style={{
                       transform: "translate(-2rem) scaleX(-1)",
                     }}
