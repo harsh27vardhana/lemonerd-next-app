@@ -38,6 +38,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </SwiperSlide>
     );
   });
+
   const relatedSlides = [];
   relatedposts.forEach((element) => {
     relatedSlides.push(
@@ -46,6 +47,10 @@ function Posts({ post, recentposts, relatedposts, tags }) {
       </SwiperSlide>
     );
   });
+
+  console.log(relatedSlides);
+
+  const arra = [1];
 
   useEffect(() => {
     setTimeout(() => {
@@ -344,33 +349,32 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           </p>
         </div>
       </Container>
-      <br />
       <Container>
         <h1 className="px-2 py-4 gradient-text">Related Articles:</h1>
         <Swiper
           className="d-none d-xl-block"
           slidesPerView={5}
-          navigation
+          navigation={relatedposts.length >= 5 ? true : false}
           pagination={{ clickable: true }}
-          loop
+          loop={relatedposts.length >= 5 ? true : false}
         >
           {relatedSlides}
         </Swiper>
         <Swiper
           className="d-none d-lg-block d-xl-none"
           slidesPerView={4}
-          navigation
+          navigation={relatedposts.length >= 4 ? true : false}
           pagination={{ clickable: true }}
-          loop
+          loop={relatedposts.length >= 4 ? true : false}
         >
           {relatedSlides}
         </Swiper>
         <Swiper
           className="d-none d-md-block d-lg-none"
           slidesPerView={3}
-          navigation
+          navigation={relatedposts.length >= 3 ? true : false}
           pagination={{ clickable: true }}
-          loop
+          loop={relatedposts.length >= 3 ? true : false}
         >
           {relatedSlides}
         </Swiper>
@@ -378,7 +382,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           className="d-block d-md-none"
           slidesPerView={2}
           pagination={{ clickable: true }}
-          loop
+          loop={relatedposts.length >= 2 ? true : false}
         >
           {relatedSlides}
         </Swiper>
@@ -428,19 +432,9 @@ const prp = {};
 export async function getServerSideProps(context) {
   const { post_id } = context.query;
   const url = `${server}/api/`;
-  // const res = await fetch(url + post_id);
-  // const post = await res.json();
-  // const recentpostsurl = url + "recentposts/" + post_id;
-  // const recentposts = await (await fetch(recentpostsurl)).json();
-  // const relatedpostsurl = url + "relatedposts/" + post_id;
-  // const relatedposts = await (await fetch(relatedpostsurl)).json();
-  // const tagsUrl = `${server}/api/authors/${post.author}`;
-  // const response = await fetch(tagsUrl);
-  // const tags = await response.json();
   const fetchpost = fetch(url + "posts/" + post_id);
   const fetchrecentposts = fetch(url + "posts/recentposts/" + post_id);
   const fetchrelatedposts = fetch(url + "posts/relatedposts/" + post_id);
-  // const fetchtags =fetch(url+'authors/'+post_id)
 
   const result = await Promise.all([
     fetchpost,

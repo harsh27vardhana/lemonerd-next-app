@@ -178,7 +178,7 @@ td input {
 
 .gradient-text {
   background-color: #f3ec78;
-  background-image: url("/background.svg");
+  background-image: url("/assets/gradient2.svg");
   background-size: 100%;
   background-clip: text;
   -webkit-background-clip: text;

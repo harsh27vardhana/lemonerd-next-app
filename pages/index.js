@@ -75,7 +75,7 @@ export default function Home({ posts }) {
             onClick={executeScroll}
           >
             <div className="text-center">
-              <Image src="/assets/blogs.png" className="h-50 w-auto" />
+              <Image src="/assets/blogs4.png" className="h-50 w-auto" />
               <p className="mt-2 d-none d-sm-block">BLOGS</p>
               <small className="mt-2 d-block d-sm-none">BLOGS</small>
             </div>
@@ -86,7 +86,7 @@ export default function Home({ posts }) {
           <Link href="/quicksplained" className="anchor" role="button">
             <Col role="button" xs={3} className="justify-content-center d-flex">
               <div className="text-center">
-                <Image src="/assets/stats.png" className="h-50 w-auto" />
+                <Image src="/assets/stats4.png" className="h-50 w-auto" />
                 <p className="mt-2 d-none d-sm-block">INFOGRAPHICS</p>
                 <small className="mt-2 d-block d-sm-none">INFOGRAPHICS</small>
               </div>
@@ -98,7 +98,7 @@ export default function Home({ posts }) {
           <Link href="/authors">
             <Col role="button" xs={3} className="justify-content-center d-flex">
               <div className="text-center">
-                <Image src="/assets/magnify.png" className="h-50 w-auto" />
+                <Image src="/assets/magnify4.png" className="h-50 w-auto" />
                 <p className="mt-2 d-none d-sm-block">AUTHORS</p>
                 <small className="mt-2 d-block d-sm-none">AUTHORS</small>
               </div>
