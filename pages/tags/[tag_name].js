@@ -31,7 +31,7 @@ function Tags({ posts, tag }) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { tag_name } = context.query;
   const tag = tag_name;
   const url = server + "/api/posts/";

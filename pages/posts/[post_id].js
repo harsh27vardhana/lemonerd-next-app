@@ -429,7 +429,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
   );
 }
 const prp = {};
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { post_id } = context.query;
   const url = `${server}/api/`;
   const fetchpost = fetch(url + "posts/" + post_id);
