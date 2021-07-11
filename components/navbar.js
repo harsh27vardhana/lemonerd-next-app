@@ -114,15 +114,15 @@ function navbar() {
 
                 <Dropdown.Menu className={style.dropdownNavbar}>
                   {tags.map((tag) => (
-                    <div
-                      className="dropdown-item"
-                      key={tag}
-                      onClick={() => setExpanded(false)}
-                    >
-                      <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
+                    <Link href="/tags/[tag_name]" as={`/tags/${tag}`} key={tag}>
+                      <div
+                        role="button"
+                        className="dropdown-item"
+                        onClick={() => setExpanded(false)}
+                      >
                         {tag}
-                      </Link>
-                    </div>
+                      </div>
+                    </Link>
                   ))}
                 </Dropdown.Menu>
               </Dropdown>

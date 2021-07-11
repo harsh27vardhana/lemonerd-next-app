@@ -77,7 +77,7 @@ function admin({ posts }) {
   const [deleteId, setDeleteId] = useState("");
 
   async function deletePost() {
-    const res = await fetch(`/api/posts/${deleteId}`, {
+    const res = await fetch(`/api/admin/${deleteId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -93,7 +93,7 @@ function admin({ posts }) {
   }
 
   async function hidePost(id) {
-    const res = await fetch(`/api/posts/${id}`, {
+    const res = await fetch(`/api/admin/${id}`, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json",
@@ -102,7 +102,7 @@ function admin({ posts }) {
     });
     const result = await res.json();
     result.hidden = result.hidden === "false" ? "true" : "false";
-    const response = await fetch(`/api/posts/${id}`, {
+    const response = await fetch(`/api/admin/${id}`, {
       body: JSON.stringify(result),
       headers: {
         "Content-Type": "application/json",

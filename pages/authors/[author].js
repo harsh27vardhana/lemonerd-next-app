@@ -73,24 +73,6 @@ function Authors({ posts, author }) {
           <ArticleCard {...item} />
         </div>
       ))}
-      <div className="pt-5 px-5 text-center">
-        <h5>
-          Related Tags:{" "}
-          {tags.map((tag) => (
-            <span key={tag}>
-              <Button
-                variant="outline-info"
-                size="sm"
-                className="px-1 py-0 tags"
-              >
-                <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
-                  {tag}
-                </Link>
-              </Button>{" "}
-            </span>
-          ))}
-        </h5>
-      </div>
     </Container>
   );
 }
