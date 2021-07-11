@@ -8,6 +8,7 @@ import Data from "../data/authors.json";
 import { Badge, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
+import { server } from "../config/config";
 const authors = Data.authors;
 const category = Tags.categories;
 
@@ -90,7 +91,7 @@ function postform(props) {
   }
 
   async function getPostToUpdate() {
-    const res = await fetch(`/api/admin/${props.id}`, {
+    const res = await fetch(`${server}/api/admin/${props.id}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -194,7 +195,7 @@ function postform(props) {
 
   useEffect(async () => {
     if (props.update && valid) {
-      const res = await fetch(`/api/admin/${props.id}`, {
+      const res = await fetch(`${server}/api/admin/${props.id}`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
@@ -224,7 +225,7 @@ function postform(props) {
           window.scrollTo(0, 0);
         });
     } else if (valid) {
-      const res = await fetch("/api/admin", {
+      const res = await fetch(`${server}/api/admin`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",

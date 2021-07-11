@@ -3,6 +3,7 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
+import { server } from "../config/config";
 
 function AuthorForm() {
   const [input, setInput] = useState({
@@ -36,7 +37,7 @@ function AuthorForm() {
       var img_data = img.replace(/^data:image\/\w+;base64,/, "");
       console.log(file.name);
 
-      const res = await fetch("api/images/author", {
+      const res = await fetch(`${server}/api/images/author`, {
         body: JSON.stringify({ data: img_data, filename: file.name }),
         headers: {
           "Content-type": "application/json",
@@ -66,7 +67,7 @@ function AuthorForm() {
 
   useEffect(async () => {
     if (valid) {
-      const res = await fetch("/api/authors", {
+      const res = await fetch(`${server}/api/authors`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
