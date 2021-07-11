@@ -1,46 +1,5 @@
 {
   "authors": [
-    {
-      "id": "16248954594372c5f9e00-a8b8-48c6-ab56-396d09ce7482",
-      "description": "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. ",
-      "image": "%2Fauthor/christopher-campbell-rDEOVtE7vOs-unsplash-min1624895447452344a352a-6e7b-4beb-aeba-eb4f0d57421b.jpg",
-      "name": "Elizabeth ",
-      "tags": []
-    },
-    {
-      "id": "16248966576763bba8577-9e75-4061-abca-4d5109f2b2d4",
-      "description": "Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Sed consequat, leo eget bibendum sodales, augue velit cursus nunc,",
-      "image": "%2Fauthor/jonas-kakaroto-mjRwhvqEC0U-unsplash-min1624896648466534ced54-eb31-462f-9d2e-3c266e3f6c91.jpg",
-      "name": "Rajesh Kootrapli",
-      "tags": []
-    },
-    {
-      "id": "162489682678676f6e614-23f5-40be-975f-e389849635e2",
-      "description": "Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. ",
-      "image": "%2Fauthor/mohammad-khaksarmadani-4FDsNcCR8iQ-unsplash-min1624896748931ccb6d636-6d7c-4d80-be77-2ae762833eaf.jpg",
-      "name": "Shanaya Bhatt",
-      "tags": []
-    },
-    {
-      "id": "1625824419824c208e135-4ebf-4280-a16b-11796ff89a59",
-      "description": "HE is a authoor javbdkch vwjk fv h wehkvkwejvhfk whe vf je w vjhvjwevh fjewvhfjk wvhefjhwevk",
-      "image": "%2Fauthor/WhatsApp Image 2021-07-07 at 00.29.421625824416904e3379542-5ade-423e-8c03-5cd4af5ca54d.jpeg",
-      "name": "Ashutosh Bhadaur",
-      "tags": []
-    },
-    {
-      "id": "1625851751602f5b044c6-adfb-4382-9b31-3f6bc2f95522",
-      "description": "authoeb k dkjbwkcj lwe klj weljd lwek javbdkch vwjk fv h wehkvkwejvhfk whe vf je w vjhvjwevh fjewvhfjk wvhefjhwevk cl",
-      "image": "%2Fauthor/thumbnail16258517463897e12327c-6bda-42c9-99eb-69a0304642c8.png",
-      "name": "Anubhav Sinha",
-      "tags": []
-    },
-    {
-      "id": "16258520990933b18bd59-67b0-4d5c-8eb9-621e199f4be7",
-      "description": "javbdkch vwjk fv h wehkvkwejvhfk whe vf je w vjhvjwevh fjewvhfjk wvhefjhwevk",
-      "image": "%2Fauthor/blogs1625852096407021ba0de-1717-44c1-944a-6ffdc7394ceb.png",
-      "name": "Harshvardhana",
-      "tags": []
-    }
+   
   ]
 }
