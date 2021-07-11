@@ -7,7 +7,7 @@ async function dbConnect() {
         return;
     }
     // console.log(connection)
-    const db = await mongoose.connect('mongodb+srv://testbud:testbud@cluster0.rzgja.mongodb.net/POST?retryWrites=true&w=majority', {
+    const db = await mongoose.connect(process.env.MONGODB_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
