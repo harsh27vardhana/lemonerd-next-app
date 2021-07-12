@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Alert from "react-bootstrap/Alert";
+import { server } from "../config/config";
 
 function Quicksplained() {
   const [submitted, setSubmitted] = useState(false);
@@ -31,7 +32,7 @@ function Quicksplained() {
 
   useEffect(async () => {
     if (valid) {
-      const res = await fetch("api/quickSplained", {
+      const res = await fetch(`${server}/api/quickSplained`, {
         body: JSON.stringify(input),
         headers: {
           "Content-type": "application/json",

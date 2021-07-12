@@ -45,10 +45,7 @@ function RelatedArticle(props) {
           role="button"
           className={style.cardImg}
           style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.3),rgba(70, 70, 70, 1)), url("${props.thumbnail.replace(
-              /%2F/gi,
-              "/"
-            )}")`,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.3),rgba(70, 70, 70, 1)), url("${props.thumbnail}")`,
           }}
         >
           <Card.Title className={style.cardTitle}>

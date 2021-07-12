@@ -40,11 +40,7 @@ function ArticleCard(props) {
           <Link href="/posts/[post_id]" as={`/posts/${props._id}`}>
             <Card.Img
               variant="top"
-              src={
-                props.thumbnail
-                  ? props.thumbnail.replace(/%2F/gi, "/")
-                  : "/thumbnail/default.png"
-              }
+              src={props.thumbnail ? props.thumbnail : "/thumbnail/default.png"}
               className={style.cardImage}
             />
           </Link>
