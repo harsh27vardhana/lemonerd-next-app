@@ -72,7 +72,7 @@ function navbar() {
               </div>
             </Link>
 
-            <a href="/quicksplained" role="button" className="anchor">
+            <Link href="/quicksplained" role="button" className="anchor">
               <div
                 className={style.routes}
                 onClick={() => setExpanded(false)}
@@ -80,7 +80,7 @@ function navbar() {
               >
                 QUICKSPLAINED{" "}
               </div>
-            </a>
+            </Link>
 
             <hr className="p-0 m-0 bg-white" />
             <span className={style.navbarDropdownCollapse}>

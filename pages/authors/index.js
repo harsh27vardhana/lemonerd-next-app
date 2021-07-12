@@ -1,13 +1,15 @@
 import Link from "next/link";
 import Head from "next/head";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
-import Author from "../../data/authors.json";
-import { server } from "../../config/config";
+import dbConnect from "../../database/dbconnect";
+import Author from "../../database/authorSchema";
+import Post from "../../database/postSchema";
 
-const authors = Author.authors;
 
-function Authors({ posts }) {
-  const data = posts.data;
+
+
+function Authors({ posts ,authors }) {
+  const data = posts;
 
   function getAuthorTags(author) {
     const authorBlog = data.filter((item) => item.author === author);
@@ -107,11 +109,23 @@ function Authors({ posts }) {
 
 export default Authors;
 
-export const getServerSideProps = async () => {
-  const url = server + "/api/posts";
-  const res = await fetch(url);
-  const posts = await res.json();
+
+
+
+export const getStaticProps = async () => {
+   dbConnect();
+  const post =  Post.find({ hidden: "false" });
+  const author = Author.find();
+  const result = await Promise.all([post,author]).then(([poss,authos])=>{
+    // console.log(posts)
+    const posts = JSON.parse(JSON.stringify(poss));
+    const authors = JSON.parse(JSON.stringify(authos));
+    return {posts,authors};
+  })
+console.log(result)
+  
   return {
-    props: { posts },
+    props: result,
+    revalidate: 100,
   };
 };
