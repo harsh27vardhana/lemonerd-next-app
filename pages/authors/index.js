@@ -9,7 +9,7 @@ import Post from "../../database/postSchema";
 
 
 function Authors({ posts ,authors }) {
-  const data = posts.data;
+  const data = posts;
 
   function getAuthorTags(author) {
     const authorBlog = data.filter((item) => item.author === author);
