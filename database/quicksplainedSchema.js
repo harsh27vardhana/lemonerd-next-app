@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 
 const QuicksplainedSchema = new mongoose.Schema({
-    link: {
+    embed: {
         type: String,
         required: true,
     }

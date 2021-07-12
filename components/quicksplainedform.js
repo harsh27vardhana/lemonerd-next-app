@@ -32,7 +32,7 @@ function Quicksplained() {
 
   useEffect(async () => {
     if (valid) {
-      const res = await fetch(`${server}/api/quickSplained`, {
+      const res = await fetch(`/api/quickSplained`, {
         body: JSON.stringify(input),
         headers: {
           "Content-type": "application/json",

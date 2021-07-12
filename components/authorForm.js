@@ -39,7 +39,7 @@ function AuthorForm() {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => {},
+      (snapshot) => { },
       (error) => {
         console.log(error);
       },
@@ -51,25 +51,7 @@ function AuthorForm() {
           .then((url) => setImage(url));
       }
     );
-    // var reader = new FileReader();
-    // reader.onload = async (e) => {
-    //   var img = e.target.result;
-    //   var img_data = img.replace(/^data:image\/\w+;base64,/, "");
-    //   console.log(file.name);
 
-    //   const res = await fetch(`${server}/api/images/author`, {
-    //     body: JSON.stringify({ data: img_data, filename: file.name }),
-    //     headers: {
-    //       "Content-type": "application/json",
-    //     },
-    //     method: "POST",
-    //   });
-
-    //   const result = await res.json();
-
-    //   setImage(result);
-    // };
-    // reader.readAsDataURL(file);
   }
 
   async function handleClick(event) {
@@ -87,7 +69,7 @@ function AuthorForm() {
 
   useEffect(async () => {
     if (valid) {
-      const res = await fetch(`${server}/api/authors`, {
+      const res = await fetch(`/api/authors`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",

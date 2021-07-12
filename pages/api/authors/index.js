@@ -1,7 +1,7 @@
-const file = "./data/authors.json";
-import Data from "../../../data/authors.json";
-const fs = require("fs");
-import { v4 as uuidv4 } from "uuid";
+import dbConnect from "../../../database/dbconnect";
+import Author from "../../../database/authorSchema";
+
+dbConnect();
 
 export default async (req, res) => {
 
@@ -10,31 +10,19 @@ export default async (req, res) => {
   switch (method) {
     case "POST":
       try {
-        // console.log(req.body);
-        const authorid = Date.now() + uuidv4();
-        const data = {
-          id: authorid,
-          description: req.body.description,
-          image: req.body.image,
-          name: req.body.name,
-          tags: []
-        };
-        Data.authors.push(data);
-        fs.writeFile(file, JSON.stringify(Data, null, 2), (e) => {
-          // console.log(e);
-        });
-        res.send({ success: true });
+        const author = await Author.create(req.body);
+        res.send({ success: true, data: author });
       } catch (err) {
-        res.send(err);
         console.log(err);
+        res.status(404);
       }
       break;
     default:
       res.status(400).json({ success: false });
       break;
-    }
+  }
 
-  
+
 };
 
 
