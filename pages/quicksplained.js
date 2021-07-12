@@ -3,6 +3,8 @@ import { Row, Col } from "react-bootstrap";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Image from "react-bootstrap/Image";
 import Feed from "../data/quicksplained.json";
+import dbConnect from "../database/dbconnect";
+import Quicksplained from "../database/quicksplainedSchema"
 export default function quicksplained() {
   const feeds = Feed.feed;
   const script = document.createElement("script");
@@ -104,3 +106,16 @@ export default function quicksplained() {
     </div>
   );
 }
+
+
+export const getStaticProps = async () => {
+  dbConnect();
+
+  const posts = await Quicksplained.find();
+  
+  const post = JSON.parse(JSON.stringify(posts));
+  return {
+    props: { post},
+    revalidate: 100,
+}
+};
