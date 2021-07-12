@@ -58,7 +58,7 @@ function postform(props) {
       );
     };
 
-    console.log(blobInfo.base64());
+    // console.log(blobInfo.base64());
     const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
     xhr.send(JSON.stringify(data));
   }
@@ -418,7 +418,7 @@ function postform(props) {
       </Form.Group>
       <Form.Group>
         {submitAttempt && !tinymce.get("postcontent").getContent() ? (
-          <Alert variant = "danger">You cannot post an empty blog</Alert>
+          <Alert variant="danger">You cannot post an empty blog</Alert>
         ) : null}
         <Editor
           apiKey={process.env.NEXT_PUBLIC_TINYMCE_API}
