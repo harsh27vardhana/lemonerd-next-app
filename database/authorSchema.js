@@ -14,7 +14,7 @@ const AuthorSchema = new mongoose.Schema({
     image: {
         type: String,
         required: true,
-    }
+    },
 });
 
 module.exports = mongoose.models.Author || mongoose.model("Author", AuthorSchema);
