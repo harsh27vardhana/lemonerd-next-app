@@ -34,7 +34,7 @@ function Authors({ posts ,authors }) {
         <Row className="justify-content-center">
           {authors.map((author) => (
             <Col
-              key={author._id}
+              key={author.id}
               lg={6}
               className="d-flex align-items-strech h-auto w-auto"
             >
@@ -47,7 +47,7 @@ function Authors({ posts ,authors }) {
                   backgroundColor: "rgb(255, 255, 255, 0.6)",
                 }}
               >
-                <Link href="/authors/[author]" as={`/authors/${author._id}`}>
+                <Link href="/authors/[author]" as={`/authors/${author.id}`}>
                   <div className="d-flex justify-content-center">
                     <div
                       className="circular-img d-none d-sm-block "
@@ -70,7 +70,7 @@ function Authors({ posts ,authors }) {
                   </div>
                 </Link>
                 <Card.Body className="p-md-3">
-                  <Link href="/authors/[author]" as={`/authors/${author._id}`}>
+                  <Link href="/authors/[author]" as={`/authors/${author.id}`}>
                     <Card.Title
                       role="button"
                       style={{ fontSize: "2rem", textAlign: "center" }}
@@ -78,13 +78,13 @@ function Authors({ posts ,authors }) {
                       {author.name}
                     </Card.Title>
                   </Link>
-                  <Link href="/authors/[author]" as={`/authors/${author._id}`}>
+                  <Link href="/authors/[author]" as={`/authors/${author.id}`}>
                     <Card.Text role="button">{author.description}</Card.Text>
                   </Link>
                 </Card.Body>
                 <span className="d-inline pl-3">
                   <strong className="h5">Related Tags: </strong>
-                  {getAuthorTags(author._id).map((tag) => (
+                  {getAuthorTags(author.id).map((tag) => (
                     <span key={tag}>
                       <Button
                         variant="outline-info"
@@ -112,16 +112,20 @@ export default Authors;
 
 
 
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   dbConnect;
-  const post = await Post.find({ hidden: "false" });
-  const author =await Author.find();
-  const posts = JSON.parse(JSON.stringify(post)); 
-  const authors = JSON.parse(JSON.stringify(author));
-
+  const post =  Post.find({ hidden: "false" });
+  const author = Author.find();
+  const result = await Promise.all([post,author]).then(([poss,authos])=>{
+    // console.log(posts)
+    const posts = JSON.parse(JSON.stringify(poss));
+    const authors = JSON.parse(JSON.stringify(authos));
+    return {posts,authors};
+  })
+// console.log(result)
   
   return {
-    props: { posts ,authors},
+    props: result,
     revalidate: 100,
   };
 };
