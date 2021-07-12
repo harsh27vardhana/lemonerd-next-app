@@ -2,15 +2,10 @@ import Head from "next/head";
 import { Row, Col } from "react-bootstrap";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Image from "react-bootstrap/Image";
-import Feed from "../data/quicksplained.json";
 import dbConnect from "../database/dbconnect";
-import Quicksplained from "../database/quicksplainedSchema"
-export default function quicksplained() {
-  const feeds = Feed.feed;
-  const script = document.createElement("script");
-  script.setAttribute("async", "");
-  script.src = "//www.instagram.com/embed.js";
-  script.onload = () => window.instgrm.Embeds.process();
+import Quicksplained from "../database/quicksplainedSchema";
+
+export default function quicksplained({ feeds }) {
   return (
     <div>
       <Head>
@@ -61,8 +56,8 @@ export default function quicksplained() {
           </Col>
         </Row>
         <div className="container ">
-          {feeds.map((feed, index) => (
-            <Row key={feed.embed}>
+          {feeds.reverse().map((feed, index) => (
+            <Row key={feed._id}>
               <Col
                 md={6}
                 xs={12}
@@ -107,15 +102,14 @@ export default function quicksplained() {
   );
 }
 
-
 export const getStaticProps = async () => {
   dbConnect();
 
   const posts = await Quicksplained.find();
-  
-  const post = JSON.parse(JSON.stringify(posts));
+
+  const feeds = JSON.parse(JSON.stringify(posts));
   return {
-    props: { post},
+    props: { feeds },
     revalidate: 100,
-}
+  };
 };
