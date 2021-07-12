@@ -122,7 +122,7 @@ export const getStaticProps = async () => {
     const authors = JSON.parse(JSON.stringify(authos));
     return {posts,authors};
   })
-// console.log(result)
+console.log(result)
   
   return {
     props: result,
