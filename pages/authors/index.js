@@ -113,7 +113,7 @@ export default Authors;
 
 
 export const getStaticProps = async () => {
-  dbConnect;
+   dbConnect();
   const post =  Post.find({ hidden: "false" });
   const author = Author.find();
   const result = await Promise.all([post,author]).then(([poss,authos])=>{
