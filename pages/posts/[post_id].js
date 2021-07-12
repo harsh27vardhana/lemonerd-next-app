@@ -15,19 +15,22 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareSquare } from "@fortawesome/free-solid-svg-icons";
 import { server } from "../../config/config";
-import Author from "../../data/authors.json";
 import Alert from "react-bootstrap/Alert";
 import { useState, useEffect } from "react";
 import RelatedArticle from "../../components/relatedArticle";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/swiper-bundle.css";
+import dbConnect from "../../database/dbconnect";
+import Author from "../../database/authorSchema";
+import Post from "../../database/postSchema";
+
 
 const authors = Author.authors;
 SwiperCore.use([Navigation, Pagination]);
 
-function Posts({ post, recentposts, relatedposts, tags }) {
-  const postAuthor = authors.find((item) => item.id === post.author);
+function Posts({ post, recentposts, relatedposts, tags, postAuthor }) {
+
   const [copied, setCopied] = useState(false);
 
   const recentSlides = [];
@@ -422,36 +425,63 @@ function Posts({ post, recentposts, relatedposts, tags }) {
     </div>
   );
 }
-const prp = {};
-export async function getServerSideProps(context) {
-  const { post_id } = context.query;
-  const url = `${server}/api/`;
-  const fetchpost = fetch(url + "posts/" + post_id);
-  const fetchrecentposts = fetch(url + "posts/recentposts/" + post_id);
-  const fetchrelatedposts = fetch(url + "posts/relatedposts/" + post_id);
+// console.log(Author)
+export async function getStaticPaths() {
+  await dbConnect();
+  const posts = await Post.find({ hidden: "false" });
+  const paths = posts.map((post) => ({
 
-  const result = await Promise.all([
-    fetchpost,
-    fetchrecentposts,
-    fetchrelatedposts,
-  ])
-    .then((values) => {
-      return Promise.all(values.map((res) => res.json()));
+    params: {
+      post_id: `${post._id}`,
+    }
+  }))
+  // console.log(paths)
+  return { paths, fallback: true }
+}
+
+
+export async function getStaticProps({ params }) {
+  await dbConnect();
+  const id = params.post_id;
+  const pst = Post.findById(id);
+  const rcentpost = Post.find({ '_id': { $ne: id }, hidden: "false" }).sort({ date: -1 }).limit(10);
+
+
+
+  const result = await Promise.all([pst, rcentpost]).then(([pot, reentpost, reatedpost]) => {
+    const authortags = Post.distinct("tags", { "author": pot.author });
+    const rlatedpost = Post.find({ '_id': { $ne: id }, hidden: "false", tags: pot.tags[0] }).limit(10)
+    const author = Author.findById(pot.author);
+
+
+    const tempresult =  Promise.all([authortags, rlatedpost, author]).then(([authortgs, relatedpots, pstauthor]) => {
+      return { authortgs, relatedpots, pstauthor }
     })
-    .then(async ([posti, recentpostsi, relatedpostsi]) => {
-      prp.post = posti;
-      prp.recentposts = recentpostsi;
-      prp.relatedposts = relatedpostsi;
-      const tagsUrl = url + `authors/${posti.author}`;
-      const response = await fetch(tagsUrl);
-      const tags = await response.json();
-      prp.tags = tags;
-      return prp;
-    });
-  //  console.log(result)
+    const post = JSON.parse(JSON.stringify(pot));
+    const postAuthor = JSON.parse(JSON.stringify(tempresult.pstauthor));
+    const recentposts = JSON.parse(JSON.stringify(reentpost));
+    const relatedposts = JSON.parse(JSON.stringify(tempresult.relatedpots)
+    );
+    const tags = JSON.parse(JSON.stringify(authortgs));
+
+    return;
+  })
+
+
+  // const post = JSON.parse(JSON.stringify(params.content));
+  // const postAuthor = JSON.parse(JSON.stringify(author));
+  // const recentposts = JSON.parse(JSON.stringify(rcentpost));
+  // const relatedposts = JSON.parse(JSON.stringify(rlatedpost)
+  // );
+  // const tags = JSON.parse(JSON.stringify(authortags));
+
   return {
     props: result,
   };
 }
+
+
+
+
 
 export default Posts;

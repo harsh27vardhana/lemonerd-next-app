@@ -1,7 +1,7 @@
 import dbConnect from "../../../database/dbconnect";
 import Author from "../../../database/authorSchema";
 
-dbConnect();
+await dbConnect();
 
 export default async (req, res) => {
 

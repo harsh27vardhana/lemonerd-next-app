@@ -70,7 +70,7 @@ function Authors({ posts ,authors }) {
                   </div>
                 </Link>
                 <Card.Body className="p-md-3">
-                  <Link href="/authors/[author]" as={`/authors/${author.id}`}>
+                  <Link href="/authors/[author]" as={`/authors/${author._id}`}>
                     <Card.Title
                       role="button"
                       style={{ fontSize: "2rem", textAlign: "center" }}
@@ -113,16 +113,14 @@ export default Authors;
 
 
 export const getStaticProps = async () => {
-   dbConnect();
+  await dbConnect();
   const post =  Post.find({ hidden: "false" });
   const author = Author.find();
   const result = await Promise.all([post,author]).then(([poss,authos])=>{
-    // console.log(posts)
     const posts = JSON.parse(JSON.stringify(poss));
     const authors = JSON.parse(JSON.stringify(authos));
     return {posts,authors};
   })
-console.log(result)
   
   return {
     props: result,

@@ -2,20 +2,24 @@ import Head from "next/head";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
 import ArticleCard from "../../components/articleCard";
-import { server } from "../../config/config";
-import Author from "../../data/authors.json";
 import Image from "react-bootstrap/Image";
+import dbConnect from "../../database/dbconnect";
+import Author from "../../database/authorSchema";
+import Post from "../../database/postSchema";
+import { FaBullseye } from "react-icons/fa";
+
 
 function Authors({ posts, author }) {
-  const data = posts.data;
-  const currentAuthor = Author.authors.find((item) => item.id === author);
-  const authorBlog = data.filter((item) => item.author === author);
-  const authorTags = authorBlog.map((blog) => blog.tags);
-  const allTags = [].concat.apply([], authorTags);
-  const tags = [...new Set([...allTags])];
+  console.log(author)
+  // const data = posts.data;
+  // const currentAuthor = Author.authors.find((item) => item.id === author);
+  // const authorBlog = data.filter((item) => item.author === author);
+  // const authorTags = authorBlog.map((blog) => blog.tags);
+  // const allTags = [].concat.apply([], authorTags);
+  // const tags = [...new Set([...allTags])];
   return (
     <Container className="mt-5 py-5 bg-white">
-      <Head>
+      {/* <Head>
         <title>{currentAuthor.name} | Lemonerd</title>
         <script
           async
@@ -69,19 +73,44 @@ function Authors({ posts, author }) {
         <div className="p-3" key={item._id}>
           <ArticleCard {...item} />
         </div>
-      ))}
+      ))} */}
     </Container>
   );
 }
 
-export async function getServerSideProps(context) {
-  const { author } = context.query;
-  const url = server + "/api/posts/";
-  const res = await fetch(url);
-  const posts = await res.json();
+export async function getStaticPaths() {
+  await dbConnect();
+  const posts = await Author.find();
+  const paths = posts.map((post) => ({
+
+    params: {
+      author: post.id.toString()
+    }
+  }))
+  // console.log(paths)
+  return { paths, fallback: false }
+}
+
+export async function getStaticProps({params}) {
+    dbConnect();
+    // console.log(params.author)
+  const author=  Author.findById(params.author);
+  const posts = Post.find({ "author": params.author }).sort({date: -1});
+  
+  const result = await Promise.all([author, posts]).then(([authos, poss]) => {
+    // console.log(poss)
+    const posts = JSON.parse(JSON.stringify(poss));
+    const authors = JSON.parse(JSON.stringify(authos));
+    return { posts, authors };
+  })
+
+
   return {
-    props: { posts, author },
+    props: result,
   };
 }
+
+
+
 
 export default Authors;
