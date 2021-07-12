@@ -8,19 +8,19 @@ import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 import { FaBullseye } from "react-icons/fa";
 
-
-function Authors({ posts, author }) {
-  console.log(author)
+function Authors({ posts, authors }) {
+  console.log(authors);
+  console.log(posts);
   // const data = posts.data;
-  // const currentAuthor = Author.authors.find((item) => item.id === author);
+  // const author = Author.authors.find((item) => item.id === author);
   // const authorBlog = data.filter((item) => item.author === author);
-  // const authorTags = authorBlog.map((blog) => blog.tags);
-  // const allTags = [].concat.apply([], authorTags);
-  // const tags = [...new Set([...allTags])];
+  const authorTags = posts.map((blog) => blog.tags);
+  const allTags = [].concat.apply([], authorTags);
+  const tags = [...new Set([...allTags])];
   return (
     <Container className="mt-5 py-5 bg-white">
-      {/* <Head>
-        <title>{currentAuthor.name} | Lemonerd</title>
+      <Head>
+        <title>{authors.name} | Lemonerd</title>
         <script
           async
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
@@ -36,16 +36,16 @@ function Authors({ posts, author }) {
                   style={{
                     width: "200px",
                     height: "200px",
-                    backgroundImage: `url(${currentAuthor.image})`,
+                    backgroundImage: `url(${authors.image})`,
                   }}
                 />
               </div>
             </Col>
             <Col lg={9} md={8} sm={12}>
-              <h1>{currentAuthor ? currentAuthor.name : null} </h1>
+              <h1>{authors ? authors.name : null} </h1>
               <hr />
               <Card.Text>
-                {currentAuthor ? currentAuthor.description : null}
+                {authors ? authors.description : null}
                 <br />
                 <br />
                 <span>
@@ -69,11 +69,11 @@ function Authors({ posts, author }) {
           </Row>
         </Card.Body>
       </Card>
-      {authorBlog.map((item) => (
+      {posts.map((item) => (
         <div className="p-3" key={item._id}>
           <ArticleCard {...item} />
         </div>
-      ))} */}
+      ))}
     </Container>
   );
 }
@@ -82,35 +82,30 @@ export async function getStaticPaths() {
   await dbConnect();
   const posts = await Author.find();
   const paths = posts.map((post) => ({
-
     params: {
-      author: post.id.toString()
-    }
-  }))
+      author: post.id.toString(),
+    },
+  }));
   // console.log(paths)
-  return { paths, fallback: false }
+  return { paths, fallback: false };
 }
 
-export async function getStaticProps({params}) {
-    dbConnect();
-    // console.log(params.author)
-  const author=  Author.findById(params.author);
-  const posts = Post.find({ "author": params.author }).sort({date: -1});
-  
+export async function getStaticProps({ params }) {
+  dbConnect();
+  const author = Author.findById(params.author);
+  const posts = Post.find({ author: params.author }).sort({ date: -1 });
+  // console.log(posts);
+
   const result = await Promise.all([author, posts]).then(([authos, poss]) => {
-    // console.log(poss)
     const posts = JSON.parse(JSON.stringify(poss));
     const authors = JSON.parse(JSON.stringify(authos));
     return { posts, authors };
-  })
+  });
 
-
+  // console.log(result);
   return {
     props: result,
   };
 }
-
-
-
 
 export default Authors;

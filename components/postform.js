@@ -131,8 +131,26 @@ function postform(props) {
     }
   }
 
-  useEffect(() => {
+  async function getAuthors() {
+    const res = await fetch(`/api/authors`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((attempt) => console.log(attempt));
+  }
+
+  useEffect(async () => {
+    const res = await fetch(`/api/authors`)
+      .then((response) => response.json())
+      .then((attempt) => console.log(attempt));
+  }, []);
+
+  useEffect(async () => {
     getPostToUpdate();
+    // getAuthors();
   }, [props]);
 
   function handleChange(event) {
@@ -146,7 +164,7 @@ function postform(props) {
     });
   }
 
-   function uploadThunbnail(event, response) {
+  function uploadThunbnail(event, response) {
     let file = event.target.files[0];
     const filename = Date.now() + file.name;
     setImageLabel(filename);
@@ -166,25 +184,6 @@ function postform(props) {
           .then((url) => setThumb(url));
       }
     );
-
-    // var reader = new FileReader();
-    // reader.onload = async (e) => {
-    //   var img = e.target.result;
-    //   var img_data = img.replace(/^data:image\/\w+;base64,/, "");
-    //   console.log(event.target.files[0].height);
-
-    //   const res = await fetch("api/images/thumbnail", {
-    //     body: JSON.stringify({ data: img_data, filename: file.name }),
-    //     headers: {
-    //       "Content-type": "application/json",
-    //     },
-    //     method: "POST",
-    //   });
-
-    //   const result = await res.json();
-    //   setThumb(result.location);
-    // };
-    // reader.readAsDataURL(file);
   }
 
   async function handleClick(event) {

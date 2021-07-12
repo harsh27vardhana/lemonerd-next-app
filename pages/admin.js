@@ -31,7 +31,6 @@ function admin({ posts }) {
   const [key, setKey] = useState("create");
   const [Blogs, setBlogs] = useState(data);
   const [confirmation, setConfirmation] = useState(false);
-  const [agreeDelete, setAgreeDelete] = useState(false);
 
   async function getPosts() {
     const res = await fetch(`${server}/api/admin`, {
@@ -86,7 +85,6 @@ function admin({ posts }) {
       .then((response) => response.json())
       .then((attempt) => {
         console.log(attempt);
-        setAgreeDelete(false);
         getPosts();
       });
   }
