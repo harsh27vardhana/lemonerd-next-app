@@ -14,8 +14,8 @@ import Post from "../database/postSchema";
 const tags = Tags.categories;
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-export default function Home({ posts }) {
-  const data = posts;
+export default function Home({ blogs }) {
+  const data = blogs;
   const blogsRef = useRef(null);
   const [showScroll, setShowScroll] = useState(false);
 
@@ -147,10 +147,9 @@ export const getStaticProps = async () => {
 
   const posts = await Post.find({ hidden: "false" }).sort({ date: -1 });
 
-  const feeds = JSON.parse(JSON.stringify(posts));
-  console.log(feeds)
+  const blogs = JSON.parse(JSON.stringify(posts));
   return {
-    props: { feeds },
+    props: { blogs },
     revalidate: 100,
   };
 };
