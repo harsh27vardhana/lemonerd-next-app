@@ -143,7 +143,7 @@ function postform(props) {
     });
   }
 
-  function uploadThunbnail(event, response) {
+   function uploadThunbnail(event, response) {
     let file = event.target.files[0];
 
     var reader = new FileReader();
