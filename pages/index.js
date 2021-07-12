@@ -8,12 +8,14 @@ import { server } from "../config/config";
 import ArticleCard from "../components/articleCard";
 import Tags from "../data/tags.json";
 import { useRef, useState } from "react";
+import dbConnect from "../database/dbconnect";
+import Post from "../database/postSchema";
 
 const tags = Tags.categories;
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
 export default function Home({ posts }) {
-  const data = posts.data;
+  const data = posts;
   const blogsRef = useRef(null);
   const [showScroll, setShowScroll] = useState(false);
 
@@ -139,11 +141,17 @@ export default function Home({ posts }) {
   );
 }
 
-export const getServerSideProps = async () => {
-  const url = server + "/api/posts";
-  const res = await fetch(url);
-  const posts = await res.json();
+
+export const getStaticProps = async () => {
+  dbConnect();
+
+  const posts = await Post.find({ hidden: "false" }).sort({ date: -1 });
+
+  const feeds = JSON.parse(JSON.stringify(posts));
+  console.log(feeds)
   return {
-    props: { posts },
+    props: { feeds },
+    revalidate: 100,
   };
 };
+
