@@ -8,6 +8,15 @@ export default async (req, res) => {
   const { method } = req;
 
   switch (method) {
+    case "GET":
+      try {
+        const author = await Author.find();
+        res.send({ success: true, data: author });
+      } catch (err) {
+        console.log(err);
+        res.status(404);
+      }
+      break;
     case "POST":
       try {
         const author = await Author.create(req.body);
