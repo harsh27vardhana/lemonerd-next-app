@@ -112,7 +112,7 @@ export default Authors;
 
 
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   dbConnect;
   const post = await Post.find({ hidden: "false" });
   const author =await Author.find();
