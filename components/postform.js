@@ -8,6 +8,8 @@ import Data from "../data/authors.json";
 import { Badge, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
+import { server } from "../config/config";
+import { storage } from "../config/firebase";
 const authors = Data.authors;
 const category = Tags.categories;
 
@@ -65,6 +67,7 @@ function postform(props) {
   const [availableCategory, setAvailableCategory] = useState(category);
   const [author, setAuthor] = useState("");
   const [thumb, setThumb] = useState("");
+  const [imageLabel, setImageLabel] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [valid, setValid] = useState(false);
   const [submitAttempt, setSubmitAttempt] = useState(false);
@@ -90,7 +93,7 @@ function postform(props) {
   }
 
   async function getPostToUpdate() {
-    const res = await fetch(`/api/admin/${props.id}`, {
+    const res = await fetch(`${server}/api/admin/${props.id}`, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -145,25 +148,43 @@ function postform(props) {
 
   function uploadThunbnail(event, response) {
     let file = event.target.files[0];
+    const filename = Date.now() + file.name;
+    setImageLabel(filename);
+    const uploadTask = storage.ref(`thumbnails/${filename}`).put(file);
 
-    var reader = new FileReader();
-    reader.onload = async (e) => {
-      var img = e.target.result;
-      var img_data = img.replace(/^data:image\/\w+;base64,/, "");
-      console.log(event.target.files[0].height);
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("thumbnails")
+          .child(filename)
+          .getDownloadURL()
+          .then((url) => setThumb(url));
+      }
+    );
 
-      const res = await fetch("api/images/thumbnail", {
-        body: JSON.stringify({ data: img_data, filename: file.name }),
-        headers: {
-          "Content-type": "application/json",
-        },
-        method: "POST",
-      });
+    // var reader = new FileReader();
+    // reader.onload = async (e) => {
+    //   var img = e.target.result;
+    //   var img_data = img.replace(/^data:image\/\w+;base64,/, "");
+    //   console.log(event.target.files[0].height);
 
-      const result = await res.json();
-      setThumb(result.location);
-    };
-    reader.readAsDataURL(file);
+    //   const res = await fetch("api/images/thumbnail", {
+    //     body: JSON.stringify({ data: img_data, filename: file.name }),
+    //     headers: {
+    //       "Content-type": "application/json",
+    //     },
+    //     method: "POST",
+    //   });
+
+    //   const result = await res.json();
+    //   setThumb(result.location);
+    // };
+    // reader.readAsDataURL(file);
   }
 
   async function handleClick(event) {
@@ -194,7 +215,7 @@ function postform(props) {
 
   useEffect(async () => {
     if (props.update && valid) {
-      const res = await fetch(`/api/admin/${props.id}`, {
+      const res = await fetch(`${server}/api/admin/${props.id}`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
@@ -224,7 +245,7 @@ function postform(props) {
           window.scrollTo(0, 0);
         });
     } else if (valid) {
-      const res = await fetch("/api/admin", {
+      const res = await fetch(`${server}/api/admin`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
@@ -324,7 +345,7 @@ function postform(props) {
       </Form.Group>
       <div className="text-center">
         <Image
-          src={thumb ? thumb.replace(/%2F/gi, "/") : "/thumbnail/default.png"}
+          src={thumb ? thumb : "/thumbnail/default.png"}
           height="300px"
           width="300px"
           thumbnail
@@ -337,7 +358,7 @@ function postform(props) {
         <Form.File
           id="Thumbnail"
           onChange={uploadThunbnail}
-          label={thumb ? thumb.replace(/%2F/gi, "/") : "Upload File here"}
+          label={thumb ? imageLabel : "Upload File here"}
           type="file"
           custom
           required
@@ -450,10 +471,7 @@ function postform(props) {
                     style={{
                       width: "30px",
                       height: "30px",
-                      backgroundImage: `url(${item.image.replace(
-                        /%2F/gi,
-                        "/"
-                      )})`,
+                      backgroundImage: `url(${item.image})`,
                     }}
                   />
                 </Row>

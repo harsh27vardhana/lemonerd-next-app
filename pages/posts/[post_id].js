@@ -111,10 +111,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
                       style={{
                         width: "40px",
                         height: "40px",
-                        backgroundImage: `url(${postAuthor.image.replace(
-                          /%2F/gi,
-                          "/"
-                        )})`,
+                        backgroundImage: `url(${postAuthor.image})`,
                       }}
                     />
                   </Link>
@@ -228,10 +225,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
                           style={{
                             width: "50px",
                             height: "50px",
-                            backgroundImage: `url(${postAuthor.image.replace(
-                              /%2F/gi,
-                              "/"
-                            )})`,
+                            backgroundImage: `url(${postAuthor.image})`,
                           }}
                         />
                       </Link>
@@ -392,27 +386,27 @@ function Posts({ post, recentposts, relatedposts, tags }) {
         <Swiper
           className="d-none d-xl-block"
           slidesPerView={5}
-          navigation
+          navigation={recentposts.length >= 5 ? true : false}
           pagination={{ clickable: true }}
-          loop
+          loop={recentposts.length >= 5 ? true : false}
         >
           {recentSlides}
         </Swiper>
         <Swiper
           className="d-none d-lg-block d-xl-none"
           slidesPerView={4}
-          navigation
+          navigation={recentposts.length >= 4 ? true : false}
           pagination={{ clickable: true }}
-          loop
+          loop={recentposts.length >= 4 ? true : false}
         >
           {recentSlides}
         </Swiper>
         <Swiper
           className="d-none d-md-block d-lg-none"
           slidesPerView={3}
-          navigation
+          navigation={recentposts.length >= 3 ? true : false}
           pagination={{ clickable: true }}
-          loop
+          loop={recentposts.length >= 3 ? true : false}
         >
           {recentSlides}
         </Swiper>
@@ -420,7 +414,7 @@ function Posts({ post, recentposts, relatedposts, tags }) {
           className="d-block d-md-none"
           slidesPerView={2}
           pagination={{ clickable: true }}
-          loop
+          loop={recentposts.length >= 2 ? true : false}
         >
           {recentSlides}
         </Swiper>

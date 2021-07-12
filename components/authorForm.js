@@ -3,6 +3,8 @@ import { Form } from "react-bootstrap";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
+import { server } from "../config/config";
+import { storage } from "../config/firebase";
 
 function AuthorForm() {
   const [input, setInput] = useState({
@@ -27,28 +29,47 @@ function AuthorForm() {
   }
 
   const [image, setImage] = useState("");
+  const [imageLabel, setImageLabel] = useState("");
 
   function uploadAuthorImage(event, response) {
     let file = event.target.files[0];
-    var reader = new FileReader();
-    reader.onload = async (e) => {
-      var img = e.target.result;
-      var img_data = img.replace(/^data:image\/\w+;base64,/, "");
-      console.log(file.name);
+    const filename = Date.now() + file.name;
+    setImageLabel(filename);
+    const uploadTask = storage.ref(`authors/${filename}`).put(file);
 
-      const res = await fetch("api/images/author", {
-        body: JSON.stringify({ data: img_data, filename: file.name }),
-        headers: {
-          "Content-type": "application/json",
-        },
-        method: "POST",
-      });
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error);
+      },
+      () => {
+        storage
+          .ref("authors")
+          .child(filename)
+          .getDownloadURL()
+          .then((url) => setImage(url));
+      }
+    );
+    // var reader = new FileReader();
+    // reader.onload = async (e) => {
+    //   var img = e.target.result;
+    //   var img_data = img.replace(/^data:image\/\w+;base64,/, "");
+    //   console.log(file.name);
 
-      const result = await res.json();
+    //   const res = await fetch(`${server}/api/images/author`, {
+    //     body: JSON.stringify({ data: img_data, filename: file.name }),
+    //     headers: {
+    //       "Content-type": "application/json",
+    //     },
+    //     method: "POST",
+    //   });
 
-      setImage(result);
-    };
-    reader.readAsDataURL(file);
+    //   const result = await res.json();
+
+    //   setImage(result);
+    // };
+    // reader.readAsDataURL(file);
   }
 
   async function handleClick(event) {
@@ -57,7 +78,7 @@ function AuthorForm() {
     const newInput = {
       name: input.name,
       description: input.description,
-      image: image.location,
+      image: image,
     };
 
     if (newInput.name && newInput.image && newInput.description) setValid(true);
@@ -66,7 +87,7 @@ function AuthorForm() {
 
   useEffect(async () => {
     if (valid) {
-      const res = await fetch("/api/authors", {
+      const res = await fetch(`${server}/api/authors`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
@@ -141,9 +162,7 @@ function AuthorForm() {
       </Form.Group>
       <div className="text-center">
         <Image
-          src={
-            image ? image.location.replace(/%2F/gi, "/") : "/author/default.png"
-          }
+          src={image ? image : "/author/default.png"}
           width="300px"
           height="300px"
           thumbnail
@@ -156,9 +175,7 @@ function AuthorForm() {
         <Form.File
           id="authorImage"
           onChange={uploadAuthorImage}
-          label={
-            image ? image.location.replace(/%2F/gi, "/") : "Upload Image here"
-          }
+          label={image ? imageLabel : "Upload Image here"}
           type="file"
           custom
           required
