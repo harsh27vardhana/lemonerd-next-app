@@ -120,6 +120,7 @@ export const getStaticProps = async () => {
   const authors = JSON.parse(JSON.stringify(author));
   console.log(authors);
 
+  
   return {
     props: { posts ,authors},
     revalidate: 100,
