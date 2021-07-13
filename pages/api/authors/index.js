@@ -5,7 +5,7 @@ import Author from "../../../database/authorSchema";
 
 
 export default async (req, res) => {
-  console.log("FSJKHF")
+ 
   const { method } = req;
 
   switch (method) {
