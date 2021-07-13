@@ -22,7 +22,8 @@ function Redirect({ to }) {
   return null;
 }
 
-function admin({ posts }) {
+function admin({ posts, authors }) {
+  // console.log(authors);
   const { currentUser } = useAuth();
   if (!currentUser) {
     return <Redirect to="/login" />;
@@ -154,16 +155,16 @@ function admin({ posts }) {
           </Tab>
           <Tab eventKey="update" title="Update">
             <Container>
-              {Blogs.map((element) => (
-                <div className="p-3" key={element._id}>
+              {Blogs.map((blog) => (
+                <div className="p-3" key={blog._id}>
                   <Card>
-                    <ArticleCard {...element} />
+                    <ArticleCard {...{ blog, authors }} />
                     <Row className="pt-2 text-center">
                       <Col>
                         <Button
                           className="px-md-5 py-1 mb-2 "
                           variant="primary"
-                          onClick={() => updatePost(element._id)}
+                          onClick={() => updatePost(blog._id)}
                         >
                           Update
                         </Button>
@@ -173,7 +174,7 @@ function admin({ posts }) {
                           className="px-md-5 py-1 mb-2 "
                           variant="danger"
                           onClick={() => {
-                            setDeleteId(element._id);
+                            setDeleteId(blog._id);
                             setConfirmation(true);
                           }}
                         >
@@ -184,9 +185,9 @@ function admin({ posts }) {
                         <Button
                           className="px-md-5 py-1 mb-2 "
                           variant="warning"
-                          onClick={() => hidePost(element._id)}
+                          onClick={() => hidePost(blog._id)}
                         >
-                          {element.hidden === "false" ? "HIDE" : "UNHIDE"}
+                          {blog.hidden === "false" ? "HIDE" : "UNHIDE"}
                         </Button>
                       </Col>
                     </Row>
@@ -213,8 +214,12 @@ export const getServerSideProps = async () => {
   const url = server + "/api/admin";
   const res = await fetch(url);
   const posts = await res.json();
+  const author = await fetch(server + "/api/authors");
+  const authorsJson = await author.json();
+  const authors = authorsJson.data;
+  // console.log(authors);
   return {
-    props: { posts },
+    props: { posts, authors },
   };
 };
 

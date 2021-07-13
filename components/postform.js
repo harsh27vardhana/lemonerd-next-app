@@ -4,13 +4,13 @@ import Dropdown from "react-bootstrap/Dropdown";
 import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 import Tags from "../data/tags.json";
-import Data from "../data/authors.json";
+// import Data from "../data/authors.json";
 import { Badge, Row } from "react-bootstrap";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
 import { server } from "../config/config";
 import { storage } from "../config/firebase";
-const authors = Data.authors;
+// const authors = Data.authors;
 const category = Tags.categories;
 
 function postform(props) {
@@ -66,6 +66,7 @@ function postform(props) {
   const [activeCategory, setActiveCategory] = useState([]);
   const [availableCategory, setAvailableCategory] = useState(category);
   const [author, setAuthor] = useState("");
+  const [authors, setAuthors] = useState([]);
   const [thumb, setThumb] = useState("");
   const [imageLabel, setImageLabel] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -115,7 +116,7 @@ function postform(props) {
     props.update ? setInput(result) : setInput(newInput);
     props.update ? setThumb(result.thumbnail) : setThumb("");
     props.update
-      ? setAuthor(authors.find(({ id }) => id === result.author))
+      ? setAuthor(authors.find(({ _id }) => _id === result.author))
       : setAuthor("");
     props.update ? setActiveCategory(result.tags) : setActiveCategory([]);
     const newAvailableCategory = props.update
@@ -131,28 +132,27 @@ function postform(props) {
     }
   }
 
-  // async function getAuthors() {
-  //   const res = await fetch(`/api/authors`, {
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     method: "GET",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((attempt) => console.log(attempt));
-  // }
+  async function getAuthors() {
+    const res = await fetch(`/api/authors`, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((attempt) => setAuthors(attempt.data));
+  }
 
   // useEffect(async () => {
-    // const res =  fetch(`${server}api/authors`);
-    // const data =  res.json();
-    // console.log(data)
+  // const res =  fetch(`${server}api/authors`);
+  // const data =  res.json();
+  // console.log(data)
 
-      
   // }, []);
 
   useEffect(async () => {
     getPostToUpdate();
-    // getAuthors();
+    getAuthors();
   }, [props]);
 
   function handleChange(event) {
@@ -194,7 +194,7 @@ function postform(props) {
     const newInput = {
       title: input.title,
       caption: input.caption,
-      author: author.id,
+      author: author._id,
       content: tinymce.get("postcontent").getContent(),
       date: input.date,
       tags: activeCategory,
@@ -212,6 +212,8 @@ function postform(props) {
     )
       setValid(true);
     setInput(newInput);
+    console.log(author);
+    console.log(valid);
   }
 
   useEffect(async () => {
@@ -225,6 +227,7 @@ function postform(props) {
       })
         .then((response) => response.json())
         .then((attempt) => {
+          console.log(attempt);
           attempt.success ? setSubmitted(true) : setErrorSubmit(true);
           setActiveCategory([]);
           setAvailableCategory(category);
@@ -453,7 +456,7 @@ function postform(props) {
       </Form.Group>
       <Form.Group>
         <div>
-          <Badge variant="warning">{author.name}</Badge>
+          <Badge variant="warning">{author ? author.name : null}</Badge>
         </div>
         <br />
         <Dropdown>
@@ -463,7 +466,7 @@ function postform(props) {
             <Dropdown.Item onClick={() => setAuthor("")}>Select</Dropdown.Item>
             <Dropdown.Divider />
             {authors.map((item) => (
-              <Dropdown.Item key={item.id} onClick={() => setAuthor(item)}>
+              <Dropdown.Item key={item._id} onClick={() => setAuthor(item)}>
                 <Row className="justify-content-between align-items-center">
                   {item.name}
                   &ensp; &ensp;

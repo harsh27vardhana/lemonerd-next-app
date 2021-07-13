@@ -8,7 +8,7 @@ import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 import { FaBullseye } from "react-icons/fa";
 
-function Authors({ posts, authors }) {
+function Authors({ posts, authors, author }) {
   console.log(authors);
   console.log(posts);
   // const data = posts.data;
@@ -20,7 +20,7 @@ function Authors({ posts, authors }) {
   return (
     <Container className="mt-5 py-5 bg-white">
       <Head>
-        <title>{authors.name} | Lemonerd</title>
+        <title>{author.name} | Lemonerd</title>
         <script
           async
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
@@ -36,16 +36,16 @@ function Authors({ posts, authors }) {
                   style={{
                     width: "200px",
                     height: "200px",
-                    backgroundImage: `url(${authors.image})`,
+                    backgroundImage: `url(${author.image})`,
                   }}
                 />
               </div>
             </Col>
             <Col lg={9} md={8} sm={12}>
-              <h1>{authors ? authors.name : null} </h1>
+              <h1>{author ? author.name : null} </h1>
               <hr />
               <Card.Text>
-                {authors ? authors.description : null}
+                {author ? author.description : null}
                 <br />
                 <br />
                 <span>
@@ -69,9 +69,9 @@ function Authors({ posts, authors }) {
           </Row>
         </Card.Body>
       </Card>
-      {posts.map((item) => (
-        <div className="p-3" key={item._id}>
-          <ArticleCard {...item} />
+      {posts.map((blog) => (
+        <div className="p-3" key={blog._id}>
+          <ArticleCard {...{ blog, authors }} />
         </div>
       ))}
     </Container>
@@ -86,18 +86,24 @@ export async function getStaticPaths() {
       author: post.id.toString(),
     },
   }));
-  return { paths, fallback: 'blocked' };
+  return { paths, fallback: true };
 }
 
 export async function getStaticProps({ params }) {
   dbConnect();
-  const author = Author.findById(params.author);
-  const posts = Post.find({ author: params.author, hidden: "false" }).sort({ date: -1 });
-  const result = await Promise.all([author, posts]).then(([authos, poss]) => {
-    const posts = JSON.parse(JSON.stringify(poss));
-    const authors = JSON.parse(JSON.stringify(authos));
-    return { posts, authors };
+  const authorbyId = Author.findById(params.author);
+  const allAuthor = Author.find();
+  const posts = Post.find({ author: params.author, hidden: "false" }).sort({
+    date: -1,
   });
+  const result = await Promise.all([allAuthor, posts, authorbyId]).then(
+    ([allAuthos, poss, authos]) => {
+      const posts = JSON.parse(JSON.stringify(poss));
+      const authors = JSON.parse(JSON.stringify(allAuthos));
+      const author = JSON.parse(JSON.stringify(authos));
+      return { posts, authors, author };
+    }
+  );
 
   return {
     props: result,
