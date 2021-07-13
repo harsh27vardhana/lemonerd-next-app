@@ -6,7 +6,7 @@ import Author from "../data/authors.json";
 
 const authors = Author.authors;
 
-function RelatedArticle(props) {
+function RelatedArticle({ blog, authors }) {
   const getDate = () => {
     const month = [
       "January",
@@ -23,15 +23,15 @@ function RelatedArticle(props) {
       "December",
     ];
     const date =
-      props.date[8] +
-      props.date[9] +
+      blog.date[8] +
+      blog.date[9] +
       " " +
-      month[props.date[5] * 10 + props.date[6] - 1] +
+      month[blog.date[5] * 10 + blog.date[6] - 1] +
       " " +
-      props.date[0] +
-      props.date[1] +
-      props.date[2] +
-      props.date[3];
+      blog.date[0] +
+      blog.date[1] +
+      blog.date[2] +
+      blog.date[3];
     return date;
   };
 
@@ -39,19 +39,19 @@ function RelatedArticle(props) {
     <Card className={style.cardMain}>
       <Link
         href="/posts/[post_id]"
-        as={`/posts/${props._id}`}
+        as={`/posts/${blog._id}`}
         className="stretched-link"
       >
         <div
           role="button"
           className={style.cardImg}
           style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.3),rgba(70, 70, 70, 1)), url("${props.thumbnail}")`,
+            backgroundImage: `linear-gradient(rgba(255,255,255,0.3),rgba(70, 70, 70, 1)), url("${blog.thumbnail}")`,
           }}
         >
           <Card.Title className={style.cardTitle}>
-            {props.title.substring(0, 25) +
-              (props.title.length > 24 ? "..." : "")}
+            {blog.title.substring(0, 25) +
+              (blog.title.length > 24 ? "..." : "")}
           </Card.Title>
         </div>
       </Link>
@@ -63,9 +63,9 @@ function RelatedArticle(props) {
               <br />
               by{" "}
               <cite title="Source Title" className="author-anchor">
-                <Link href="/authors/[author]" as={`/authors/${props.author}`}>
-                  {authors.find((item) => item.id === props.author)
-                    ? authors.find((item) => item.id === props.author).name
+                <Link href="/authors/[author]" as={`/authors/${blog.author}`}>
+                  {authors.find((item) => item._id === blog.author)
+                    ? authors.find((item) => item._id === blog.author).name
                     : null}
                 </Link>
               </cite>
