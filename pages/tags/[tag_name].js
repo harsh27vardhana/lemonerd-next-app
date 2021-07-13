@@ -47,7 +47,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   dbConnect();
   const tag = params.tag_name;
-  const post = await Post.find({ tags: params.tag_name, hidden: "false" }).sort(
+  const post =  Post.find({ tags: params.tag_name, hidden: "false" }).sort(
     { date: -1 }
   );
   const author = Author.find();
