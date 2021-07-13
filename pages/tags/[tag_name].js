@@ -2,9 +2,12 @@ import Head from "next/head";
 import { Container } from "react-bootstrap";
 import ArticleCard from "../../components/articleCard";
 import { server } from "../../config/config";
+import Data from "../../data/tags.json"
+import dbConnect from "../../database/dbconnect";
+import Post from "../../database/postSchema";
 
 function Tags({ posts, tag }) {
-  const data = posts.data;
+  const data = posts;
   return (
     <Container className="mt-5 py-5 bg-white">
       <Head>
@@ -31,12 +34,22 @@ function Tags({ posts, tag }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { tag_name } = context.query;
-  const tag = tag_name;
-  const url = server + "/api/posts/";
-  const res = await fetch(url);
-  const posts = await res.json();
+export async function getStaticPaths(){
+  const tags= Data.categories;
+  const paths = tags.map((tag)=>({
+    params:{
+      tag_name:tag
+    }
+  }))
+  return { paths, fallback: true };
+
+}
+
+export async function getStaticProps({params}) {
+  dbConnect();
+  const tag=params.tag_name;
+  const post = await Post.find({ tags: params.tag_name, hidden: "false" }).sort({ date: -1 });
+  const posts = JSON.parse(JSON.stringify(post));
   return {
     props: { posts, tag },
   };

@@ -79,32 +79,29 @@ function Authors({ posts, authors }) {
 }
 
 export async function getStaticPaths() {
-   dbConnect();
+  dbConnect();
   const posts = await Author.find();
   const paths = posts.map((post) => ({
     params: {
       author: post.id.toString(),
     },
   }));
-  // console.log(paths)
-  return { paths, fallback: false };
+  return { paths, fallback: 'blocked' };
 }
 
 export async function getStaticProps({ params }) {
   dbConnect();
   const author = Author.findById(params.author);
-  const posts = Post.find({ author: params.author }).sort({ date: -1 });
-  // console.log(posts);
-
+  const posts = Post.find({ author: params.author, hidden: "false" }).sort({ date: -1 });
   const result = await Promise.all([author, posts]).then(([authos, poss]) => {
     const posts = JSON.parse(JSON.stringify(poss));
     const authors = JSON.parse(JSON.stringify(authos));
     return { posts, authors };
   });
 
-  // console.log(result);
   return {
     props: result,
+    revalidate: 100,
   };
 }
 
