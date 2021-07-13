@@ -1,10 +1,13 @@
 import Head from "next/head";
+import React from "react";
 import { Container } from "react-bootstrap";
 import ArticleCard from "../../components/articleCard";
-import { server } from "../../config/config";
+import Data from "../../data/tags.json";
+import dbConnect from "../../database/dbconnect";
+import Author from "../../database/authorSchema";
+import Post from "../../database/postSchema";
 
-function Tags({ posts, tag }) {
-  const data = posts.data;
+function Tags({ blogs, authors, tag }) {
   return (
     <Container className="mt-5 py-5 bg-white">
       <Head>
@@ -20,10 +23,10 @@ function Tags({ posts, tag }) {
       <h1 className="py-5 text-center font-weight-bold display-4 gradient-text d-block d-sm-none">
         {tag}
       </h1>
-      {data.map((item) =>
-        item.tags.includes(tag) ? (
-          <div className="p-3" key={item._id}>
-            <ArticleCard {...item} />
+      {blogs.map((blog) =>
+        blog.tags.includes(tag) ? (
+          <div className="p-3" key={blog._id}>
+            <ArticleCard {...{ blog, authors }} />
           </div>
         ) : null
       )}
@@ -31,14 +34,31 @@ function Tags({ posts, tag }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  const { tag_name } = context.query;
-  const tag = tag_name;
-  const url = server + "/api/posts/";
-  const res = await fetch(url);
-  const posts = await res.json();
+export async function getStaticPaths() {
+  const tags = Data.categories;
+  const paths = tags.map((tag) => ({
+    params: {
+      tag_name: tag,
+    },
+  }));
+  return { paths, fallback: true };
+}
+
+export async function getStaticProps({ params }) {
+  dbConnect();
+  const tag = params.tag_name;
+  const post = Post.find({ tags: params.tag_name, hidden: "false" }).sort({
+    date: -1,
+  });
+  const author = Author.find();
+  const result = await Promise.all([post, author]).then(([poss, authos]) => {
+    const blogs = JSON.parse(JSON.stringify(poss));
+    const authors = JSON.parse(JSON.stringify(authos));
+    return { blogs, authors, tag };
+  });
   return {
-    props: { posts, tag },
+    props: result,
+    revalidate: 100,
   };
 }
 

@@ -1,19 +1,15 @@
 import Link from "next/link";
-import Image from "react-bootstrap/Image";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Dropdown from "react-bootstrap/Dropdown";
-import Form from "react-bootstrap/Form";
-import { Container } from "react-bootstrap";
+import { Container, Image, Nav, Navbar, Dropdown, Form } from "react-bootstrap";
 import Tags from "../data/tags.json";
 import style from "../styles/nav.module.css";
 import { useAuth } from "../context/AuthContext";
-import { useState } from "react";
+import React, { useState } from "react";
 const tags = Tags.categories;
 
 function navbar() {
   const { currentUser } = useAuth();
   const [expanded, setExpanded] = useState(false);
+  const [dropdownShow, setDropdownShow] = useState(false);
   return (
     <Navbar
       variant="dark"
@@ -103,7 +99,11 @@ function navbar() {
               ))}
             </span>
             <div className="pt-2 d-none d-lg-block">
-              <Dropdown>
+              <Dropdown
+                onSelect={() => setDropdownShow(false)}
+                onToggle={() => setDropdownShow(!dropdownShow)}
+                show={dropdownShow}
+              >
                 <Dropdown.Toggle
                   variant="transparent"
                   id="dropdown-basic"
@@ -118,7 +118,7 @@ function navbar() {
                       <div
                         role="button"
                         className="dropdown-item"
-                        onClick={() => setExpanded(false)}
+                        onClick={() => setDropdownShow(false)}
                       >
                         {tag}
                       </div>

@@ -1,20 +1,18 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { Container, Row, Col, Button, Image, Jumbotron } from "react-bootstrap";
 import { FaArrowUp } from "react-icons/fa";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Image from "react-bootstrap/Image";
-import { server } from "../config/config";
 import ArticleCard from "../components/articleCard";
 import Tags from "../data/tags.json";
-import { useRef, useState } from "react";
 import dbConnect from "../database/dbconnect";
+import Author from "../database/authorSchema";
 import Post from "../database/postSchema";
 
 const tags = Tags.categories;
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
-export default function Home({ blogs }) {
+export default function Home({ blogs, authors }) {
   const data = blogs;
   const blogsRef = useRef(null);
   const [showScroll, setShowScroll] = useState(false);
@@ -129,9 +127,9 @@ export default function Home({ blogs }) {
             </div>
           </Col>
           <Col lg={10}>
-            {data.map((element) => (
-              <div className="p-3" key={element._id}>
-                <ArticleCard {...element} />
+            {data.map((blog) => (
+              <div className="p-3" key={blog._id}>
+                <ArticleCard {...{ blog, authors }} />
               </div>
             ))}
           </Col>
@@ -141,16 +139,19 @@ export default function Home({ blogs }) {
   );
 }
 
-
 export const getStaticProps = async () => {
   dbConnect();
 
-  const posts = await Post.find({ hidden: "false" }).sort({ date: -1 });
+  const post =  Post.find({ hidden: "false" }).sort({ date: -1 });
+  const author = Author.find();
+  const result = await Promise.all([post, author]).then(([poss, authos]) => {
+    const blogs = JSON.parse(JSON.stringify(poss));
+    const authors = JSON.parse(JSON.stringify(authos));
+    return { blogs, authors };
+  });
 
-  const blogs = JSON.parse(JSON.stringify(posts));
   return {
-    props: { blogs },
+    props: result,
     revalidate: 100,
   };
 };
-

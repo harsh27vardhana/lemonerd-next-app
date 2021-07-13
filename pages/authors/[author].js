@@ -1,22 +1,20 @@
-import Head from "next/head";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
+import Head from "next/head";
+import React from "react";
+import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import ArticleCard from "../../components/articleCard";
-import { server } from "../../config/config";
-import Author from "../../data/authors.json";
-import Image from "react-bootstrap/Image";
+import dbConnect from "../../database/dbconnect";
+import Author from "../../database/authorSchema";
+import Post from "../../database/postSchema";
 
-function Authors({ posts, author }) {
-  const data = posts.data;
-  const currentAuthor = Author.authors.find((item) => item.id === author);
-  const authorBlog = data.filter((item) => item.author === author);
-  const authorTags = authorBlog.map((blog) => blog.tags);
+function Authors({ posts, authors, author }) {
+  const authorTags = posts.map((blog) => blog.tags);
   const allTags = [].concat.apply([], authorTags);
   const tags = [...new Set([...allTags])];
   return (
     <Container className="mt-5 py-5 bg-white">
       <Head>
-        <title>{currentAuthor.name} | Lemonerd</title>
+        <title>{author.name} | Lemonerd</title>
         <script
           async
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
@@ -32,16 +30,16 @@ function Authors({ posts, author }) {
                   style={{
                     width: "200px",
                     height: "200px",
-                    backgroundImage: `url(${currentAuthor.image})`,
+                    backgroundImage: `url("${author.image}")`,
                   }}
                 />
               </div>
             </Col>
             <Col lg={9} md={8} sm={12}>
-              <h1>{currentAuthor ? currentAuthor.name : null} </h1>
+              <h1>{author ? author.name : null} </h1>
               <hr />
               <Card.Text>
-                {currentAuthor ? currentAuthor.description : null}
+                {author ? author.description : null}
                 <br />
                 <br />
                 <span>
@@ -65,22 +63,45 @@ function Authors({ posts, author }) {
           </Row>
         </Card.Body>
       </Card>
-      {authorBlog.map((item) => (
-        <div className="p-3" key={item._id}>
-          <ArticleCard {...item} />
+      {posts.map((blog) => (
+        <div className="p-3" key={blog._id}>
+          <ArticleCard {...{ blog, authors }} />
         </div>
       ))}
     </Container>
   );
 }
 
-export async function getServerSideProps(context) {
-  const { author } = context.query;
-  const url = server + "/api/posts/";
-  const res = await fetch(url);
-  const posts = await res.json();
+export async function getStaticPaths() {
+  dbConnect();
+  const posts = await Author.find();
+  const paths = posts.map((post) => ({
+    params: {
+      author: post.id.toString(),
+    },
+  }));
+  return { paths, fallback: true };
+}
+
+export async function getStaticProps({ params }) {
+  dbConnect();
+  const authorbyId = Author.findById(params.author);
+  const allAuthor = Author.find();
+  const posts = Post.find({ author: params.author, hidden: "false" }).sort({
+    date: -1,
+  });
+  const result = await Promise.all([allAuthor, posts, authorbyId]).then(
+    ([allAuthos, poss, authos]) => {
+      const posts = JSON.parse(JSON.stringify(poss));
+      const authors = JSON.parse(JSON.stringify(allAuthos));
+      const author = JSON.parse(JSON.stringify(authos));
+      return { posts, authors, author };
+    }
+  );
+
   return {
-    props: { posts, author },
+    props: result,
+    revalidate: 100,
   };
 }
 

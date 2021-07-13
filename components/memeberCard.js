@@ -1,3 +1,4 @@
+import React from "react";
 import { Card, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styles from "../styles/memeberCard.module.css";

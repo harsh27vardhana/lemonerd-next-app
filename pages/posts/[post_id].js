@@ -1,6 +1,7 @@
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
 import Head from "next/head";
+import React, { useState, useEffect } from "react";
+import { Card, Container, Row, Col, Button, Alert } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   TwitterIcon,
@@ -14,43 +15,44 @@ import {
 } from "react-share";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareSquare } from "@fortawesome/free-solid-svg-icons";
-import { server } from "../../config/config";
-import Author from "../../data/authors.json";
-import Alert from "react-bootstrap/Alert";
-import { useState, useEffect } from "react";
 import RelatedArticle from "../../components/relatedArticle";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
 import "swiper/swiper-bundle.css";
+import dbConnect from "../../database/dbconnect";
+import Author from "../../database/authorSchema";
+import Post from "../../database/postSchema";
 
-const authors = Author.authors;
+// const authors = Author.authors;
 SwiperCore.use([Navigation, Pagination]);
 
-function Posts({ post, recentposts, relatedposts, tags }) {
-  const postAuthor = authors.find((item) => item.id === post.author);
+function Posts({
+  post,
+  recentposts,
+  relatedposts,
+  authortags,
+  author,
+  authors,
+}) {
   const [copied, setCopied] = useState(false);
 
   const recentSlides = [];
-  recentposts.forEach((element) => {
+  recentposts.forEach((blog) => {
     recentSlides.push(
-      <SwiperSlide key={element._id}>
-        <RelatedArticle {...element} />
+      <SwiperSlide key={blog._id}>
+        <RelatedArticle {...{ blog, authors }} />
       </SwiperSlide>
     );
   });
 
   const relatedSlides = [];
-  relatedposts.forEach((element) => {
+  relatedposts.forEach((blog) => {
     relatedSlides.push(
-      <SwiperSlide key={element._id}>
-        <RelatedArticle {...element} />
+      <SwiperSlide key={blog._id}>
+        <RelatedArticle {...{ blog, authors }} />
       </SwiperSlide>
     );
   });
-
-  console.log(relatedSlides);
-
-  const arra = [1];
 
   useEffect(() => {
     setTimeout(() => {
@@ -102,37 +104,31 @@ function Posts({ post, recentposts, relatedposts, tags }) {
             <div className="pt-5 mt-5">
               <Row className="mt-5 pt-5">
                 <Col lg={3} md={4}>
-                  <Link
-                    href="/authors/[author]"
-                    as={`/authors/${postAuthor.id}`}
-                  >
+                  <Link href="/authors/[author]" as={`/authors/${author._id}`}>
                     <div
                       className="circular-img"
                       style={{
                         width: "40px",
                         height: "40px",
-                        backgroundImage: `url(${postAuthor.image})`,
+                        backgroundImage: `url("${author.image}")`,
                       }}
                     />
                   </Link>
                 </Col>
                 <Col lg={9} md={8} className="d-flex align-self-end">
-                  <Link
-                    href="/authors/[author]"
-                    as={`/authors/${postAuthor.id}`}
-                  >
-                    <span role="button">{postAuthor.name}</span>
+                  <Link href="/authors/[author]" as={`/authors/${author._id}`}>
+                    <span role="button">{author.name}</span>
                   </Link>
                 </Col>
               </Row>
               <hr />
               <small>
-                <em>{postAuthor.description}</em>
+                <em>{author.description}</em>
               </small>
               <div>
                 <br />
                 <h6>Writer Tags</h6>
-                {tags.map((tag) => (
+                {authortags.map((tag) => (
                   <span key={tag}>
                     <Button
                       variant="outline-info"
@@ -218,14 +214,14 @@ function Posts({ post, recentposts, relatedposts, tags }) {
                     <Col xs={2}>
                       <Link
                         href="/authors/[author]"
-                        as={`/authors/${postAuthor.id}`}
+                        as={`/authors/${author._id}`}
                       >
                         <div
                           className="circular-img"
                           style={{
                             width: "50px",
                             height: "50px",
-                            backgroundImage: `url(${postAuthor.image})`,
+                            backgroundImage: `url("${author.image}")`,
                           }}
                         />
                       </Link>
@@ -233,9 +229,9 @@ function Posts({ post, recentposts, relatedposts, tags }) {
                     <Col xs={10}>
                       <Link
                         href="/authors/[author]"
-                        as={`/authors/${postAuthor.id}`}
+                        as={`/authors/${author._id}`}
                       >
-                        <h5 role="button">{postAuthor.name}</h5>
+                        <h5 role="button">{author.name}</h5>
                       </Link>
                       <div className="d-flex d-md-none justify-content-between">
                         <footer className="blockquote-footer">
@@ -422,33 +418,50 @@ function Posts({ post, recentposts, relatedposts, tags }) {
     </div>
   );
 }
-const prp = {};
-export async function getServerSideProps(context) {
-  const { post_id } = context.query;
-  const url = `${server}/api/`;
-  const fetchpost = fetch(url + "posts/" + post_id);
-  const fetchrecentposts = fetch(url + "posts/recentposts/" + post_id);
-  const fetchrelatedposts = fetch(url + "posts/relatedposts/" + post_id);
+// console.log(Author)
+export async function getStaticPaths() {
+  await dbConnect();
+  const posts = await Post.find({ hidden: "false" });
+  const paths = posts.map((post) => ({
+    params: {
+      post_id: `${post._id}`,
+    },
+  }));
+  // console.log(paths)
+  return { paths, fallback: true };
+}
 
+export async function getStaticProps({ params }) {
+  dbConnect();
+  const id = params.post_id;
+  const fetchpost = await Post.findById(id);
+  const post = JSON.parse(JSON.stringify(fetchpost));
+  const fetchauthor = Author.findById(post.author);
+  const fetchauthors = Author.find();
+  const fetchauthortags = Post.distinct("tags", { author: post.author });
+  const fetchrecentposts = Post.find({ _id: { $ne: id }, hidden: "false" })
+    .sort({ date: -1 })
+    .limit(10);
+  const fetchrelatedposts = Post.find({
+    _id: { $ne: id },
+    hidden: "false",
+    tags: post.tags[0],
+  }).limit(10);
   const result = await Promise.all([
-    fetchpost,
+    fetchauthor,
+    fetchauthors,
+    fetchauthortags,
     fetchrecentposts,
     fetchrelatedposts,
-  ])
-    .then((values) => {
-      return Promise.all(values.map((res) => res.json()));
-    })
-    .then(async ([posti, recentpostsi, relatedpostsi]) => {
-      prp.post = posti;
-      prp.recentposts = recentpostsi;
-      prp.relatedposts = relatedpostsi;
-      const tagsUrl = url + `authors/${posti.author}`;
-      const response = await fetch(tagsUrl);
-      const tags = await response.json();
-      prp.tags = tags;
-      return prp;
-    });
-  //  console.log(result)
+  ]).then(([fauthor, fauthors, fauthortags, frecentposts, frelatedposts]) => {
+    const author = JSON.parse(JSON.stringify(fauthor));
+    const authors = JSON.parse(JSON.stringify(fauthors));
+    const authortags = JSON.parse(JSON.stringify(fauthortags));
+    const relatedposts = JSON.parse(JSON.stringify(frelatedposts));
+    const recentposts = JSON.parse(JSON.stringify(frecentposts));
+    return { author, authors, authortags, recentposts, relatedposts, post };
+  });
+
   return {
     props: result,
   };

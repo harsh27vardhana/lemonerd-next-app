@@ -1,16 +1,23 @@
 import Head from "next/head";
-import Form from "../components/postform";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Card,
+  Row,
+  Col,
+  Button,
+  Tabs,
+  Tab,
+  Modal,
+  Alert,
+} from "react-bootstrap";
+import PostForm from "../components/postform";
 import AuthorForm from "../components/authorForm";
 import ArticleCard from "../components/articleCard";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
-import { server } from "../config/config";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import Modal from "react-bootstrap/Modal";
-import { useEffect, useState } from "react";
 import Quicksplained from "../components/quicksplainedform";
+import { server } from "../config/config";
 import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/router";
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -22,7 +29,7 @@ function Redirect({ to }) {
   return null;
 }
 
-function admin({ posts }) {
+function admin({ posts, authors }) {
   const { currentUser } = useAuth();
   if (!currentUser) {
     return <Redirect to="/login" />;
@@ -31,7 +38,6 @@ function admin({ posts }) {
   const [key, setKey] = useState("create");
   const [Blogs, setBlogs] = useState(data);
   const [confirmation, setConfirmation] = useState(false);
-  const [agreeDelete, setAgreeDelete] = useState(false);
 
   async function getPosts() {
     const res = await fetch(`${server}/api/admin`, {
@@ -65,15 +71,16 @@ function admin({ posts }) {
     id: "",
   });
 
-  async function updatePost(id) {
+  async function updatePost(blog) {
     setToUpdate({
       update: true,
-      id: id,
+      blog: blog,
     });
     setKey("create");
   }
 
   const [deleteId, setDeleteId] = useState("");
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   async function deletePost() {
     const res = await fetch(`${server}/api/admin/${deleteId}`, {
@@ -85,8 +92,7 @@ function admin({ posts }) {
     })
       .then((response) => response.json())
       .then((attempt) => {
-        console.log(attempt);
-        setAgreeDelete(false);
+        setDeleteSuccess(attempt.success);
         getPosts();
       });
   }
@@ -152,20 +158,29 @@ function admin({ posts }) {
         <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
           <Tab eventKey="create" title="Create">
             <br />
-            <Form {...toUpdate} />
+            <PostForm {...{ toUpdate, authors }} />
           </Tab>
           <Tab eventKey="update" title="Update">
             <Container>
-              {Blogs.map((element) => (
-                <div className="p-3" key={element._id}>
+              <Alert
+                show={deleteSuccess}
+                variant="success"
+                onClose={() => setDeleteSuccess(false)}
+                dismissible
+              >
+                <Alert.Heading>Success!</Alert.Heading>
+                <p>Post deleted successfully</p>
+              </Alert>
+              {Blogs.map((blog) => (
+                <div className="p-3" key={blog._id}>
                   <Card>
-                    <ArticleCard {...element} />
+                    <ArticleCard {...{ blog, authors }} />
                     <Row className="pt-2 text-center">
                       <Col>
                         <Button
                           className="px-md-5 py-1 mb-2 "
                           variant="primary"
-                          onClick={() => updatePost(element._id)}
+                          onClick={() => updatePost(blog)}
                         >
                           Update
                         </Button>
@@ -175,7 +190,7 @@ function admin({ posts }) {
                           className="px-md-5 py-1 mb-2 "
                           variant="danger"
                           onClick={() => {
-                            setDeleteId(element._id);
+                            setDeleteId(blog._id);
                             setConfirmation(true);
                           }}
                         >
@@ -186,9 +201,9 @@ function admin({ posts }) {
                         <Button
                           className="px-md-5 py-1 mb-2 "
                           variant="warning"
-                          onClick={() => hidePost(element._id)}
+                          onClick={() => hidePost(blog._id)}
                         >
-                          {element.hidden === "false" ? "HIDE" : "UNHIDE"}
+                          {blog.hidden === "false" ? "HIDE" : "UNHIDE"}
                         </Button>
                       </Col>
                     </Row>
@@ -215,8 +230,11 @@ export const getServerSideProps = async () => {
   const url = server + "/api/admin";
   const res = await fetch(url);
   const posts = await res.json();
+  const author = await fetch(server + "/api/authors");
+  const authorsJson = await author.json();
+  const authors = authorsJson.data;
   return {
-    props: { posts },
+    props: { posts, authors },
   };
 };
 
