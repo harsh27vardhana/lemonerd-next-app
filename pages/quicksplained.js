@@ -4,6 +4,7 @@ import dbConnect from "../database/dbconnect";
 import Quicksplained from "../database/quicksplainedSchema";
 
 export default function quicksplained({ feeds }) {
+  const embeds = feeds;
   return (
     <div>
       <Head>
@@ -54,7 +55,7 @@ export default function quicksplained({ feeds }) {
           </Col>
         </Row>
         <div className="container ">
-          {feeds.reverse().map((feed, index) => (
+          {embeds.reverse().map((feed, index) => (
             <Row key={feed._id}>
               <Col
                 md={6}
