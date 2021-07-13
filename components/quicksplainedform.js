@@ -1,8 +1,5 @@
-import { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
-import Form from "react-bootstrap/Form";
-import Alert from "react-bootstrap/Alert";
-import { server } from "../config/config";
+import React, { useEffect, useState } from "react";
+import { Button, Alert, Form } from "react-bootstrap";
 
 function Quicksplained() {
   const [submitted, setSubmitted] = useState(false);

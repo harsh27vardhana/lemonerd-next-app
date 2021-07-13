@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Badge, Row, Button } from "react-bootstrap";
-import Dropdown from "react-bootstrap/Dropdown";
-import Image from "react-bootstrap/Image";
-import Alert from "react-bootstrap/Alert";
-import Form from "react-bootstrap/Form";
+import {
+  Badge,
+  Row,
+  Button,
+  Dropdown,
+  Image,
+  Alert,
+  Form,
+} from "react-bootstrap";
 import { Editor } from "@tinymce/tinymce-react";
 import { server } from "../config/config";
 import { storage } from "../config/firebase";
@@ -352,7 +356,7 @@ function postform({ toUpdate, authors }) {
           <Dropdown.Toggle variant="success">Tags</Dropdown.Toggle>
 
           <Dropdown.Menu>
-            {availableTags.map((tag) => (
+            {availableTags.sort().map((tag) => (
               <Dropdown.Item key={tag} onClick={() => updateActiveTags(tag)}>
                 {tag}
               </Dropdown.Item>

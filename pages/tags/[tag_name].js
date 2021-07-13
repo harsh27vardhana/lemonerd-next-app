@@ -1,7 +1,7 @@
 import Head from "next/head";
+import React from "react";
 import { Container } from "react-bootstrap";
 import ArticleCard from "../../components/articleCard";
-import { server } from "../../config/config";
 import Data from "../../data/tags.json";
 import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
@@ -47,16 +47,15 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   dbConnect();
   const tag = params.tag_name;
-  const post = await Post.find({ tags: params.tag_name, hidden: "false" }).sort(
-    { date: -1 }
-  );
+  const post = Post.find({ tags: params.tag_name, hidden: "false" }).sort({
+    date: -1,
+  });
   const author = Author.find();
   const result = await Promise.all([post, author]).then(([poss, authos]) => {
     const blogs = JSON.parse(JSON.stringify(poss));
     const authors = JSON.parse(JSON.stringify(authos));
     return { blogs, authors, tag };
   });
-  // const posts = JSON.parse(JSON.stringify(post));
   return {
     props: result,
     revalidate: 100,

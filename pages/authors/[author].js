@@ -1,19 +1,13 @@
-import Head from "next/head";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
+import Head from "next/head";
+import React from "react";
+import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import ArticleCard from "../../components/articleCard";
-import Image from "react-bootstrap/Image";
 import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
-import { FaBullseye } from "react-icons/fa";
 
 function Authors({ posts, authors, author }) {
-  console.log(authors);
-  console.log(posts);
-  // const data = posts.data;
-  // const author = Author.authors.find((item) => item.id === author);
-  // const authorBlog = data.filter((item) => item.author === author);
   const authorTags = posts.map((blog) => blog.tags);
   const allTags = [].concat.apply([], authorTags);
   const tags = [...new Set([...allTags])];
@@ -36,7 +30,7 @@ function Authors({ posts, authors, author }) {
                   style={{
                     width: "200px",
                     height: "200px",
-                    backgroundImage: `url(${author.image})`,
+                    backgroundImage: `url("${author.image}")`,
                   }}
                 />
               </div>

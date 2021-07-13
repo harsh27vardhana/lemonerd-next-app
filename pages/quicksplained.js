@@ -1,7 +1,5 @@
 import Head from "next/head";
-import { Row, Col } from "react-bootstrap";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Image from "react-bootstrap/Image";
+import { Row, Col, Jumbotron, Image } from "react-bootstrap";
 import dbConnect from "../database/dbconnect";
 import Quicksplained from "../database/quicksplainedSchema";
 
@@ -103,7 +101,7 @@ export default function quicksplained({ feeds }) {
 }
 
 export const getStaticProps = async () => {
- dbConnect();
+  dbConnect();
 
   const posts = await Quicksplained.find();
 

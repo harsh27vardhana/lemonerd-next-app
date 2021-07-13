@@ -1,6 +1,7 @@
+import Link from "next/link";
+import React from "react";
 import { Card, Button, Col, Row } from "react-bootstrap";
 import style from "../styles/articleCard.module.css";
-import Link from "next/link";
 
 function ArticleCard({ authors, blog }) {
   const getDate = () => {

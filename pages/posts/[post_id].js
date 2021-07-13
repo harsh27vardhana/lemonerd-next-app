@@ -1,6 +1,7 @@
-import { Card, Container, Row, Col, Button } from "react-bootstrap";
 import Link from "next/link";
 import Head from "next/head";
+import React, { useState, useEffect } from "react";
+import { Card, Container, Row, Col, Button, Alert } from "react-bootstrap";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import {
   TwitterIcon,
@@ -14,9 +15,6 @@ import {
 } from "react-share";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareSquare } from "@fortawesome/free-solid-svg-icons";
-import { server } from "../../config/config";
-import Alert from "react-bootstrap/Alert";
-import { useState, useEffect } from "react";
 import RelatedArticle from "../../components/relatedArticle";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
@@ -25,12 +23,10 @@ import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 
-
 const authors = Author.authors;
 SwiperCore.use([Navigation, Pagination]);
 
 function Posts({ post, recentposts, relatedposts, tags, postAuthor }) {
-
   const [copied, setCopied] = useState(false);
 
   const recentSlides = [];
@@ -430,43 +426,46 @@ export async function getStaticPaths() {
   await dbConnect();
   const posts = await Post.find({ hidden: "false" });
   const paths = posts.map((post) => ({
-
     params: {
       post_id: `${post._id}`,
-    }
-  }))
+    },
+  }));
   // console.log(paths)
-  return { paths, fallback: true }
+  return { paths, fallback: true };
 }
-
 
 export async function getStaticProps({ params }) {
   await dbConnect();
   const id = params.post_id;
   const pst = Post.findById(id);
-  const rcentpost = Post.find({ '_id': { $ne: id }, hidden: "false" }).sort({ date: -1 }).limit(10);
+  const rcentpost = Post.find({ _id: { $ne: id }, hidden: "false" })
+    .sort({ date: -1 })
+    .limit(10);
 
+  const result = await Promise.all([pst, rcentpost]).then(
+    ([pot, reentpost, reatedpost]) => {
+      const authortags = Post.distinct("tags", { author: pot.author });
+      const rlatedpost = Post.find({
+        _id: { $ne: id },
+        hidden: "false",
+        tags: pot.tags[0],
+      }).limit(10);
+      const author = Author.findById(pot.author);
 
+      const tempresult = Promise.all([authortags, rlatedpost, author]).then(
+        ([authortgs, relatedpots, pstauthor]) => {
+          return { authortgs, relatedpots, pstauthor };
+        }
+      );
+      const post = JSON.parse(JSON.stringify(pot));
+      const postAuthor = JSON.parse(JSON.stringify(tempresult.pstauthor));
+      const recentposts = JSON.parse(JSON.stringify(reentpost));
+      const relatedposts = JSON.parse(JSON.stringify(tempresult.relatedpots));
+      const tags = JSON.parse(JSON.stringify(authortgs));
 
-  const result = await Promise.all([pst, rcentpost]).then(([pot, reentpost, reatedpost]) => {
-    const authortags = Post.distinct("tags", { "author": pot.author });
-    const rlatedpost = Post.find({ '_id': { $ne: id }, hidden: "false", tags: pot.tags[0] }).limit(10)
-    const author = Author.findById(pot.author);
-
-
-    const tempresult =  Promise.all([authortags, rlatedpost, author]).then(([authortgs, relatedpots, pstauthor]) => {
-      return { authortgs, relatedpots, pstauthor }
-    })
-    const post = JSON.parse(JSON.stringify(pot));
-    const postAuthor = JSON.parse(JSON.stringify(tempresult.pstauthor));
-    const recentposts = JSON.parse(JSON.stringify(reentpost));
-    const relatedposts = JSON.parse(JSON.stringify(tempresult.relatedpots)
-    );
-    const tags = JSON.parse(JSON.stringify(authortgs));
-
-    return;
-  })
-
+      return;
+    }
+  );
 
   // const post = JSON.parse(JSON.stringify(params.content));
   // const postAuthor = JSON.parse(JSON.stringify(author));
@@ -479,9 +478,5 @@ export async function getStaticProps({ params }) {
     props: result,
   };
 }
-
-
-
-
 
 export default Posts;

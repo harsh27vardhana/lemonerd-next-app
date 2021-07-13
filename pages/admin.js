@@ -1,16 +1,23 @@
 import Head from "next/head";
-import Form from "../components/postform";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import {
+  Container,
+  Card,
+  Row,
+  Col,
+  Button,
+  Tabs,
+  Tab,
+  Modal,
+  Alert,
+} from "react-bootstrap";
+import PostForm from "../components/postform";
 import AuthorForm from "../components/authorForm";
 import ArticleCard from "../components/articleCard";
-import { Container, Card, Row, Col, Button } from "react-bootstrap";
-import { server } from "../config/config";
-import Tabs from "react-bootstrap/Tabs";
-import Tab from "react-bootstrap/Tab";
-import Modal from "react-bootstrap/Modal";
-import React, { useEffect, useState } from "react";
 import Quicksplained from "../components/quicksplainedform";
+import { server } from "../config/config";
 import { useAuth } from "../context/AuthContext";
-import { useRouter } from "next/router";
 
 function Redirect({ to }) {
   const router = useRouter();
@@ -23,7 +30,6 @@ function Redirect({ to }) {
 }
 
 function admin({ posts, authors }) {
-  // console.log(authors);
   const { currentUser } = useAuth();
   if (!currentUser) {
     return <Redirect to="/login" />;
@@ -74,6 +80,7 @@ function admin({ posts, authors }) {
   }
 
   const [deleteId, setDeleteId] = useState("");
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
 
   async function deletePost() {
     const res = await fetch(`${server}/api/admin/${deleteId}`, {
@@ -85,7 +92,7 @@ function admin({ posts, authors }) {
     })
       .then((response) => response.json())
       .then((attempt) => {
-        console.log(attempt);
+        setDeleteSuccess(attempt.success);
         getPosts();
       });
   }
@@ -151,10 +158,19 @@ function admin({ posts, authors }) {
         <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
           <Tab eventKey="create" title="Create">
             <br />
-            <Form {...{ toUpdate, authors }} />
+            <PostForm {...{ toUpdate, authors }} />
           </Tab>
           <Tab eventKey="update" title="Update">
             <Container>
+              <Alert
+                show={deleteSuccess}
+                variant="success"
+                onClose={() => setDeleteSuccess(false)}
+                dismissible
+              >
+                <Alert.Heading>Success!</Alert.Heading>
+                <p>Post deleted successfully</p>
+              </Alert>
               {Blogs.map((blog) => (
                 <div className="p-3" key={blog._id}>
                   <Card>
@@ -217,7 +233,6 @@ export const getServerSideProps = async () => {
   const author = await fetch(server + "/api/authors");
   const authorsJson = await author.json();
   const authors = authorsJson.data;
-  // console.log(authors);
   return {
     props: { posts, authors },
   };

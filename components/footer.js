@@ -1,10 +1,8 @@
 import Link from "next/link";
-import Image from "react-bootstrap/Image";
-import { Container, Row, Col } from "react-bootstrap";
+import React from "react";
+import { Container, Row, Col, Image, Nav, Navbar } from "react-bootstrap";
 import { useAuth } from "../context/AuthContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
 import styles from "../styles/Footer.module.css";
 import {
   faFacebookF,

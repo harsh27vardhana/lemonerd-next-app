@@ -1,15 +1,14 @@
 import Link from "next/link";
 import Head from "next/head";
+import React from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
 import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 
 function Authors({ posts, authors }) {
-  const data = posts;
-
   function getAuthorTags(author) {
-    const authorBlog = data.filter((item) => item.author === author);
+    const authorBlog = posts.filter((item) => item.author === author);
     const authorTags = authorBlog.map((blog) => blog.tags);
     const allTags = [].concat.apply([], authorTags);
     const tags = [...new Set([...allTags])];
@@ -107,7 +106,7 @@ function Authors({ posts, authors }) {
 export default Authors;
 
 export const getStaticProps = async () => {
-   dbConnect();
+  dbConnect();
   const post = Post.find({ hidden: "false" });
   const author = Author.find();
   const result = await Promise.all([post, author]).then(([poss, authos]) => {

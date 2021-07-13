@@ -1,13 +1,10 @@
 import Head from "next/head";
 import Link from "next/link";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { Container, Row, Col, Button, Image, Jumbotron } from "react-bootstrap";
 import { FaArrowUp } from "react-icons/fa";
-import Jumbotron from "react-bootstrap/Jumbotron";
-import Image from "react-bootstrap/Image";
-import { server } from "../config/config";
 import ArticleCard from "../components/articleCard";
 import Tags from "../data/tags.json";
-import { useRef, useState } from "react";
 import dbConnect from "../database/dbconnect";
 import Author from "../database/authorSchema";
 import Post from "../database/postSchema";

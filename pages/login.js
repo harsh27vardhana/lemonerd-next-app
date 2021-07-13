@@ -1,10 +1,8 @@
 import Head from "next/head";
-import Form from "react-bootstrap/Form";
-import { Button, Container, Card } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext";
-import { useRef, useState, useEffect } from "react";
-import Alert from "react-bootstrap/Alert";
 import { useRouter } from "next/router";
+import React, { useRef, useState, useEffect } from "react";
+import { Button, Container, Card, Form, Alert } from "react-bootstrap";
+import { useAuth } from "../context/AuthContext";
 
 function Redirect({ to }) {
   const router = useRouter();

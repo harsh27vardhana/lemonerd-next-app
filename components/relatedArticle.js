@@ -1,6 +1,7 @@
-import { Card, Button, Col, Row } from "react-bootstrap";
-import style from "../styles/relatedArticle.module.css";
 import Link from "next/link";
+import React from "react";
+import { Card } from "react-bootstrap";
+import style from "../styles/relatedArticle.module.css";
 import Author from "../data/authors.json";
 
 const authors = Author.authors;

@@ -1,12 +1,9 @@
 import { useEffect, useState } from "react";
-import { Form } from "react-bootstrap";
-import Button from "react-bootstrap/Button";
-import Image from "react-bootstrap/Image";
-import Alert from "react-bootstrap/Alert";
-import { server } from "../config/config";
+import { Form, Button, Image, Alert } from "react-bootstrap";
 import { storage } from "../config/firebase";
 
 function AuthorForm() {
+  /*--------------State Variables-------------------------*/
   const [input, setInput] = useState({
     name: "",
     description: "",
@@ -16,10 +13,13 @@ function AuthorForm() {
   const [valid, setValid] = useState(false);
   const [submitAttempt, setSubmitAttempt] = useState(false);
   const [errorSubmit, setErrorSubmit] = useState(false);
+  const [image, setImage] = useState("");
+  const [imageLabel, setImageLabel] = useState("");
+  /*--------------State Variables-------------------------*/
 
+  /* Function to handle change in any of the form inputs */
   function handleChange(event) {
     const { name, value } = event.target;
-
     setInput((prevInput) => {
       return {
         ...prevInput,
@@ -27,10 +27,9 @@ function AuthorForm() {
       };
     });
   }
+  /* Function to handle change in any of the form inputs */
 
-  const [image, setImage] = useState("");
-  const [imageLabel, setImageLabel] = useState("");
-
+  /* Function to upload author image to firebase storage */
   function uploadAuthorImage(event, response) {
     let file = event.target.files[0];
     const filename = Date.now() + file.name;
@@ -39,7 +38,7 @@ function AuthorForm() {
 
     uploadTask.on(
       "state_changed",
-      (snapshot) => { },
+      (snapshot) => {},
       (error) => {
         console.log(error);
       },
@@ -51,9 +50,10 @@ function AuthorForm() {
           .then((url) => setImage(url));
       }
     );
-
   }
+  /* Function to upload author image to firebase storage */
 
+  /* Function to be executed when Submit button is clicked */
   async function handleClick(event) {
     event.preventDefault();
     setSubmitAttempt(true);
@@ -66,7 +66,9 @@ function AuthorForm() {
     if (newInput.name && newInput.image && newInput.description) setValid(true);
     setInput(newInput);
   }
+  /* Function to be executed when Submit button is clicked */
 
+  /* Side effect to be executed whenever submit attempt is made and inputs are valid */
   useEffect(async () => {
     if (valid) {
       const res = await fetch(`/api/authors`, {
@@ -90,6 +92,7 @@ function AuthorForm() {
         });
     }
   }, [valid]);
+  /* Side effect to be executed whenever submit attempt is made and inputs are valid */
 
   return (
     <Form className="container">
