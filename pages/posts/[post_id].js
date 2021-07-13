@@ -26,7 +26,7 @@ import Post from "../../database/postSchema";
 const authors = Author.authors;
 SwiperCore.use([Navigation, Pagination]);
 
-function Posts({ post, recentposts, relatedposts, tags, postAuthor }) {
+function Posts({ post, recentposts, relatedposts, authortags, author }) {
   const [copied, setCopied] = useState(false);
 
   const recentSlides = [];
@@ -435,44 +435,35 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  await dbConnect();
+  dbConnect();
   const id = params.post_id;
-  const pst = Post.findById(id);
-  const rcentpost = Post.find({ _id: { $ne: id }, hidden: "false" })
+  const fetchpost = await Post.findById(id);
+  const post = JSON.parse(JSON.stringify(fetchpost));
+  console.log(post);
+  const fetchauthor = Author.findById(post.author);
+  const fetchauthortags = Post.distinct("tags", { author: post.author });
+  const fetchrecentposts = Post.find({ _id: { $ne: id }, hidden: "false" })
     .sort({ date: -1 })
     .limit(10);
+  const fetchrelatedposts = Post.find({
+    _id: { $ne: id },
+    hidden: "false",
+    tags: post.tags[0],
+  }).limit(10);
+  const result = await Promise.all([
+    fetchauthor,
+    fetchauthortags,
+    fetchrecentposts,
+    fetchrelatedposts,
+  ]).then(([fauthor, fauthortags, frecentposts, frelatedposts]) => {
+    const author = JSON.parse(JSON.stringify(fauthor));
+    const authortags = JSON.parse(JSON.stringify(fauthortags));
+    const relatedposts = JSON.parse(JSON.stringify(frelatedposts));
+    const recentposts = JSON.parse(JSON.stringify(frelatedposts));
+    return { author, authortags, recentposts, relatedposts };
+  });
 
-  const result = await Promise.all([pst, rcentpost]).then(
-    ([pot, reentpost, reatedpost]) => {
-      const authortags = Post.distinct("tags", { author: pot.author });
-      const rlatedpost = Post.find({
-        _id: { $ne: id },
-        hidden: "false",
-        tags: pot.tags[0],
-      }).limit(10);
-      const author = Author.findById(pot.author);
-
-      const tempresult = Promise.all([authortags, rlatedpost, author]).then(
-        ([authortgs, relatedpots, pstauthor]) => {
-          return { authortgs, relatedpots, pstauthor };
-        }
-      );
-      const post = JSON.parse(JSON.stringify(pot));
-      const postAuthor = JSON.parse(JSON.stringify(tempresult.pstauthor));
-      const recentposts = JSON.parse(JSON.stringify(reentpost));
-      const relatedposts = JSON.parse(JSON.stringify(tempresult.relatedpots));
-      const tags = JSON.parse(JSON.stringify(authortgs));
-
-      return;
-    }
-  );
-
-  // const post = JSON.parse(JSON.stringify(params.content));
-  // const postAuthor = JSON.parse(JSON.stringify(author));
-  // const recentposts = JSON.parse(JSON.stringify(rcentpost));
-  // const relatedposts = JSON.parse(JSON.stringify(rlatedpost)
-  // );
-  // const tags = JSON.parse(JSON.stringify(authortags));
+  result.post = post;
 
   return {
     props: result,
