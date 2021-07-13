@@ -79,7 +79,7 @@ function Authors({ posts, authors }) {
 }
 
 export async function getStaticPaths() {
-  await dbConnect();
+   dbConnect();
   const posts = await Author.find();
   const paths = posts.map((post) => ({
     params: {

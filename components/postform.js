@@ -131,22 +131,24 @@ function postform(props) {
     }
   }
 
-  async function getAuthors() {
-    const res = await fetch(`/api/authors`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((attempt) => console.log(attempt));
-  }
+  // async function getAuthors() {
+  //   const res = await fetch(`/api/authors`, {
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     method: "GET",
+  //   })
+  //     .then((response) => response.json())
+  //     .then((attempt) => console.log(attempt));
+  // }
 
-  useEffect(async () => {
-    const res = await fetch(`/api/authors`)
-      .then((response) => response.json())
-      .then((attempt) => console.log(attempt));
-  }, []);
+  // useEffect(async () => {
+    // const res =  fetch(`${server}api/authors`);
+    // const data =  res.json();
+    // console.log(data)
+
+      
+  // }, []);
 
   useEffect(async () => {
     getPostToUpdate();

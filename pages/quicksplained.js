@@ -103,7 +103,7 @@ export default function quicksplained({ feeds }) {
 }
 
 export const getStaticProps = async () => {
- await dbConnect();
+ dbConnect();
 
   const posts = await Quicksplained.find();
 

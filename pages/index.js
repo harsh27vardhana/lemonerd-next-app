@@ -143,7 +143,7 @@ export default function Home({ blogs }) {
 
 
 export const getStaticProps = async () => {
-  await dbConnect();
+  dbConnect();
 
   const posts = await Post.find({ hidden: "false" }).sort({ date: -1 });
 
