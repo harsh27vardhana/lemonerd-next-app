@@ -145,7 +145,7 @@ export default function Home({ blogs, authors }) {
 export const getStaticProps = async () => {
   dbConnect();
 
-  const post = await Post.find({ hidden: "false" }).sort({ date: -1 });
+  const post =  Post.find({ hidden: "false" }).sort({ date: -1 });
   const author = Author.find();
   const result = await Promise.all([post, author]).then(([poss, authos]) => {
     const blogs = JSON.parse(JSON.stringify(poss));
