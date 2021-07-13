@@ -1,19 +1,16 @@
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import Dropdown from "react-bootstrap/Dropdown";
 import React, { useEffect, useRef, useState } from "react";
-import { Editor } from "@tinymce/tinymce-react";
-import Tags from "../data/tags.json";
-// import Data from "../data/authors.json";
-import { Badge, Row } from "react-bootstrap";
+import { Badge, Row, Button } from "react-bootstrap";
+import Dropdown from "react-bootstrap/Dropdown";
 import Image from "react-bootstrap/Image";
 import Alert from "react-bootstrap/Alert";
+import Form from "react-bootstrap/Form";
+import { Editor } from "@tinymce/tinymce-react";
 import { server } from "../config/config";
 import { storage } from "../config/firebase";
-// const authors = Data.authors;
-const category = Tags.categories;
+import Tags from "../data/tags.json";
+const tags = Tags.categories;
 
-function postform(props) {
+function postform({ toUpdate, authors }) {
   const editorRef = useRef(null);
   const log = () => {
     if (editorRef.current) {
@@ -23,7 +20,6 @@ function postform(props) {
 
   function example_image_upload_handler(blobInfo, success, failure, progress) {
     var xhr;
-
     xhr = new XMLHttpRequest();
     xhr.withCredentials = false;
     xhr.open("POST", "/api/images");
@@ -63,46 +59,48 @@ function postform(props) {
     xhr.send(JSON.stringify(data));
   }
 
-  const [activeCategory, setActiveCategory] = useState([]);
-  const [availableCategory, setAvailableCategory] = useState(category);
+  /*--------------State Variables-------------------------*/
+  const [activeTags, setActiveTags] = useState([]);
+  const [availableTags, setAvailableTags] = useState(tags);
   const [author, setAuthor] = useState("");
-  const [authors, setAuthors] = useState([]);
   const [thumb, setThumb] = useState("");
   const [imageLabel, setImageLabel] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [valid, setValid] = useState(false);
   const [submitAttempt, setSubmitAttempt] = useState(false);
   const [errorSubmit, setErrorSubmit] = useState(false);
-
   const [input, setInput] = useState({
     title: "",
     caption: "",
     author: author,
     content: "",
     date: "",
-    tags: activeCategory,
+    tags: activeTags,
     thumbnail: "",
     hidden: "false",
   });
+  /*--------------State Variables-------------------------*/
 
-  function updateActiveCategory(item) {
-    setActiveCategory((oldArray) => [...oldArray, item]);
-    const newAvailableCategory = availableCategory.filter(
+  /* Function to associate a tag with the current blog */
+  function updateActiveTags(item) {
+    setActiveTags((oldArray) => [...oldArray, item]);
+    const newAvailableTags = availableTags.filter(
       (element) => element !== item
     );
-    setAvailableCategory(newAvailableCategory);
+    setAvailableTags(newAvailableTags);
   }
+  /* Function to associate a tag with the current blog */
 
-  async function getPostToUpdate() {
-    const res = await fetch(`${server}/api/admin/${props.id}`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    });
-    const result = await res.json();
-    props.update ? (result.date = result.date.substring(0, 10)) : null;
-    setSubmitted(false);
+  /* Function to remove an associated tag from the current blog */
+  function updateAvailableTags(item) {
+    setAvailableTags((oldArray) => [...oldArray, item]);
+    const newActiveTags = activeTags.filter((element) => element !== item);
+    setActiveTags(newActiveTags);
+  }
+  /* Function to remove an associated tag from the current blog */
+
+  /* Function to reset the form to it's initial/empty state */
+  function resetForm() {
     const newInput = {
       title: "",
       caption: "",
@@ -113,51 +111,51 @@ function postform(props) {
       thumbnail: "",
       hidden: "false",
     };
-    props.update ? setInput(result) : setInput(newInput);
-    props.update ? setThumb(result.thumbnail) : setThumb("");
-    props.update
-      ? setAuthor(authors.find(({ _id }) => _id === result.author))
-      : setAuthor("");
-    props.update ? setActiveCategory(result.tags) : setActiveCategory([]);
-    const newAvailableCategory = props.update
-      ? availableCategory.filter((tag) => !result.tags.includes(tag))
-      : null;
-    props.update
-      ? setAvailableCategory(newAvailableCategory)
-      : setAvailableCategory(category);
+    setInput(newInput);
+    setThumb("");
+    setAuthor("");
+    setActiveTags([]);
+    setAvailableTags(tags);
     if (typeof tinymce !== "undefined" && tinymce !== null) {
-      props.update
-        ? tinymce.activeEditor.setContent(result.content)
-        : tinymce.activeEditor.setContent(" ");
+      tinymce.activeEditor.setContent("");
     }
   }
+  /* Function to reset the form to it's initial/empty state */
 
-  async function getAuthors() {
-    const res = await fetch(`/api/authors`, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((attempt) => setAuthors(attempt.data));
+  /* Function to set data of the blog to be updated else set it empty */
+  async function getPostToUpdate() {
+    if (toUpdate.update) {
+      const result = toUpdate.blog;
+      result.date = result.date.substring(0, 10);
+      setSubmitted(false);
+      setInput(result);
+      setThumb(result.thumbnail);
+      setImageLabel(result.thumbnail);
+      setAuthor(authors.find(({ _id }) => _id === result.author));
+      setActiveTags(result.tags);
+      const newAvailableTags = availableTags.filter(
+        (tag) => !result.tags.includes(tag)
+      );
+      setAvailableTags(newAvailableTags);
+      if (typeof tinymce !== "undefined" && tinymce !== null) {
+        tinymce.activeEditor.setContent(result.content);
+      }
+    } else {
+      setSubmitted(false);
+      resetForm();
+    }
   }
+  /* Function to set data of the blog to be updated else set it empty */
 
-  // useEffect(async () => {
-  // const res =  fetch(`${server}api/authors`);
-  // const data =  res.json();
-  // console.log(data)
-
-  // }, []);
-
+  /* Side effect to be executed whenever the toupdate prop changes */
   useEffect(async () => {
     getPostToUpdate();
-    getAuthors();
-  }, [props]);
+  }, [toUpdate]);
+  /* Side effect to be executed whenever the toupdate prop changes */
 
+  /* Function to handle change in any of the form inputs */
   function handleChange(event) {
     const { name, value } = event.target;
-
     setInput((prevInput) => {
       return {
         ...prevInput,
@@ -165,7 +163,9 @@ function postform(props) {
       };
     });
   }
+  /* Function to handle change in any of the form inputs */
 
+  /* Function to upload thumbnail image to firebase storage */
   function uploadThunbnail(event, response) {
     let file = event.target.files[0];
     const filename = Date.now() + file.name;
@@ -187,7 +187,9 @@ function postform(props) {
       }
     );
   }
+  /* Function to upload thumbnail image to firebase storage */
 
+  /* Function to be executed when Submit/Update button is clicked */
   async function handleClick(event) {
     event.preventDefault();
     setSubmitAttempt(true);
@@ -197,7 +199,7 @@ function postform(props) {
       author: author._id,
       content: tinymce.get("postcontent").getContent(),
       date: input.date,
-      tags: activeCategory,
+      tags: activeTags,
       thumbnail: thumb,
       hidden: input.hidden,
     };
@@ -212,13 +214,13 @@ function postform(props) {
     )
       setValid(true);
     setInput(newInput);
-    console.log(author);
-    console.log(valid);
   }
+  /* Function to be executed when Submit/Update button is clicked */
 
+  /* Side effect to be executed whenever submit/update attempt is made and inputs are valid */
   useEffect(async () => {
-    if (props.update && valid) {
-      const res = await fetch(`${server}/api/admin/${props.id}`, {
+    if (toUpdate.update && valid) {
+      const res = await fetch(`${server}/api/admin/${toUpdate.blog._id}`, {
         body: JSON.stringify(input),
         headers: {
           "Content-Type": "application/json",
@@ -227,24 +229,8 @@ function postform(props) {
       })
         .then((response) => response.json())
         .then((attempt) => {
-          console.log(attempt);
           attempt.success ? setSubmitted(true) : setErrorSubmit(true);
-          setActiveCategory([]);
-          setAvailableCategory(category);
-          setAuthor("");
-          setThumb("");
-          tinymce.get("postcontent").setContent("");
-          const newInput = {
-            title: "",
-            caption: "",
-            author: author,
-            content: "",
-            date: "",
-            tags: activeCategory,
-            thumbnail: "",
-            hidden: "false",
-          };
-          setInput(newInput);
+          resetForm();
           setSubmitAttempt(false);
           window.scrollTo(0, 0);
         });
@@ -259,27 +245,14 @@ function postform(props) {
         .then((response) => response.json())
         .then((attempt) => {
           attempt.success ? setSubmitted(true) : setErrorSubmit(true);
-          setActiveCategory([]);
-          setAvailableCategory(category);
-          setAuthor("");
-          setThumb("");
-          tinymce.get("postcontent").setContent("");
-          const newInput = {
-            title: "",
-            caption: "",
-            author: author,
-            content: "",
-            date: "",
-            tags: activeCategory,
-            thumbnail: "",
-            hidden: "false",
-          };
-          setInput(newInput);
+          resetForm();
           setSubmitAttempt(false);
           window.scrollTo(0, 0);
         });
     }
   }, [valid]);
+  /* Side effect to be executed whenever submit/update attempt is made and inputs are valid */
+
   return (
     <Form className="container">
       <Alert
@@ -289,7 +262,9 @@ function postform(props) {
         dismissible
       >
         <Alert.Heading>Success!</Alert.Heading>
-        <p>Your blog was successfully {props.update ? "updated" : "posted"}</p>
+        <p>
+          Your blog was successfully {toUpdate.update ? "updated" : "posted"}
+        </p>
       </Alert>
       <Alert
         show={errorSubmit}
@@ -374,20 +349,17 @@ function postform(props) {
       </Form.Group>
       <Form.Group>
         <Dropdown>
-          <Dropdown.Toggle variant="success">Category</Dropdown.Toggle>
+          <Dropdown.Toggle variant="success">Tags</Dropdown.Toggle>
 
           <Dropdown.Menu>
-            {availableCategory.map((item) => (
-              <Dropdown.Item
-                key={item}
-                onClick={() => updateActiveCategory(item)}
-              >
-                {item}
+            {availableTags.map((tag) => (
+              <Dropdown.Item key={tag} onClick={() => updateActiveTags(tag)}>
+                {tag}
               </Dropdown.Item>
             ))}
           </Dropdown.Menu>
         </Dropdown>
-        {submitAttempt && !activeCategory.length ? (
+        {submitAttempt && !activeTags.length ? (
           <span className="text-danger">
             Please select the categories of the blog
           </span>
@@ -395,25 +367,16 @@ function postform(props) {
         <br />
         <div>
           <h5>
-            {activeCategory.length > 0 &&
-              activeCategory.map((element) => (
-                <span key={element}>
+            {activeTags.length > 0 &&
+              activeTags.map((tag) => (
+                <span key={tag}>
                   <Badge
                     pill
                     role="button"
                     variant="info"
-                    onClick={() => {
-                      setAvailableCategory((oldArray) => [
-                        ...oldArray,
-                        element,
-                      ]);
-                      const newActiveCategory = activeCategory.filter(
-                        (item) => item !== element
-                      );
-                      setActiveCategory(newActiveCategory);
-                    }}
+                    onClick={() => updateAvailableTags(tag)}
                   >
-                    {element}
+                    {tag}
                   </Badge>{" "}
                 </span>
               ))}
@@ -475,7 +438,7 @@ function postform(props) {
                     style={{
                       width: "30px",
                       height: "30px",
-                      backgroundImage: `url(${item.image})`,
+                      backgroundImage: `url("${item.image}")`,
                     }}
                   />
                 </Row>
@@ -488,7 +451,7 @@ function postform(props) {
         ) : null}
       </Form.Group>
       <Button type="submit" onClick={handleClick}>
-        {props.update ? "Update" : "Post"}
+        {toUpdate.update ? "Update" : "Post"}
       </Button>
     </Form>
   );

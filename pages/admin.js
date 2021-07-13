@@ -7,7 +7,7 @@ import { server } from "../config/config";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Modal from "react-bootstrap/Modal";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Quicksplained from "../components/quicksplainedform";
 import { useAuth } from "../context/AuthContext";
 import { useRouter } from "next/router";
@@ -65,10 +65,10 @@ function admin({ posts, authors }) {
     id: "",
   });
 
-  async function updatePost(id) {
+  async function updatePost(blog) {
     setToUpdate({
       update: true,
-      id: id,
+      blog: blog,
     });
     setKey("create");
   }
@@ -151,7 +151,7 @@ function admin({ posts, authors }) {
         <Tabs activeKey={key} onSelect={(k) => setKey(k)}>
           <Tab eventKey="create" title="Create">
             <br />
-            <Form {...toUpdate} />
+            <Form {...{ toUpdate, authors }} />
           </Tab>
           <Tab eventKey="update" title="Update">
             <Container>
@@ -164,7 +164,7 @@ function admin({ posts, authors }) {
                         <Button
                           className="px-md-5 py-1 mb-2 "
                           variant="primary"
-                          onClick={() => updatePost(blog._id)}
+                          onClick={() => updatePost(blog)}
                         >
                           Update
                         </Button>
