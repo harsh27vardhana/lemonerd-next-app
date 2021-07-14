@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Badge,
   Row,
@@ -11,57 +11,34 @@ import {
 import { Editor } from "@tinymce/tinymce-react";
 import { server } from "../config/config";
 import { storage } from "../config/firebase";
+import { v4 as uuidv4 } from "uuid";
 import Tags from "../data/tags.json";
 const tags = Tags.categories;
 
 function postform({ toUpdate, authors }) {
-  const editorRef = useRef(null);
-  const log = () => {
-    if (editorRef.current) {
-      console.log(editorRef.current.getContent());
-    }
-  };
-
+  /* Function to upload tinymce images to firebase storage */
   function example_image_upload_handler(blobInfo, success, failure, progress) {
-    var xhr;
-    xhr = new XMLHttpRequest();
-    xhr.withCredentials = false;
-    xhr.open("POST", "/api/images");
-    xhr.setRequestHeader("Content-type", "application/json");
-
-    xhr.onload = function () {
-      var json;
-
-      if (xhr.status === 403) {
-        failure("HTTP Error: " + xhr.status, { remove: true });
-        return;
+    const filename = uuidv4() + Date.now() + blobInfo.filename();
+    const uploadTask = storage.ref(`${filename}`).put(blobInfo.blob());
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {},
+      (error) => {
+        console.log(error + "onupload fail");
+        failure(error);
+      },
+      () => {
+        storage
+          .ref(filename)
+          .getDownloadURL()
+          .then((url) => {
+            console.log(url);
+            success(url);
+          });
       }
-
-      if (xhr.status < 200 || xhr.status >= 300) {
-        failure("HTTP Error: " + xhr.status);
-        return;
-      }
-
-      json = JSON.parse(xhr.responseText);
-
-      if (!json || typeof json.location != "string") {
-        failure("Invalid JSON: " + xhr.responseText);
-        return;
-      }
-
-      success(json.location);
-    };
-
-    xhr.onerror = function () {
-      failure(
-        "Image upload failed due to a XHR Transport error. Code: " + xhr.status
-      );
-    };
-
-    // console.log(blobInfo.base64());
-    const data = { data: blobInfo.base64(), filename: blobInfo.filename() };
-    xhr.send(JSON.stringify(data));
+    );
   }
+  /* Function to upload tinymce images to firebase storage */
 
   /*--------------State Variables-------------------------*/
   const [activeTags, setActiveTags] = useState([]);
