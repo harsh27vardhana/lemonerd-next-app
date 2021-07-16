@@ -463,6 +463,7 @@ export async function getStaticProps({ params }) {
 
   return {
     props: result,
+    revalidate: 100,
   };
 }
 
