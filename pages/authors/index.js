@@ -27,15 +27,19 @@ function Authors({ posts, authors }) {
         <h1 className="font-weight-bold text-center py-5 display-3 gradient-text">
           Authors
         </h1>
-        <Row className="justify-content-center">
+        <Row
+          className="justify-content-center"
+          style={{ transform: "translateY(7rem)" }}
+        >
           {authors.map((author) => (
             <Col
               key={author._id}
               lg={6}
-              className="d-flex align-items-strech h-auto w-auto"
+              xs={12}
+              className="d-flex align-items-strech h-auto w-auto justify-content-center"
             >
               <Card
-                className="px-3 py-5 m-3 w-auto"
+                className="px-3 py-5 m-3 w-75 h-75"
                 border="white"
                 style={{
                   boxShadow:
@@ -44,18 +48,12 @@ function Authors({ posts, authors }) {
                 }}
               >
                 <Link href="/authors/[author]" as={`/authors/${author._id}`}>
-                  <div className="d-flex justify-content-center">
+                  <div
+                    className="d-flex justify-content-center"
+                    style={{ transform: "translateY(-10rem)" }}
+                  >
                     <div
-                      className="circular-img d-none d-sm-block "
-                      role="button"
-                      style={{
-                        width: "19rem",
-                        height: "19rem",
-                        backgroundImage: `url("${author.image}")`,
-                      }}
-                    />
-                    <div
-                      className="circular-img d-block d-sm-none"
+                      className="circular-img"
                       role="button"
                       style={{
                         width: "15rem",
@@ -65,11 +63,14 @@ function Authors({ posts, authors }) {
                     />
                   </div>
                 </Link>
-                <Card.Body className="p-md-3">
+                <Card.Body
+                  className="p-md-3"
+                  style={{ transform: "translateY(-10rem)" }}
+                >
                   <Link href="/authors/[author]" as={`/authors/${author._id}`}>
                     <Card.Title
                       role="button"
-                      style={{ fontSize: "2rem", textAlign: "center" }}
+                      style={{ fontSize: "1.7rem", textAlign: "center" }}
                     >
                       {author.name}
                     </Card.Title>

@@ -1,4 +1,5 @@
 import Head from "next/head";
+import React from "react";
 import { Row, Col, Jumbotron, Image } from "react-bootstrap";
 import dbConnect from "../database/dbconnect";
 import Quicksplained from "../database/quicksplainedSchema";

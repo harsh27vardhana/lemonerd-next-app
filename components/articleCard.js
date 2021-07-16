@@ -23,7 +23,7 @@ function ArticleCard({ authors, blog }) {
       blog.date[8] +
       blog.date[9] +
       " " +
-      month[blog.date[5] * 10 + blog.date[6] - 1] +
+      month[parseInt(blog.date[5]) * 10 + parseInt(blog.date[6]) - 1] +
       " " +
       blog.date[0] +
       blog.date[1] +
@@ -32,9 +32,15 @@ function ArticleCard({ authors, blog }) {
     return date;
   };
   return (
-    <Card className={`p-md-3 ${style.articleCard}`} border="white">
+    <Card className={`${style.articleCard}`} border="white">
       <Row>
-        <Col xs={12} md={4} role="button">
+        <Col
+          xs={12}
+          xl={4}
+          lg={5}
+          role="button"
+          className="p-0 d-flex justify-content-center"
+        >
           <Link href="/posts/[post_id]" as={`/posts/${blog._id}`}>
             <Card.Img
               variant="top"
@@ -43,8 +49,8 @@ function ArticleCard({ authors, blog }) {
             />
           </Link>
         </Col>
-        <Col xs={12} md={8}>
-          <Card.Body>
+        <Col xs={12} xl={8} lg={7} className="p-lg-0">
+          <Card.Body className="pt-lg-0">
             <Card.Title className="anchor-link" role="button">
               <Link href="/posts/[post_id]" as={`/posts/${blog._id}`}>
                 {blog.title}
@@ -56,7 +62,7 @@ function ArticleCard({ authors, blog }) {
                 {blog.caption}
               </Link>
             </Card.Text>
-            <blockquote className="blockquote mb-0 card-body">
+            <blockquote className="blockquote p-0 card-body">
               <footer className="blockquote-footer">
                 <small className="text-muted">
                   Written by{" "}

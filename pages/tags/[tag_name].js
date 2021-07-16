@@ -25,7 +25,7 @@ function Tags({ blogs, authors, tag }) {
       </h1>
       {blogs.map((blog) =>
         blog.tags.includes(tag) ? (
-          <div className="p-3" key={blog._id}>
+          <div className="my-3" key={blog._id}>
             <ArticleCard {...{ blog, authors }} />
           </div>
         ) : null

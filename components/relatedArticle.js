@@ -2,9 +2,6 @@ import Link from "next/link";
 import React from "react";
 import { Card } from "react-bootstrap";
 import style from "../styles/relatedArticle.module.css";
-import Author from "../data/authors.json";
-
-const authors = Author.authors;
 
 function RelatedArticle({ blog, authors }) {
   const getDate = () => {
@@ -26,7 +23,7 @@ function RelatedArticle({ blog, authors }) {
       blog.date[8] +
       blog.date[9] +
       " " +
-      month[blog.date[5] * 10 + blog.date[6] - 1] +
+      month[parseInt(blog.date[5] * 10) + parseInt(blog.date[6] - 1)] +
       " " +
       blog.date[0] +
       blog.date[1] +

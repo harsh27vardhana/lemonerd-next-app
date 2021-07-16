@@ -406,7 +406,7 @@ function postform({ toUpdate, authors }) {
         <Dropdown>
           <Dropdown.Toggle variant="success">Author</Dropdown.Toggle>
 
-          <Dropdown.Menu>
+          <Dropdown.Menu style={{ height: "25rem", overflowY: "scroll" }}>
             <Dropdown.Item onClick={() => setAuthor("")}>Select</Dropdown.Item>
             <Dropdown.Divider />
             {authors.map((item) => (

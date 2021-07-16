@@ -83,15 +83,20 @@ export default function Home({ blogs, authors }) {
           <Col sm={1} xs={1} className="justify-content-center d-flex">
             <div className="vl" />
           </Col>
-          <Link href="/quicksplained" className="anchor" role="button">
-            <Col role="button" xs={3} className="justify-content-center d-flex">
+          <Col role="button" xs={3} className="justify-content-center d-flex">
+            <a
+              href="/quicksplained"
+              className="anchor"
+              role="button"
+              style={{ display: "contents" }}
+            >
               <div className="text-center">
                 <Image src="/assets/stats.png" className="h-50 w-auto" />
                 <p className="mt-2 d-none d-sm-block">INFOGRAPHICS</p>
                 <small className="mt-2 d-block d-sm-none">INFOGRAPHICS</small>
               </div>
-            </Col>
-          </Link>
+            </a>
+          </Col>
           <Col sm={1} xs={1} className="justify-content-center d-flex">
             <div className="vl" />
           </Col>
@@ -142,7 +147,7 @@ export default function Home({ blogs, authors }) {
 export const getStaticProps = async () => {
   dbConnect();
 
-  const post =  Post.find({ hidden: "false" }).sort({ date: -1 });
+  const post = Post.find({ hidden: "false" }).sort({ date: -1 });
   const author = Author.find();
   const result = await Promise.all([post, author]).then(([poss, authos]) => {
     const blogs = JSON.parse(JSON.stringify(poss));
