@@ -1,7 +1,17 @@
 import Head from "next/head";
 import Link from "next/link";
-import React, { useRef, useState } from "react";
-import { Container, Row, Col, Button, Image, Jumbotron } from "react-bootstrap";
+import { useRouter } from "next/router";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Image,
+  Jumbotron,
+  Modal,
+  Alert,
+} from "react-bootstrap";
 import { FaArrowUp } from "react-icons/fa";
 import ArticleCard from "../components/articleCard";
 import Tags from "../data/tags.json";
@@ -13,9 +23,23 @@ const tags = Tags.categories;
 const scrollToRef = (ref) => window.scrollTo(0, ref.current.offsetTop);
 
 export default function Home({ blogs, authors }) {
+  const router = useRouter();
   const data = blogs;
   const blogsRef = useRef(null);
   const [showScroll, setShowScroll] = useState(false);
+  const [popup, setPopup] = useState(true);
+
+  // useEffect(() => {
+  //   let visited = localStorage["alreadyVisited"];
+  //   if (visited) {
+  //     setPopup(false);
+  //     //do not view Popup
+  //   } else {
+  //     //this is the first time
+  //     localStorage["alreadyVisited"] = true;
+  //     setPopup(true);
+  //   }
+  // }, []);
 
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 400) {
@@ -42,6 +66,31 @@ export default function Home({ blogs, authors }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
+      {/* <Modal
+        show={popup}
+        onHide={() => setPopup(false)}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>What's New?</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Checkout the new #Quicksplained</Modal.Body>
+        <Modal.Footer>
+          <Button
+            variant="success"
+            onClick={() => {
+              setPopup(false);
+              router.push("/quicksplained");
+            }}
+          >
+            Go to quicksplained
+          </Button>
+          <Button variant="primary" onClick={() => setPopup(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal> */}
 
       <Jumbotron fluid className="mainJumbotron mb-0">
         <h1 className="display-1 text-center font-weight-bold text-yellow jumbotronHead pt-5">
@@ -60,7 +109,22 @@ export default function Home({ blogs, authors }) {
           </Button>
         </div>
       </Jumbotron>
-
+      <div className="container p-0">
+        <Alert
+          show={popup}
+          variant="primary"
+          className="quicksplained-popup"
+          onClose={() => setPopup(false)}
+          dismissible
+          closeVariant="white"
+        >
+          <p className="text-light">Checkout the new section</p>
+          <div className="text-white h3">
+            <a href="/quicksplained">#Quicksplained</a> Simple, quick visual
+            insights on current events that matter!
+          </div>
+        </Alert>
+      </div>
       <Container className="bg-white">
         <FaArrowUp
           className="scrollTop"

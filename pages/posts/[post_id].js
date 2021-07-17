@@ -161,12 +161,12 @@ function Posts({
                     )}{" "}
                     <CopyToClipboard
                       onCopy={() => setCopied(true)}
-                      text={`https://lemonerd.in/posts/${post._id}`}
+                      text={window.location.href}
                     >
                       <FontAwesomeIcon icon={faShareSquare} role="button" />
                     </CopyToClipboard>{" "}
                     <WhatsappShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
+                      url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                     >
                       <WhatsappIcon
                         size={26}
@@ -175,9 +175,7 @@ function Posts({
                         bgStyle={{ fill: "white" }}
                       />
                     </WhatsappShareButton>
-                    <FacebookShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
-                    >
+                    <FacebookShareButton url={window.location.href}>
                       <FacebookIcon
                         size={26}
                         round
@@ -186,7 +184,7 @@ function Posts({
                       />
                     </FacebookShareButton>
                     <TwitterShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
+                      url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                     >
                       <TwitterIcon
                         size={26}
@@ -196,7 +194,7 @@ function Posts({
                       />
                     </TwitterShareButton>
                     <LinkedinShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
+                      url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                     >
                       <LinkedinIcon
                         size={26}
@@ -256,7 +254,7 @@ function Posts({
                             />
                           </CopyToClipboard>{" "}
                           <WhatsappShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <WhatsappIcon
                               size={26}
@@ -266,7 +264,7 @@ function Posts({
                             />
                           </WhatsappShareButton>
                           <FacebookShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <FacebookIcon
                               size={26}
@@ -276,7 +274,7 @@ function Posts({
                             />
                           </FacebookShareButton>
                           <TwitterShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <TwitterIcon
                               size={26}
@@ -286,7 +284,7 @@ function Posts({
                             />
                           </TwitterShareButton>
                           <LinkedinShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <LinkedinIcon
                               size={26}
