@@ -190,7 +190,7 @@ function postform({ toUpdate, authors }) {
       newInput.author &&
       newInput.content &&
       newInput.date &&
-      newInput.tags &&
+      newInput.tags.length &&
       newInput.thumbnail
     )
       setValid(true);

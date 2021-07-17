@@ -51,7 +51,7 @@ function ArticleCard({ authors, blog }) {
         </Col>
         <Col xs={12} xl={8} lg={7} className="p-lg-0">
           <Card.Body className="pt-lg-0">
-            <Card.Title className="anchor-link" role="button">
+            <Card.Title className="anchor-link font-weight-bold" role="button">
               <Link href="/posts/[post_id]" as={`/posts/${blog._id}`}>
                 {blog.title}
               </Link>

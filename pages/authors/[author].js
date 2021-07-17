@@ -1,13 +1,30 @@
 import Link from "next/link";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import { FaArrowUp } from "react-icons/fa";
 import ArticleCard from "../../components/articleCard";
 import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 
 function Authors({ posts, authors, author }) {
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = () => {
+    window.scroll({ top: 0, behavior: "smooth" });
+  };
+
+  window.addEventListener("scroll", checkScrollTop);
+
   const authorTags = posts.map((blog) => blog.tags);
   const allTags = [].concat.apply([], authorTags);
   const tags = [...new Set([...allTags])];
@@ -20,6 +37,12 @@ function Authors({ posts, authors, author }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
+
+      <FaArrowUp
+        className="scrollTop"
+        onClick={scrollTop}
+        style={{ height: 40, display: showScroll ? "flex" : "none" }}
+      />
       <Card border="white">
         <Card.Body>
           <Row>
@@ -36,7 +59,7 @@ function Authors({ posts, authors, author }) {
               </div>
             </Col>
             <Col lg={9} md={8} sm={12}>
-              <h1>{author ? author.name : null} </h1>
+              <h1 className="text-center">{author ? author.name : null} </h1>
               <hr />
               <Card.Text>
                 {author ? author.description : null}
@@ -49,7 +72,7 @@ function Authors({ posts, authors, author }) {
                       <Button
                         variant="outline-info"
                         size="sm"
-                        className="px-1 py-0 tags"
+                        className="px-1 py-0 m-1 tags"
                       >
                         <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
                           {tag}

@@ -1,11 +1,26 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { Row, Col, Jumbotron, Image } from "react-bootstrap";
+import { FaArrowUp } from "react-icons/fa";
 import dbConnect from "../database/dbconnect";
 import Quicksplained from "../database/quicksplainedSchema";
 
 export default function quicksplained({ feeds }) {
-  const embeds = feeds;
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = () => {
+    window.scroll({ top: 0, behavior: "smooth" });
+  };
+
+  window.addEventListener("scroll", checkScrollTop);
   return (
     <div>
       <Head>
@@ -20,6 +35,11 @@ export default function quicksplained({ feeds }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
+      <FaArrowUp
+        className="scrollTop"
+        onClick={scrollTop}
+        style={{ height: 40, display: showScroll ? "flex" : "none" }}
+      />
       <div style={{ overflowX: "hidden" }}>
         <Jumbotron fluid className="mainJumbotron mb-0 my-xs-5 pt-xs-5">
           <Row style={{ paddingTop: "5vw" }}>
@@ -56,7 +76,7 @@ export default function quicksplained({ feeds }) {
           </Col>
         </Row>
         <div className="container ">
-          {embeds.reverse().map((feed, index) => (
+          {feeds.map((feed, index) => (
             <Row key={feed._id}>
               <Col
                 md={6}
@@ -108,6 +128,7 @@ export const getStaticProps = async () => {
   const posts = await Quicksplained.find();
 
   const feeds = JSON.parse(JSON.stringify(posts));
+  feeds.reverse();
   return {
     props: { feeds },
     revalidate: 100,

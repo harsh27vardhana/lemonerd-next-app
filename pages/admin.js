@@ -173,9 +173,9 @@ function admin({ posts, authors }) {
               </Alert>
               {Blogs.map((blog) => (
                 <div className="p-3" key={blog._id}>
-                  <Card>
+                  <Card border="white">
                     <ArticleCard {...{ blog, authors }} />
-                    <Row className="pt-2 text-center">
+                    <Row className="pt-2 my-3 text-center">
                       <Col>
                         <Button
                           className="px-md-5 py-1 mb-2 "

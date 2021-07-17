@@ -37,6 +37,11 @@ function navbar() {
           id="basic-navbar-nav"
           className="justify-content-between"
         >
+          <Nav className="d-block d-lg-none">
+            <Form inline className="search-form">
+              <div className="gcse-search"></div>
+            </Form>
+          </Nav>
           <Nav className="text-whitesmoke" navbarScroll>
             <Link href="/" role="button">
               <div
@@ -139,7 +144,7 @@ function navbar() {
               </Link>
             )}
           </Nav>
-          <Nav>
+          <Nav className="d-none d-md-block">
             <Form inline className="search-form">
               <div className="gcse-search"></div>
             </Form>
