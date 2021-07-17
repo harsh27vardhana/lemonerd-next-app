@@ -1,0 +1,47 @@
+.authorIndividualCard {
+  height: 75%;
+  width: 75%;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  background-color: rgb(255, 255, 255, 0.6);
+}
+
+.authorImage {
+  height: 10rem;
+  width: 10rem;
+}
+
+.translateDiv {
+  transform: translateY(-8rem);
+}
+
+@media screen and (max-width: 768px) {
+  .authorIndividualCard {
+    height: 80%;
+  }
+  .authorImage {
+    height: 7rem;
+    width: 7rem;
+  }
+  .translateDiv {
+    transform: translateY(-6rem);
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .authorIndividualCard {
+    height: 85%;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .authorIndividualCard {
+    height: 90%;
+  }
+}
+
+@media screen and (max-width: 250px) {
+  .authorIndividualCard {
+    height: 95%;
+  }
+}

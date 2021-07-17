@@ -1,12 +1,30 @@
 import Link from "next/link";
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { Container, Card, Row, Col, Button } from "react-bootstrap";
+import { FaArrowUp } from "react-icons/fa";
+import styles from "../../styles/authors.module.css";
 import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 
 function Authors({ posts, authors }) {
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = () => {
+    window.scroll({ top: 0, behavior: "smooth" });
+  };
+
+  window.addEventListener("scroll", checkScrollTop);
+
   function getAuthorTags(author) {
     const authorBlog = posts.filter((item) => item.author === author);
     const authorTags = authorBlog.map((blog) => blog.tags);
@@ -24,52 +42,47 @@ function Authors({ posts, authors }) {
         ></script>
       </Head>
       <Container>
+        <FaArrowUp
+          className="scrollTop"
+          onClick={scrollTop}
+          style={{ height: 40, display: showScroll ? "flex" : "none" }}
+        />
         <h1 className="font-weight-bold text-center py-5 display-3 gradient-text">
           Authors
         </h1>
-        <Row className="justify-content-center">
+        <Row
+          className="justify-content-center"
+          style={{ transform: "translateY(5rem)" }}
+        >
           {authors.map((author) => (
             <Col
               key={author._id}
               lg={6}
-              className="d-flex align-items-strech h-auto w-auto"
+              xs={12}
+              className="d-flex align-items-strech h-auto w-auto justify-content-center"
             >
               <Card
-                className="px-3 py-5 m-3 w-auto"
+                className={`px-3 py-5 m-3 ${styles.authorIndividualCard}`}
                 border="white"
-                style={{
-                  boxShadow:
-                    "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px",
-                  backgroundColor: "rgb(255, 255, 255, 0.6)",
-                }}
               >
                 <Link href="/authors/[author]" as={`/authors/${author._id}`}>
-                  <div className="d-flex justify-content-center">
+                  <div
+                    className={`d-flex justify-content-center ${styles.translateDiv}`}
+                  >
                     <div
-                      className="circular-img d-none d-sm-block "
+                      className={`circular-img ${styles.authorImage}`}
                       role="button"
                       style={{
-                        width: "19rem",
-                        height: "19rem",
-                        backgroundImage: `url("${author.image}")`,
-                      }}
-                    />
-                    <div
-                      className="circular-img d-block d-sm-none"
-                      role="button"
-                      style={{
-                        width: "15rem",
-                        height: "15rem",
                         backgroundImage: `url("${author.image}")`,
                       }}
                     />
                   </div>
                 </Link>
-                <Card.Body className="p-md-3">
+                <Card.Body className={`p-md-3 ${styles.translateDiv}`}>
                   <Link href="/authors/[author]" as={`/authors/${author._id}`}>
                     <Card.Title
                       role="button"
-                      style={{ fontSize: "2rem", textAlign: "center" }}
+                      className="text-center font-weight-bold"
                     >
                       {author.name}
                     </Card.Title>
@@ -77,6 +90,7 @@ function Authors({ posts, authors }) {
                   <Link href="/authors/[author]" as={`/authors/${author._id}`}>
                     <Card.Text role="button">{author.description}</Card.Text>
                   </Link>
+                  <br />
                 </Card.Body>
                 <span className="d-inline pl-3">
                   <strong className="h5">Related Tags: </strong>
@@ -85,7 +99,7 @@ function Authors({ posts, authors }) {
                       <Button
                         variant="outline-info"
                         size="sm"
-                        className="px-1 py-0 tags"
+                        className="px-1 py-0 tags m-1"
                       >
                         <Link href="/tags/[tag_name]" as={`/tags/${tag}`}>
                           {tag}

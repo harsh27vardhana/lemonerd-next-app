@@ -23,7 +23,6 @@ import dbConnect from "../../database/dbconnect";
 import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 
-// const authors = Author.authors;
 SwiperCore.use([Navigation, Pagination]);
 
 function Posts({
@@ -79,7 +78,7 @@ function Posts({
       post.date[8] +
       post.date[9] +
       " " +
-      month[post.date[5] * 10 + post.date[6] - 1] +
+      month[parseInt(post.date[5]) * 10 + parseInt(post.date[6]) - 1] +
       " " +
       post.date[0] +
       post.date[1] +
@@ -101,7 +100,7 @@ function Posts({
       <Container className=" bg-white" fluid="xl">
         <Row className="justify-content-center">
           <Col md={2} sm={12} className="d-none d-md-block mt-5 pt-5">
-            <div className="pt-5 mt-5">
+            <div className="pt-5 mt-5 sticky-top">
               <Row className="mt-5 pt-5">
                 <Col lg={3} md={4}>
                   <Link href="/authors/[author]" as={`/authors/${author._id}`}>
@@ -147,7 +146,7 @@ function Posts({
           <Col md={9} xs={12}>
             <Card className="py-5" border="white">
               <div className="py-lg-5">
-                <h1>{post.title}</h1>
+                <h1 className="font-weight-bold">{post.title}</h1>
                 <div className="justify-content-between d-none d-md-flex">
                   <footer className="blockquote-footer">{getDate()}</footer>
                   <span>
@@ -162,12 +161,12 @@ function Posts({
                     )}{" "}
                     <CopyToClipboard
                       onCopy={() => setCopied(true)}
-                      text={`https://lemonerd.in/posts/${post._id}`}
+                      text={window.location.href}
                     >
                       <FontAwesomeIcon icon={faShareSquare} role="button" />
                     </CopyToClipboard>{" "}
                     <WhatsappShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
+                      url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                     >
                       <WhatsappIcon
                         size={26}
@@ -176,9 +175,7 @@ function Posts({
                         bgStyle={{ fill: "white" }}
                       />
                     </WhatsappShareButton>
-                    <FacebookShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
-                    >
+                    <FacebookShareButton url={window.location.href}>
                       <FacebookIcon
                         size={26}
                         round
@@ -187,7 +184,7 @@ function Posts({
                       />
                     </FacebookShareButton>
                     <TwitterShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
+                      url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                     >
                       <TwitterIcon
                         size={26}
@@ -197,7 +194,7 @@ function Posts({
                       />
                     </TwitterShareButton>
                     <LinkedinShareButton
-                      url={`https://lemonerd.in/posts/${post._id}`}
+                      url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                     >
                       <LinkedinIcon
                         size={26}
@@ -257,7 +254,7 @@ function Posts({
                             />
                           </CopyToClipboard>{" "}
                           <WhatsappShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <WhatsappIcon
                               size={26}
@@ -267,7 +264,7 @@ function Posts({
                             />
                           </WhatsappShareButton>
                           <FacebookShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <FacebookIcon
                               size={26}
@@ -277,7 +274,7 @@ function Posts({
                             />
                           </FacebookShareButton>
                           <TwitterShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <TwitterIcon
                               size={26}
@@ -287,7 +284,7 @@ function Posts({
                             />
                           </TwitterShareButton>
                           <LinkedinShareButton
-                            url={`https://lemonerd.in/posts/${post._id}`}
+                            url={`${post.title} \n\n ${post.caption} \n\n Check the link below to read full article. \n\n ${window.location.href}`}
                           >
                             <LinkedinIcon
                               size={26}

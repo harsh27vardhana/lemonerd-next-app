@@ -190,7 +190,7 @@ function postform({ toUpdate, authors }) {
       newInput.author &&
       newInput.content &&
       newInput.date &&
-      newInput.tags &&
+      newInput.tags.length &&
       newInput.thumbnail
     )
       setValid(true);
@@ -406,7 +406,7 @@ function postform({ toUpdate, authors }) {
         <Dropdown>
           <Dropdown.Toggle variant="success">Author</Dropdown.Toggle>
 
-          <Dropdown.Menu>
+          <Dropdown.Menu style={{ height: "25rem", overflowY: "scroll" }}>
             <Dropdown.Item onClick={() => setAuthor("")}>Select</Dropdown.Item>
             <Dropdown.Divider />
             {authors.map((item) => (

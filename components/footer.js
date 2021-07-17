@@ -73,7 +73,7 @@ function footer() {
                   <Link href="/authors">AUTHORS</Link>
                 </div>
                 <div className={styles.footerNav}>
-                  <Link href="/quicksplained">QUICKSPLAINED</Link>
+                  <a href="/quicksplained">QUICKSPLAINED</a>
                 </div>
                 <div className={styles.footerNav}>
                   {currentUser && (

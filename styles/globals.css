@@ -80,6 +80,29 @@ img {
   color: #000022 !important;
 }
 
+.quicksplained-popup {
+  background-image: linear-gradient(
+      rgba(255, 255, 255, 0.3),
+      rgba(255, 255, 255, 0.4)
+    ),
+    url(/assets/gradient.png);
+}
+
+.quicksplained-popup .close {
+  color: white;
+}
+
+@media screen and (max-width: 768px) {
+  .quicksplained-popup div {
+    font-size: small;
+  }
+}
+
+.quicksplained-popup a {
+  text-decoration: none;
+  color: #f3ec07;
+}
+
 .gsc-control-cse {
   border-color: transparent !important;
   background-color: transparent !important;
@@ -150,7 +173,7 @@ td input {
 }
 
 .vl {
-  border-left: 1px solid black;
+  border-left: 1px solid rgb(0, 0, 0, 0.2);
   height: 75%;
 }
 

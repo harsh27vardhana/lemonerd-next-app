@@ -37,6 +37,11 @@ function navbar() {
           id="basic-navbar-nav"
           className="justify-content-between"
         >
+          <Nav className="d-block d-lg-none">
+            <Form inline className="search-form">
+              <div className="gcse-search"></div>
+            </Form>
+          </Nav>
           <Nav className="text-whitesmoke" navbarScroll>
             <Link href="/" role="button">
               <div
@@ -68,7 +73,7 @@ function navbar() {
               </div>
             </Link>
 
-            <Link href="/quicksplained" role="button" className="anchor">
+            <a href="/quicksplained" role="button" className="anchor">
               <div
                 className={style.routes}
                 onClick={() => setExpanded(false)}
@@ -76,7 +81,7 @@ function navbar() {
               >
                 QUICKSPLAINED{" "}
               </div>
-            </Link>
+            </a>
 
             <hr className="p-0 m-0 bg-white" />
             <span className={style.navbarDropdownCollapse}>
@@ -139,7 +144,7 @@ function navbar() {
               </Link>
             )}
           </Nav>
-          <Nav>
+          <Nav className="d-none d-md-block">
             <Form inline className="search-form">
               <div className="gcse-search"></div>
             </Form>
