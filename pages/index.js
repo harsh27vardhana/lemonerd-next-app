@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Container,
   Row,
@@ -9,7 +9,6 @@ import {
   Button,
   Image,
   Jumbotron,
-  Modal,
   Alert,
 } from "react-bootstrap";
 import { FaArrowUp } from "react-icons/fa";
@@ -28,18 +27,6 @@ export default function Home({ blogs, authors }) {
   const blogsRef = useRef(null);
   const [showScroll, setShowScroll] = useState(false);
   const [popup, setPopup] = useState(true);
-
-  // useEffect(() => {
-  //   let visited = localStorage["alreadyVisited"];
-  //   if (visited) {
-  //     setPopup(false);
-  //     //do not view Popup
-  //   } else {
-  //     //this is the first time
-  //     localStorage["alreadyVisited"] = true;
-  //     setPopup(true);
-  //   }
-  // }, []);
 
   const checkScrollTop = () => {
     if (!showScroll && window.pageYOffset > 400) {
@@ -66,31 +53,6 @@ export default function Home({ blogs, authors }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
-      {/* <Modal
-        show={popup}
-        onHide={() => setPopup(false)}
-        aria-labelledby="contained-modal-title-vcenter"
-        centered
-      >
-        <Modal.Header closeButton>
-          <Modal.Title>What's New?</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Checkout the new #Quicksplained</Modal.Body>
-        <Modal.Footer>
-          <Button
-            variant="success"
-            onClick={() => {
-              setPopup(false);
-              router.push("/quicksplained");
-            }}
-          >
-            Go to quicksplained
-          </Button>
-          <Button variant="primary" onClick={() => setPopup(false)}>
-            Close
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
 
       <Jumbotron fluid className="mainJumbotron mb-0">
         <h1 className="display-1 text-center font-weight-bold text-yellow jumbotronHead pt-5">
