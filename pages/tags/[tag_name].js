@@ -1,6 +1,7 @@
 import Head from "next/head";
-import React from "react";
+import React, { useState } from "react";
 import { Container } from "react-bootstrap";
+import { FaArrowUp } from "react-icons/fa";
 import ArticleCard from "../../components/articleCard";
 import Data from "../../data/tags.json";
 import dbConnect from "../../database/dbconnect";
@@ -8,6 +9,21 @@ import Author from "../../database/authorSchema";
 import Post from "../../database/postSchema";
 
 function Tags({ blogs, authors, tag }) {
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = () => {
+    window.scroll({ top: 0, behavior: "smooth" });
+  };
+
+  window.addEventListener("scroll", checkScrollTop);
   return (
     <Container className="mt-5 py-5 bg-white">
       <Head>
@@ -17,6 +33,11 @@ function Tags({ blogs, authors, tag }) {
           src="https://cse.google.com/cse.js?cx=d6ab724b223f8e2ef"
         ></script>
       </Head>
+      <FaArrowUp
+        className="scrollTop"
+        onClick={scrollTop}
+        style={{ height: 40, display: showScroll ? "flex" : "none" }}
+      />
       <h1 className="py-5 text-center font-weight-bold display-3 gradient-text d-none d-sm-block">
         {tag}
       </h1>

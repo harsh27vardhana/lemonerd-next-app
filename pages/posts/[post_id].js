@@ -15,6 +15,7 @@ import {
 } from "react-share";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShareSquare } from "@fortawesome/free-solid-svg-icons";
+import { FaArrowUp } from "react-icons/fa";
 import RelatedArticle from "../../components/relatedArticle";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination } from "swiper";
@@ -33,6 +34,22 @@ function Posts({
   author,
   authors,
 }) {
+  const [showScroll, setShowScroll] = useState(false);
+
+  const checkScrollTop = () => {
+    if (!showScroll && window.pageYOffset > 400) {
+      setShowScroll(true);
+    } else if (showScroll && window.pageYOffset <= 400) {
+      setShowScroll(false);
+    }
+  };
+
+  const scrollTop = () => {
+    window.scroll({ top: 0, behavior: "smooth" });
+  };
+
+  window.addEventListener("scroll", checkScrollTop);
+
   const [copied, setCopied] = useState(false);
 
   const recentSlides = [];
@@ -98,6 +115,11 @@ function Posts({
         ></script>
       </Head>
       <Container className=" bg-white" fluid="xl">
+        <FaArrowUp
+          className="scrollTop"
+          onClick={scrollTop}
+          style={{ height: 40, display: showScroll ? "flex" : "none" }}
+        />
         <Row className="justify-content-center">
           <Col md={2} sm={12} className="d-none d-md-block mt-5 pt-5">
             <div className="pt-5 mt-5 sticky-top">
